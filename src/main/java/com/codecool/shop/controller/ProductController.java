@@ -9,6 +9,8 @@ import com.codecool.shop.dao.implementation.SupplierDaoMem;
 import com.codecool.shop.model.Product;
 
 
+import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 import spark.Request;
 import spark.Response;
 import spark.ModelAndView;
@@ -21,7 +23,6 @@ public class ProductController {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDaoDataStore = SupplierDaoMem.getInstance();
-
         Map params = new HashMap<>();
         params.put("category", productCategoryDataStore.getAll());
         params.put("products", productDataStore.getAll());
@@ -34,6 +35,20 @@ public class ProductController {
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDaoDataStore = SupplierDaoMem.getInstance();
         Map params = new HashMap<>();
+        for (ProductCategory category: productCategoryDataStore.getAll()){
+            if (category.getName().equals(req.queryParams(category.getName()))) {
+                category.setCheckedCheckBox(true);
+            } else {
+                category.setCheckedCheckBox(false);
+            }
+        }
+        for (Supplier supplier: supplierDaoDataStore.getAll()){
+            if (supplier.getName().equals(req.queryParams(supplier.getName()))) {
+                supplier.setCheckedCheckBox(true);
+            } else {
+                supplier.setCheckedCheckBox(false);
+            }
+        }
         params.put("category",productCategoryDataStore.getAll());
         params.put("products", filterBySupplier(req,filterByCategory(req, productDataStore.getAll())));
         params.put("suppliers", supplierDaoDataStore.getAll());

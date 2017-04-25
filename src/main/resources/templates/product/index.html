@@ -34,11 +34,17 @@
 </div>
 <form action="/index" method="post">
     <span th:each="category:${category}">
-           <input type="checkbox" th:name="${category.name}" th:value="${category.name}" th:text="${category.name}"/>
+        <span th:switch="${category.isCheckedCheckBox()}">
+            <span th:case="true"><input type="checkbox" checked="" th:name="${category.name}" th:value="${category.name}" th:text="${category.name}"/></span>
+            <span th:case="false"><input type="checkbox" th:name="${category.name}" th:value="${category.name}" th:text="${category.name}"/></span>
+        </span>
     </span>
     <p></p>
     <span th:each="supplier:${suppliers}">
-        <input type="checkbox" th:name="${supplier.name}" th:value="${supplier.name}" th:text="${supplier.name}"/>
+        <span th:switch="${supplier.isCheckedCheckBox()}">
+            <span th:case="true"><input type="checkbox" checked="" th:name="${supplier.name}" th:value="${supplier.name}" th:text="${supplier.name}"/></span>
+            <span th:case="false"><input type="checkbox" th:name="${supplier.name}" th:value="${supplier.name}" th:text="${supplier.name}"/></span>
+        </span>
     </span>
     <p></p>
     <input type="submit" value="Filter"/>

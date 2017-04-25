@@ -6,6 +6,15 @@ public class ProductCategory extends BaseModel {
     private String department;
     private ArrayList<Product> products;
 
+    public boolean isCheckedCheckBox() {
+        return checkedCheckBox;
+    }
+
+    private boolean checkedCheckBox = true;
+
+    public void setCheckedCheckBox(boolean checked) {
+        this.checkedCheckBox = checked;
+    }
 
     public ProductCategory(String name, String department, String description) {
         super(name);
