@@ -28,7 +28,7 @@ public class Main {
         get("/index", (Request req, Response res) -> {
            return new ThymeleafTemplateEngine().render( ProductController.renderAllProducts(req, res) );
         });
-        get("/filter", (Request req, Response res) -> {
+        post("/index", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render( ProductController.renderFilteredProducts(req, res) );
         });
 

@@ -32,13 +32,13 @@
 <div class="jumbotron text-center">
     <h1>Codecool Shop</h1>
 </div>
-<form action="/filter" method="get">
+<form action="/index" method="post">
     <span th:each="category:${category}">
-        <input type="checkbox" checked="" th:name="${category.name}" th:value="${category.name}" th:text="${category.name}"/>
+           <input type="checkbox" th:name="${category.name}" th:value="${category.name}" th:text="${category.name}"/>
     </span>
     <p></p>
     <span th:each="supplier:${suppliers}">
-        <input type="checkbox" checked="" th:name="${supplier.name}" th:value="${supplier.name}" th:text="${supplier.name}"/>
+        <input type="checkbox" th:name="${supplier.name}" th:value="${supplier.name}" th:text="${supplier.name}"/>
     </span>
     <p></p>
     <input type="submit" value="Filter"/>
