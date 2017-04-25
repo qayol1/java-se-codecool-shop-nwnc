@@ -15,8 +15,8 @@ public class Customer {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.billingAddress = new Address(billingCountry, billingCity, billingZipcode, billingAddress);
-        this.shippingAddress = new Address(shippingCountry, shippingCity, shippingZipcode, shippingAddress);
+        this.billingAddress = billingAddress;
+        this.shippingAddress = shippingAddress;
     }
 
 }
