@@ -10,9 +10,8 @@ public class Customer {
     private Address billingAddress;
     private Address shippingAddress;
 
-    public Customer(String name, String email, String phoneNumber,
-                    String billingCountry, String billingCity, String billingZipcode, String billingAddress,
-                    String shippingCountry, String shippingCity, String shippingZipcode, String shippingAddress){
+    public Customer(String name, String email, String phoneNumber, Address billingAddress,
+                    Address shippingAddress){
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
