@@ -23,10 +23,13 @@ public class Main {
 
 
         // Always add generic routes to the end
-        get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
+        get("/", ProductController::renderAllProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
         get("/index", (Request req, Response res) -> {
-           return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
+           return new ThymeleafTemplateEngine().render( ProductController.renderAllProducts(req, res) );
+        });
+        get("/filter", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render( ProductController.renderFilteredProducts(req, res) );
         });
 
         // Add this line to your project to enable the debug screen
