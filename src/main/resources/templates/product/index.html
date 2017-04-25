@@ -33,13 +33,21 @@
     <h1>Codecool Shop</h1>
 </div>
 
+<span th:each="category:${category}">
+    <input type="checkbox" th:name="${category.name}" th:value="${category.name}" th:text="${category.name}"/>
+</span>
+<p></p>
+<span th:each="supplier:${suppliers}">
+    <input type="checkbox" th:name="${supplier.name}" th:value="${supplier.name}" th:text="${supplier.name}"/>
+</span>
+
 <div class="container">
+    <div th:each="category:${category}">
     <div class="well well-sm">
-        <strong th:text="${category.name}">Category Title</strong>
+        <strong th:text="${category.name}" >Category Title</strong>
     </div>
 
     <div id="products" class="row list-group">
-
         <div class="item col-xs-4 col-lg-4" th:each="prod,iterStat : ${products}">
             <div class="thumbnail">
                 <img class="group list-group-image" src="http://placehold.it/400x250/000/fff" th:attr="src='/img/product_' + ${prod.id} + '.jpg'" alt="" />
@@ -58,7 +66,7 @@
             </div>
         </div>
     </div>
-
+</div>
 </div>
 
 <div th:replace="footer :: copy"></div>

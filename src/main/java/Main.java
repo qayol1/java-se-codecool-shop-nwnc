@@ -21,8 +21,6 @@ public class Main {
         // populate some data for the memory storage
         populateData();
 
-        // Always start with more specific routes
-        get("/hello", (req, res) -> "Hello World");
 
         // Always add generic routes to the end
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
