@@ -9,6 +9,8 @@ import com.codecool.shop.dao.implementation.SupplierDaoMem;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
+import com.codecool.shop.customer.Customer;
+import com.codecool.shop.customer.Address;
 
 import spark.Request;
 import spark.Response;
@@ -28,5 +30,6 @@ public class ProductController {
         params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
         return new ModelAndView(params, "product/index");
     }
+
 
 }
