@@ -11,6 +11,7 @@ public interface ShoppingCartDao {
 
     Product find(int id);
     int getAllProducts();
+    float getTotalPrice();
     void add(Product product);
     void decrease(int id);
     void remove(int id);

@@ -46,7 +46,7 @@ public class ProductController {
 
         Map params = new HashMap<>();
         params.put("products", productDataStore.getAll());
-        params.put("shoppingcart", shoppingCartDataStore.getAll());
+        params.put("shoppingcart", shoppingCartDataStore);
         return new ModelAndView(params, "product/shoppingcart");
     }
 

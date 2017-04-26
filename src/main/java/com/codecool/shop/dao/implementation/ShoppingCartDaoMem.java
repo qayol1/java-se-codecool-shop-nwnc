@@ -45,6 +45,16 @@ public class ShoppingCartDaoMem implements ShoppingCartDao {
     }
 
     @Override
+    public float getTotalPrice() {
+        float total = 0;
+        for (Product prod : shoppingCart.keySet()) {
+            total += shoppingCart.get(prod) * prod.getDefaultPrice();
+        }
+        return total;
+    }
+
+
+    @Override
     public void decrease(int id) {
         if (shoppingCart.get(find(id)) > 1) {
             shoppingCart.put(find(id), shoppingCart.get(find(id)) - 1);
