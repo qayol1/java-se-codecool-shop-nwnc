@@ -36,7 +36,7 @@ function filter(categoryid) {
 }
 
 function openNav() {
-    document.getElementById("mySidenav").style.width = "200px";
+    document.getElementById("mySidenav").style.width = "150px";
     //document.getElementById("boards_main").style.marginLeft = "250px";
 }
 function closeNav() {
