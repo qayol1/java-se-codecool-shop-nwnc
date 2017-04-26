@@ -30,39 +30,43 @@
 </head>
 
 <body>
+<span id="closing_span" onclick="openNav()">&#9776; Filter</span>
+
+<div id="mySidenav" class="sidenav">
+        <form action="/index" method="post">
+            <p>Product category:</p>
+            <span th:each="category:${category}">
+                <span th:switch="${category.isCheckedCheckbox()}">
+                    <p th:case="true"><input type="checkbox" class="category" checked="" th:name="${category.name}" th:value="${category.name}" th:text="${category.name}"/></p>
+                    <p th:case="false"><input type="checkbox" class="category" th:name="${category.name}" th:value="${category.name}" th:text="${category.name}"/></p>
+                </span>
+            </span>
+            <span class="btn-group btn-group-xs">
+                <button class="btn btn-default" type="button" value="Select all" onclick="setCatergoryChecked()">Select all</button>
+                <button class="btn btn-default" type="button" value="Clear all" onclick="setCategoryUnchecked()">Clear all</button>
+            </span>
+            <p></p>
+            <p>Suppliers:</p>
+            <span th:each="supplier:${suppliers}">
+                <span th:switch="${supplier.isCheckedCheckbox()}">
+                    <p th:case="true"><input type="checkbox" class="supplier" checked="" th:name="${supplier.name}" th:value="${supplier.name}" th:text="${supplier.name}"/></p>
+                    <p th:case="false"><input type="checkbox" class="supplier" th:name="${supplier.name}" th:value="${supplier.name}" th:text="${supplier.name}"/></p>
+                </span>
+            </span>
+            <span class="btn-group btn-group-xs">
+                <button class="btn btn-default" type="button" value="Select all" onclick="setSuppliersChecked()">Select all</button>
+                <button class="btn btn-default" type="button" value="Clear all" onclick="setSuppliersUnchecked()">Clear all</button>
+            </span>
+            <div><input class="btn btn-primary" type="submit" value="Filter"/></div>
+        </form>
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+</div>
 
 <div class="jumbotron text-center">
     <h1>Codecool Shop</h1>
 </div>
-<form action="/index" method="post">
-    <span>Product category:</span>
-    <span th:each="category:${category}">
-        <span th:switch="${category.isCheckedCheckbox()}">
-            <span th:case="true"><input type="checkbox" class="category" checked="" th:name="${category.name}" th:value="${category.name}" th:text="${category.name}"/></span>
-            <span th:case="false"><input type="checkbox" class="category" th:name="${category.name}" th:value="${category.name}" th:text="${category.name}"/></span>
-        </span>
-    </span>
-    <span class="btn-group btn-group-xs">
-        <button class="btn btn-default" type="button" value="Select all" onclick="setCatergoryChecked()">Select all</button>
-        <button class="btn btn-default" type="button" value="Clear all" onclick="setCategoryUnchecked()">Clear all</button>
-    </span>
-    <div></div>
-    <span>Suppliers:</span>
-    <span th:each="supplier:${suppliers}">
-        <span th:switch="${supplier.isCheckedCheckbox()}">
-            <span th:case="true"><input type="checkbox" class="supplier" checked="" th:name="${supplier.name}" th:value="${supplier.name}" th:text="${supplier.name}"/></span>
-            <span th:case="false"><input type="checkbox" class="supplier" th:name="${supplier.name}" th:value="${supplier.name}" th:text="${supplier.name}"/></span>
-        </span>
-    </span>
-    <span class="btn-group btn-group-xs">
-        <button class="btn btn-default" type="button" value="Select all" onclick="setSuppliersChecked()">Select all</button>
-        <button class="btn btn-default" type="button" value="Clear all" onclick="setSuppliersUnchecked()">Clear all</button>
-    </span>
-    <div><input class="btn btn-primary" type="submit" value="Filter"/></div>
-</form>
-
 <div th:each="category:${category}">
-    <div class="container" th:id="'category'+${category.id}">
+    <div class="container-fluid" th:id="'category'+${category.id}">
         <div th:id="'category'+${category.id}" th:if="${category.isCheckedCheckbox()}==true" class="well well-sm" th:onclick="'javascript:filter(\'' + ${category.id} + '\');'">
             <strong th:text="${category.name}">Category Title</strong>
         </div>
@@ -92,6 +96,19 @@
 </div>
 
 <div th:replace="footer :: copy"></div>
+
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
 
 </body>
 </html>
