@@ -4,6 +4,8 @@ package com.codecool.shop.customer;
  * Created by abelvaradi on 2017.04.25..
  */
 public class Customer {
+
+    private int id;
     private String name;
     private String email;
     private String phoneNumber;
@@ -17,6 +19,14 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.billingAddress = billingAddress;
         this.shippingAddress = shippingAddress;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 }
