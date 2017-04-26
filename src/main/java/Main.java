@@ -32,6 +32,11 @@ public class Main {
             return new ThymeleafTemplateEngine().render( ProductController.renderFilteredProducts(req, res) );
         });
 
+        post("/getCategoryListSize", (Request req, Response res) -> {
+            ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+            return productCategoryDataStore.getAll().size();
+        });
+
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
     }
@@ -53,6 +58,8 @@ public class Main {
         supplierDataStore.add(gigabyte);
         Supplier msi = new Supplier("MSI", "International manufacturer and distributor of computer hardware products.");
         supplierDataStore.add(msi);
+        Supplier asus = new Supplier("Asus", "International manufacturer and distributor of computer hardware products.");
+        supplierDataStore.add(asus);
 
         //setting up a new product category
         ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.");
@@ -70,6 +77,10 @@ public class Main {
         productDataStore.add(new Product("Samsung Notebook 9 pro", 1299, "USD", "You can watch movies and TV shows in rich detail on the 15.6 touch screen, which displays a 4K UHD picture.", laptop, samsung));
         productDataStore.add(new Product("Gigabyte Geforce GTX 1070 G1", 389, "USD", "GIGABYTE G1 Gaming Series graphics cards are crafted for perfection in pursuit of the ultimate graphics experience for gaming enthusiasts.", videoCard, gigabyte));
         productDataStore.add(new Product("MSI Radeon RX 470 Gaming", 219, "USD", "The 4th generation GCN architecture is engineered for gamers who play anything from the latest MOBA’s to the most popular AAA titles.", videoCard, msi));
+        productDataStore.add(new Product("Asus ZenPad 8", 149, "USD", "The design of ASUS ZenPad 8.0 carries modern influences and a simple, clean look that gives it an universal and stylish appeal.", tablet, asus));
+        productDataStore.add(new Product("Asus ZenBook UX530UX", 749, "USD", "Asus - ZenBook Flip UX360CA 2-in-1 13.3\" Touch-Screen Laptop - Intel Core m3 - 8GB Memory - 512GB Solid State Drive - Mineral gray", laptop, asus));
+        productDataStore.add(new Product("Asus Dual GeForce GTX 580", 1499, "USD", "The MARS II is the first dual GeForce GTX 580 card, and is part of ASUS Republic of Gamers (ROG) brand of premium products targeting the gamer-overclocker market. ", videoCard, asus));
+
 
     }
 
