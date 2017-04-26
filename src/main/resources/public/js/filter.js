@@ -25,3 +25,7 @@ function setCategoryUnchecked() {
     });
 }
 
+function filter(category) {
+    console.log(category);
+}
+

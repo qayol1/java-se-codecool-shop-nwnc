@@ -63,8 +63,8 @@
 
 <div class="container">
     <div th:each="category:${category}">
-        <div th:if="${category.isCheckedCheckbox()}==true" class="well well-sm">
-            <strong th:text="${category.name}" >Category Title</strong>
+        <div th:if="${category.isCheckedCheckbox()}==true" class="well well-sm" th:onclick="'javascript:filter(\'' + ${category.id} + '\');'">
+            <strong th:text="${category.name}">Category Title</strong>
         </div>
 
     <div id="products" class="row list-group">
