@@ -25,7 +25,13 @@ function setCategoryUnchecked() {
     });
 }
 
-function filter(category) {
-    console.log(category);
+function filter(categoryid) {
+    $.post("/getCategoryListSize", function (data) {
+        for (i = 1; i < data+1; i++) {
+            if (i != categoryid) {
+                $("#category"+i).hide();
+            }
+        }
+    });
 }
 

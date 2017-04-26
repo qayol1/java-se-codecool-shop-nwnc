@@ -61,9 +61,9 @@
     <div><input class="btn btn-primary" type="submit" value="Filter"/></div>
 </form>
 
-<div class="container">
-    <div th:each="category:${category}">
-        <div th:if="${category.isCheckedCheckbox()}==true" class="well well-sm" th:onclick="'javascript:filter(\'' + ${category.id} + '\');'">
+<div th:each="category:${category}">
+    <div class="container" th:id="'category'+${category.id}">
+        <div th:id="'category'+${category.id}" th:if="${category.isCheckedCheckbox()}==true" class="well well-sm" th:onclick="'javascript:filter(\'' + ${category.id} + '\');'">
             <strong th:text="${category.name}">Category Title</strong>
         </div>
 

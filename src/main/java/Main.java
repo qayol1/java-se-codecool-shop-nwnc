@@ -32,6 +32,11 @@ public class Main {
             return new ThymeleafTemplateEngine().render( ProductController.renderFilteredProducts(req, res) );
         });
 
+        post("/getCategoryListSize", (Request req, Response res) -> {
+            ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+            return productCategoryDataStore.getAll().size();
+        });
+
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
     }
