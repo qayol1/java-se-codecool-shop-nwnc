@@ -5,15 +5,14 @@ import java.util.ArrayList;
 public class ProductCategory extends BaseModel {
     private String department;
     private ArrayList<Product> products;
+    private boolean checkedCheckbox = true;
 
-    public boolean isCheckedCheckBox() {
-        return checkedCheckBox;
+    public boolean isCheckedCheckbox() {
+        return checkedCheckbox;
     }
 
-    private boolean checkedCheckBox = true;
-
-    public void setCheckedCheckBox(boolean checked) {
-        this.checkedCheckBox = checked;
+    public void setCheckedCheckbox(boolean checked) {
+        this.checkedCheckbox = checked;
     }
 
     public ProductCategory(String name, String department, String description) {

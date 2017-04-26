@@ -35,24 +35,34 @@ public class ProductController {
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDaoDataStore = SupplierDaoMem.getInstance();
         Map params = new HashMap<>();
-        for (ProductCategory category: productCategoryDataStore.getAll()){
-            if (category.getName().equals(req.queryParams(category.getName()))) {
-                category.setCheckedCheckBox(true);
-            } else {
-                category.setCheckedCheckBox(false);
-            }
-        }
-        for (Supplier supplier: supplierDaoDataStore.getAll()){
-            if (supplier.getName().equals(req.queryParams(supplier.getName()))) {
-                supplier.setCheckedCheckBox(true);
-            } else {
-                supplier.setCheckedCheckBox(false);
-            }
-        }
-        params.put("category",productCategoryDataStore.getAll());
+        List<ProductCategory> productCategoryList = storeCheckboxStatus(productCategoryDataStore.getAll(),req);
+        List<Supplier> supplierList = storeChechboxStatus(supplierDaoDataStore.getAll(),req);
+        params.put("category",productCategoryList);
         params.put("products", filterBySupplier(req,filterByCategory(req, productDataStore.getAll())));
-        params.put("suppliers", supplierDaoDataStore.getAll());
+        params.put("suppliers", supplierList);
         return new ModelAndView(params, "product/index");
+    }
+
+    private static List<Supplier> storeChechboxStatus(List<Supplier> suplierList, Request req) {
+        for (Supplier supplier: suplierList){
+            if (supplier.getName().equals(req.queryParams(supplier.getName()))) {
+                supplier.setCheckedCheckbox(true);
+            } else {
+                supplier.setCheckedCheckbox(false);
+            }
+        }
+        return suplierList;
+    }
+
+    private static List<ProductCategory> storeCheckboxStatus(List<ProductCategory> productCategoryList, Request req) {
+        for (ProductCategory category: productCategoryList){
+            if (category.getName().equals(req.queryParams(category.getName()))) {
+                category.setCheckedCheckbox(true);
+            } else {
+                category.setCheckedCheckbox(false);
+            }
+        }
+        return productCategoryList;
     }
 
     private static Set filterByCategory(Request req, List<Product> products) {

@@ -33,26 +33,29 @@
     <h1>Codecool Shop</h1>
 </div>
 <form action="/index" method="post">
+    <span>Product category:</span>
     <span th:each="category:${category}">
-        <span th:switch="${category.isCheckedCheckBox()}">
+        <span th:switch="${category.isCheckedCheckbox()}">
             <span th:case="true"><input type="checkbox" checked="" th:name="${category.name}" th:value="${category.name}" th:text="${category.name}"/></span>
             <span th:case="false"><input type="checkbox" th:name="${category.name}" th:value="${category.name}" th:text="${category.name}"/></span>
         </span>
     </span>
-    <p></p>
+    <span class="btn-group btn-group-xs"><button class="btn btn-default" type="button" value="Select all">Select all</button><button class="btn btn-default" type="button" value="Clear all">Clear all</button></span>
+    <div></div>
+    <span>Suppliers:</span>
     <span th:each="supplier:${suppliers}">
-        <span th:switch="${supplier.isCheckedCheckBox()}">
+        <span th:switch="${supplier.isCheckedCheckbox()}">
             <span th:case="true"><input type="checkbox" checked="" th:name="${supplier.name}" th:value="${supplier.name}" th:text="${supplier.name}"/></span>
             <span th:case="false"><input type="checkbox" th:name="${supplier.name}" th:value="${supplier.name}" th:text="${supplier.name}"/></span>
         </span>
     </span>
-    <p></p>
-    <input type="submit" value="Filter"/>
+    <span class="btn-group btn-group-xs"><button class="btn btn-default" type="button" value="Select all">Select all</button><button class="btn btn-default" type="button" value="Clear all">Clear all</button></span>
+    <div><input class="btn btn-primary" type="submit" value="Filter"/></div>
 </form>
 
 <div class="container">
     <div th:each="category:${category}">
-        <div class="well well-sm">
+        <div th:if="${category.isCheckedCheckbox()}==true" class="well well-sm">
             <strong th:text="${category.name}" >Category Title</strong>
         </div>
 
