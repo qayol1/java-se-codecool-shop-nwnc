@@ -31,9 +31,11 @@ public class Main {
            return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
         });
 
+
         post("/add-to-cart", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render( ProductController.addToCart(req, res) );
         });
+
 
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
@@ -44,7 +46,9 @@ public class Main {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        CustomerDao CustomerDataStore = CustomerDaoMem.getInstance();
         ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
+
 
         //setting up a new supplier
         Supplier amazon = new Supplier("Amazon", "Digital content and services");

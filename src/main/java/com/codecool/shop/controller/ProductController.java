@@ -11,6 +11,8 @@ import com.codecool.shop.dao.implementation.SupplierDaoMem;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
+import com.codecool.shop.customer.Customer;
+import com.codecool.shop.customer.Address;
 
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import spark.Request;
@@ -34,6 +36,7 @@ public class ProductController {
         return new ModelAndView(params, "product/index");
     }
 
+
     public  static ModelAndView addToCart(Request req, Response res) {
 
         int id = Integer.parseInt(req.queryParams("id"));
@@ -44,5 +47,6 @@ public class ProductController {
         shoppingCartDataStore.add(productDataStore.find(id));
         return renderProducts(req, res);
     }
+
 
 }
