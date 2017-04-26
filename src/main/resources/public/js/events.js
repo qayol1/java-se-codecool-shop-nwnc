@@ -4,8 +4,7 @@ function addToCart(id) {
         url: '/add-to-cart',
         data: {'id': id},
         success: function () {
-            alert("Item added!");
-            console.log(parseInt($("#cart-count").html()) + 1);
+            $("#cart-count").text(parseInt($("#cart-count").html()) + 1);
         }
     });
 

@@ -28,5 +28,15 @@
 </head>
 <body>
 
+<div class="container">
+    <div class="well well-sm">
+        <strong>Shopping cart</strong>
+    </div>
+    <div id="shooping-cart-products" class="row" th:each="item, iterStat : ${shoppingcart}">
+        <div class="well">
+            <h1 th:text="${item}"></h1>
+        </div>
+    </div>
+</div>
 </body>
 </html>

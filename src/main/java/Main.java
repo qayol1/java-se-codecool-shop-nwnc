@@ -21,6 +21,10 @@ public class Main {
         // populate some data for the memory storage
         populateData();
 
+        get("/shoppingcart", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render( ProductController.renderCart(req, res) );
+        });
+
         // Always start with more specific routes
         get("/hello", (req, res) -> "Hello World");
 

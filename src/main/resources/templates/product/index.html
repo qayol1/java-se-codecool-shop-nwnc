@@ -35,10 +35,12 @@
 </div>
 
 <div class="container">
+    <a href="/shoppingcart">
     <div class="shoppingcart" style="float: right">
         <img height="20px" th:attr="src='/img/shopping-cart-icon.png'" alt=""/>
         <strong id="cart-count" style="float: right;" th:text="${shoppingcart.getAllProducts()}"></strong>
     </div>
+    </a>
     <div class="clearfix"></div>
     <div class="well well-sm">
         <strong th:text="${category.name}">Category Title</strong>

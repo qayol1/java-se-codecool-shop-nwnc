@@ -45,4 +45,14 @@ public class ProductController {
         return renderProducts(req, res);
     }
 
+    public static ModelAndView renderCart(Request req, Response res) {
+        ProductDao productDataStore = ProductDaoMem.getInstance();
+        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
+
+        Map params = new HashMap<>();
+        params.put("products", productDataStore.getAll());
+        params.put("shoppingcart", shoppingCartDataStore.getAll());
+        return new ModelAndView(params, "product/shoppingcart");
+    }
+
 }
