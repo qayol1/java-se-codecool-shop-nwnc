@@ -1,6 +1,7 @@
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
+import com.codecool.shop.controller.CustomerController;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
@@ -35,6 +36,9 @@ public class Main {
            return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
         });
 
+        post("/checkout", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render( CustomerController.redirectCustomer(req) );
+        });
 
         post("/add-to-cart", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render( ProductController.addToCart(req, res) );

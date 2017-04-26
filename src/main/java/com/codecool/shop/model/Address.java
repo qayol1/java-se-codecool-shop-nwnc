@@ -1,4 +1,4 @@
-package com.codecool.shop.customer;
+package com.codecool.shop.model;
 
 /**
  * Created by abelvaradi on 2017.04.25..

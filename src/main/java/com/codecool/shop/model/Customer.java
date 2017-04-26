@@ -1,4 +1,4 @@
-package com.codecool.shop.customer;
+package com.codecool.shop.model;
 
 /**
  * Created by abelvaradi on 2017.04.25..
@@ -24,6 +24,8 @@ public class Customer {
     public int getId() {
         return id;
     }
+
+    public String getName() { return name; }
 
     public void setId(int id) {
         this.id = id;

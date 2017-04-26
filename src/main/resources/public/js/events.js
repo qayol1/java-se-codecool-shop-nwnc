@@ -7,5 +7,4 @@ function addToCart(id) {
             $("#cart-count").text(parseInt($("#cart-count").html()) + 1);
         }
     });
-
 }

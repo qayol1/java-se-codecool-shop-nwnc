@@ -28,21 +28,19 @@
 </head>
 
 <body>
-
-<div>
     <h2>Payment Details</h2>
     <div class="container">
         <table class="table">
             <tbody>
             <tr><td><h3>Your Data</h3></td></tr>
-            <tr><td><h6>First name: </h6></td><td th:text="">Name</td><td><h6>Last name: </h6></td><td th:text="">Last</td></tr>
-            <tr><td><h6>Email: </h6></td><td th:text="">email</td><td><h6>Phonenumber: </h6></td><td th:text="">phone</td></tr>
+            <tr><td><h6>First name: </h6></td><td th:text="${customer.getName()}">Name</td><td><h6>Last name: </h6></td><td th:text="${customer.getName()}">Last</td></tr>
+            <tr><td><h6>Email: </h6></td><td th:text="${customer.getName()}">email</td><td><h6>Phonenumber: </h6></td><td th:text="${customer.getName()}">phone</td></tr>
 
             <tr><td><h4>Billing Address: </h4></td><td></td><td><h4>Shipping Address: </h4></td></tr>
-            <tr><td><h6>Country: </h6></td><td th:text="">country</td><td><h6>Country: </h6></td><td th:text="">country</td></tr>
-            <tr><td><h6>City: </h6></td><td th:text="">city</td><td><h6>City:</h6></td><td th:text="">city</td></tr>
-            <tr><td><h6>Zip code: </h6></td><td th:text="">zipcode</td><td><h6>Zip code: </h6></td><td  th:text="">zipcode</td></tr>
-            <tr><td><h6>Street with number: </h6></td><td th:text="">street</td><td><h6>Street with number: </h6></td><td  th:text="">street</td></tr>
+            <tr><td><h6>Country: </h6></td><td th:text="${customer.getName()}">country</td><td><h6>Country: </h6></td><td th:text="${customer.getName()}">country</td></tr>
+            <tr><td><h6>City: </h6></td><td th:text="${customer.getName()}">city</td><td><h6>City:</h6></td><td th:text="${customer.getName()}">city</td></tr>
+            <tr><td><h6>Zip code: </h6></td><td th:text="${customer.getName()}">zipcode</td><td><h6>Zip code: </h6></td><td  th:text="${customer.getName()}">zipcode</td></tr>
+            <tr><td><h6>Street with number: </h6></td><td th:text="${customer.getName()}">street</td><td><h6>Street with number: </h6></td><td  th:text="${customer.getName()}">street</td></tr>
             </tbody>
         </table>
 
@@ -62,11 +60,11 @@
             <tr>
                 <div class="item col-xs-4 col-lg-4" >
             <tr>
-                <td th:text="">A</td>
-                <td th:text="">A</td>
-                <td th:text="">A</td>
-                <td th:text="">A</td>
-                <td th:text="">A</td>
+                <td th:text="${customer.getName()}">A</td>
+                <td th:text="${customer.getName()}">A</td>
+                <td th:text="${customer.getName()}">A</td>
+                <td th:text="${customer.getName()}">A</td>
+                <td th:text="${customer.getName()}">A</td>
             </tr>
     </div>
     <!-- - name of the Product-->
@@ -75,8 +73,8 @@
         <th>Total Price with shipping cost</th>
         <th></th>
         <th></th>
-        <th th:text="">total</th>
-        <th th:text="">curr</th>
+        <th th:text="${customer.getName()}">total</th>
+        <th th:text="${customer.getName()}">curr</th>
     </tr>
     </tbody>
     </table>
