@@ -24,7 +24,6 @@ public class LoginHandler {
             response.redirect("/index");
             return null;
         }
-        System.out.println("itt");
         request.session().attribute("current",currentUser);
         ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(request);
         User current=request.session().attribute("current");
