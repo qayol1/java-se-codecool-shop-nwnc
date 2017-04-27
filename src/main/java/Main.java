@@ -22,35 +22,26 @@ public class Main {
         port(8888);
 
 
-
         // populate some data for the memory storage
         populateData();
 
         post("/login", LoginHandler.manageLogin);
-        get("/login",LoginHandler.showLogin);
+        get("/login", LoginHandler.showLogin);
+
 
         get("/shoppingcart", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( ProductController.renderCart(req, res) );
+            return new ThymeleafTemplateEngine().render(ProductController.renderCart(req, res));
         });
-
-
 
 
         // Always add generic routes to the end
         get("/", ProductController::renderAllProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
-        get("/", (Request req, Response res) -> {
-            String name = req.session().attribute(SESSION_NAME);
-            if (name == null) {
-                req.session().attribute(SESSION_NAME, "Anonymus");
-
-            }
-           return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
         get("/index", (Request req, Response res) -> {
-           return new ThymeleafTemplateEngine().render( ProductController.renderAllProducts(req, res) );
+            return new ThymeleafTemplateEngine().render(ProductController.renderAllProducts(req, res));
         });
         post("/index", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( ProductController.renderFilteredProducts(req, res) );
+            return new ThymeleafTemplateEngine().render(ProductController.renderFilteredProducts(req, res));
         });
 
         post("/getCategoryListSize", (Request req, Response res) -> {
@@ -60,23 +51,23 @@ public class Main {
         });
 
         post("/checkout", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( CustomerController.redirectCustomer(req) );
+            return new ThymeleafTemplateEngine().render(CustomerController.redirectCustomer(req));
         });
 
         post("/set-amount", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( ProductController.setAmount(req, res) );
+            return new ThymeleafTemplateEngine().render(ProductController.setAmount(req, res));
         });
 
         post("/add-to-cart", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( ProductController.addToCart(req, res) );
+            return new ThymeleafTemplateEngine().render(ProductController.addToCart(req, res));
         });
 
         post("/remove-from-cart", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( ProductController.removeFromCart(req, res) );
+            return new ThymeleafTemplateEngine().render(ProductController.removeFromCart(req, res));
         });
 
         post("/delete-from-cart", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( ProductController.deleteFromCart(req, res) );
+            return new ThymeleafTemplateEngine().render(ProductController.deleteFromCart(req, res));
         });
 
 
@@ -90,7 +81,7 @@ public class Main {
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
         CustomerDao CustomerDataStore = CustomerDaoMem.getInstance();
-        UserDao userDataStore= UserDaoMem.getInstance();
+        UserDao userDataStore = UserDaoMem.getInstance();
 
 
         //setting up a new supplier
@@ -106,10 +97,13 @@ public class Main {
         supplierDataStore.add(msi);
         Supplier asus = new Supplier("Asus", "International manufacturer and distributor of computer hardware products.");
         supplierDataStore.add(asus);
+        Customer c1 = new Customer("Bruce", "Wayne", "batman@robin.com", "06901111", new Address("USA", "Gotham", "1111", "BatCave"), new Address("USA", "Gotham", "1111", "BatCave"));
 
-        User us1=new User("batman","robin");
-        User us2=new User("admin","admin");
+        User us1 = new User("batman", "robin");
+        User us2 = new User("admin", "admin");
         us2.setAdmin();
+        us1.setCustomer(c1);
+
         userDataStore.add(us1);
         userDataStore.add(us2);
 

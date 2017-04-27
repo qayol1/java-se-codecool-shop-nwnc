@@ -53,7 +53,7 @@ function deleteItem(id) {
 function showLoginModal() {
     $(".modal-body").empty();
 
-    $(".modal-body").append(loginHmtl());
+    $(".modal-body").append(loginHtml());
 
 }
 
@@ -65,7 +65,7 @@ $(function() {
 });
 });
 
-function loginHmtl() {
+function loginHtml() {
     var html='\
     <form id="loginForm" method="post" action="/login"> \
         <input type="text" name="username" value="" required>\

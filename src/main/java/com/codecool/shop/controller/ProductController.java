@@ -38,7 +38,7 @@ public class ProductController {
     }
 
     public static ModelAndView renderFilteredProducts(Request req, Response res) {
-        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
+        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(req);
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDaoDataStore = SupplierDaoMem.getInstance();

@@ -8,21 +8,24 @@ import java.util.HashMap;
 
 public class ShoppingCartDaoMem implements ShoppingCartDao {
 
-    private HashMap<Product, Integer> shoppingCart = new HashMap<>();
+    private HashMap<Product, Integer> shoppingCart;
     private static  ShoppingCartDaoMem instance = null;
     private Request req;
+
 
     private ShoppingCartDaoMem() {
     }
 
     public static ShoppingCartDaoMem getInstance(Request req) {
-        if (req.session().attribute("shoppingcartdao") == null) {
+
+        if (req.session().attribute("shoppingcartdao")== null) {
             instance = new ShoppingCartDaoMem();
+            instance.shoppingCart=new HashMap<>();
+            instance.req=req;
+            instance.saveShopCart();
             req.session().attribute("shoppingcartdao",instance);
         }
         instance.req=req;
-        instance.saveShopCart();
-
         return instance;
     }
 
@@ -31,12 +34,10 @@ public class ShoppingCartDaoMem implements ShoppingCartDao {
         openShopCart();
         if (shoppingCart.containsKey(product)) {
             shoppingCart.put(product, shoppingCart.get(product) + 1);
-            req.session().attribute("shoppingcart", shoppingCart);
-
         } else {
             shoppingCart.put(product, 1);
-            saveShopCart();
         }
+        saveShopCart();
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.codecool.shop.login;
 
 
+import com.codecool.shop.dao.ShoppingCartDao;
+import com.codecool.shop.dao.implementation.ShoppingCartDaoMem;
 import com.codecool.shop.dao.implementation.UserDaoMem;
 import com.codecool.shop.model.User;
 import spark.ModelAndView;
@@ -24,9 +26,11 @@ public class LoginHandler {
         }
         System.out.println("itt");
         request.session().attribute("current",currentUser);
-        User temp=request.session().attribute("current");
-        model.put("username",temp.getUsername());
-        return new ThymeleafTemplateEngine().render(new ModelAndView(model,"product/login"));
+        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(request);
+        User current=request.session().attribute("current");
+        model.put("customer",current.getCostumer());
+        model.put("shoppingcart", shoppingCartDataStore);
+        return new ThymeleafTemplateEngine().render(new ModelAndView(model,"product/payment"));
     };
 
     public static Route showLogin = (Request request, Response response) -> {
