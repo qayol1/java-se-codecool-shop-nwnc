@@ -6,15 +6,19 @@ package com.codecool.shop.model;
 public class Customer {
 
     private int id;
-    private String name;
+
+    private String firstName;
+    private String lastName;
+
     private String email;
     private String phoneNumber;
     private Address billingAddress;
     private Address shippingAddress;
 
-    public Customer(String name, String email, String phoneNumber, Address billingAddress,
+    public Customer(String firstName, String lastName, String email, String phoneNumber, Address billingAddress,
                     Address shippingAddress){
-        this.name = name;
+        this.lastName = lastName;
+        this.firstName = firstName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.billingAddress = billingAddress;
@@ -25,10 +29,36 @@ public class Customer {
         return id;
     }
 
-    public String getName() { return name; }
 
     public void setId(int id) {
         this.id = id;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public Address getBillingAddress() {
+        return billingAddress;
+    }
+
+    public Address getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+
+
 }
+

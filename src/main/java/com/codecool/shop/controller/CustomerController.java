@@ -18,7 +18,7 @@ public class CustomerController {
     public static void createCustomer(Request req) {
         CustomerDao customerDao = CustomerDaoMem.getInstance();
         customerDao.remove(1);
-        customerDao.add(new Customer(req.queryParams("name"), req.queryParams("email"), req.queryParams("phone"),
+        customerDao.add(new Customer(req.queryParams("first_name"), req.queryParams("last_name"), req.queryParams("email"), req.queryParams("phone"),
                 new Address(req.queryParams("billingCountry"), req.queryParams("billingCity"),
                         req.queryParams("billingZipcode"), req.queryParams("billingAddress")),
                 new Address(req.queryParams("shippingCountry"), req.queryParams("shippingCity"),
@@ -29,7 +29,7 @@ public class CustomerController {
         CustomerDao customerDao = CustomerDaoMem.getInstance();
         ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
         createCustomer(req);
-        System.out.println(customerDao.find(1).getName());
+        System.out.println(customerDao.find(1).getLastName());
 
         Map params = new HashMap<>();
         params.put("customer", customerDao.find(1));
