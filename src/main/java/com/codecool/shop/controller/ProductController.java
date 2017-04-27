@@ -25,7 +25,7 @@ public class ProductController {
 
     public static ModelAndView renderAllProducts(Request req, Response res) {
         ProductDao productDataStore = ProductDaoMem.getInstance();
-        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
+        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(req);
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDaoDataStore = SupplierDaoMem.getInstance();
         Map params = new HashMap<>();
@@ -55,17 +55,31 @@ public class ProductController {
     public  static ModelAndView addToCart(Request req, Response res) {
 
         int id = Integer.parseInt(req.queryParams("id"));
-
         ProductDao productDataStore = ProductDaoMem.getInstance();
-        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
-
+        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(req);
         shoppingCartDataStore.add(productDataStore.find(id));
+        return renderAllProducts(req, res);
+    }
+
+    public  static ModelAndView removeFromCart(Request req, Response res) {
+
+        int id = Integer.parseInt(req.queryParams("id"));
+        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(req);
+        shoppingCartDataStore.decrease(id);
+        return renderAllProducts(req, res);
+    }
+
+    public  static ModelAndView deleteFromCart(Request req, Response res) {
+
+        int id = Integer.parseInt(req.queryParams("id"));
+        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(req);
+        shoppingCartDataStore.remove(id);
         return renderAllProducts(req, res);
     }
 
     public static ModelAndView renderCart(Request req, Response res) {
         ProductDao productDataStore = ProductDaoMem.getInstance();
-        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
+        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(req);
 
         Map params = new HashMap<>();
         params.put("products", productDataStore.getAll());

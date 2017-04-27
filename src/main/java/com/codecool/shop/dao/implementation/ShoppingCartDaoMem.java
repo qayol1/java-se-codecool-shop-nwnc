@@ -2,6 +2,7 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.model.Product;
+import spark.Request;
 
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -14,9 +15,10 @@ public class ShoppingCartDaoMem implements ShoppingCartDao {
     private ShoppingCartDaoMem() {
     }
 
-    public static ShoppingCartDaoMem getInstance() {
-        if (instance == null) {
-            instance = new ShoppingCartDaoMem();
+    public static ShoppingCartDaoMem getInstance(Request req) {
+        if (req.session().attribute("shoppingcart") == null) {
+            req.session().attribute("shoppingcart", new ShoppingCartDaoMem());
+            instance = req.session().attribute("shoppingcart");
         }
         return instance;
     }
