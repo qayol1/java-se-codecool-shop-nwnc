@@ -38,46 +38,50 @@
     <div id="sidebar-wrapper">
         <div class="sidebar-nav">
             <div class="sidebar-brand">
-                <form action="/index" method="post">
-                    <p></p>
-                    <div class="category">Product category:</div>
-                    <span th:each="category:${category}">
-                        <span th:switch="${category.isCheckedCheckbox()}">
-                            <div th:case="true"><input type="checkbox" class="category" checked="" th:name="${category.name}" th:value="${category.name}" th:text="${category.name}"/></div>
-                            <div th:case="false"><input type="checkbox" class="category" th:name="${category.name}" th:value="${category.name}" th:text="${category.name}"/></div>
+                <div id="shoppingchartbutton" class="btn filtercategory">Shopping chart</div>
+                <p></p>
+                <div id="filterbutton" class="btn filtercategory">Filter</div>
+                <div id="filterList">
+                    <form action="/index" method="post">
+                        <p></p>
+                        <div class="category">Product category:</div>
+                        <span th:each="category:${category}">
+                            <span th:switch="${category.isCheckedCheckbox()}">
+                                <div th:case="true"><input type="checkbox" class="category" checked="" th:name="${category.name}" th:value="${category.name}" th:text="${category.name}"/></div>
+                                <div th:case="false"><input type="checkbox" class="category" th:name="${category.name}" th:value="${category.name}" th:text="${category.name}"/></div>
+                            </span>
                         </span>
-                    </span>
-                    <span class="btn-group btn-group-xs">
-                        <button class="btn btn-warning" type="button" value="Select all" onclick="setCatergoryChecked()">Select all</button>
-                        <button class="btn btn-warning" type="button" value="Clear all" onclick="setCategoryUnchecked()">Clear all</button>
-                </span>
-                    <p></p>
-                    <div class="category">Suppliers:</div>
-                    <span th:each="supplier:${suppliers}">
-                <span th:switch="${supplier.isCheckedCheckbox()}">
-                    <div th:case="true"><input type="checkbox" class="supplier" checked="" th:name="${supplier.name}" th:value="${supplier.name}" th:text="${supplier.name}"/></div>
-                    <div th:case="false"><input type="checkbox" class="supplier" th:name="${supplier.name}" th:value="${supplier.name}" th:text="${supplier.name}"/></div>
-                </span>
-            </span>
-                    <span class="btn-group btn-group-xs">
-                <button class="btn btn-warning" type="button" value="Select all" onclick="setSuppliersChecked()">Select all</button>
-                <button class="btn btn-warning" type="button" value="Clear all" onclick="setSuppliersUnchecked()">Clear all</button>
-            </span>
-                    <p></p>
-                    <div><input class="btn btn-primary btn-sm" type="submit" value="Filter"/></div>
-                </form>
+                        <span class="btn-group btn-group-xs">
+                            <button class="btn btn-warning" type="button" value="Select all" onclick="setCatergoryChecked()">Select all</button>
+                            <button class="btn btn-warning" type="button" value="Clear all" onclick="setCategoryUnchecked()">Clear all</button>
+                        </span>
+                        <p></p>
+                        <div class="category">Suppliers:</div>
+                        <span th:each="supplier:${suppliers}">
+                            <span th:switch="${supplier.isCheckedCheckbox()}">
+                                <div th:case="true"><input type="checkbox" class="supplier" checked="" th:name="${supplier.name}" th:value="${supplier.name}" th:text="${supplier.name}"/></div>
+                                <div th:case="false"><input type="checkbox" class="supplier" th:name="${supplier.name}" th:value="${supplier.name}" th:text="${supplier.name}"/></div>
+                            </span>
+                        </span>
+                        <span class="btn-group btn-group-xs">
+                            <button class="btn btn-warning" type="button" value="Select all" onclick="setSuppliersChecked()">Select all</button>
+                            <button class="btn btn-warning" type="button" value="Clear all" onclick="setSuppliersUnchecked()">Clear all</button>
+                        </span>
+                        <p></p>
+                        <div><input class="btn btn-primary btn-sm" type="submit" value="Filter"/></div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-    <!-- /#sidebar-wrapper -->
 
+    <!-- Navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <span class="btn filtermenu" id="menu-toggle">&#9776; Menu</span>
+        <span class="title">NWNC Shop</span>
+    </nav>
     <!-- Page Content -->
     <div id="page-content-wrapper">
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <span class="filtermenu" href="#menu-toggle" id="menu-toggle">&#9776; Filter</span>
-            <span class="title">NWNC Shop</span>
-        </nav>
-    <!-- /#page-content-wrapper -->
     <div th:each="category:${category}">
         <div class="container-fluid" th:id="'category'+${category.id}">
             <div th:id="'category'+${category.id}" th:if="${category.isCheckedCheckbox()}==true" class="well well-sm" th:onclick="'javascript:filter(\'' + ${category.id} + '\');'">
@@ -109,7 +113,6 @@
     </div>
 
     </div>
-<!-- /#wrapper -->
 </div>
 </body>
 </html>

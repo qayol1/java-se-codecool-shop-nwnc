@@ -7,6 +7,18 @@ $( document ).ready(function() {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
+    $("#filterbutton").click(function (e) {
+        var elem = document.getElementById('filterList');
+        if (elem.style.visibility !== "visible") {
+            elem.style.visibility= 'visible';
+        } else {
+            elem.style.visibility= 'hidden';
+        }
+
+    });
+    $("#shoppingchartbutton").click(function (e) {
+        hideFilter();
+    });
 });
 
 function setSuppliersChecked() {
@@ -34,6 +46,7 @@ function setCategoryUnchecked() {
 }
 
 function filter(categoryid) {
+    hideFilter();
     $.post("/getCategoryListSize", function (data) {
         for (i = 1; i < data+1; i++) {
             if (i != categoryid) {
@@ -41,5 +54,10 @@ function filter(categoryid) {
             }
         }
     });
+}
+
+function hideFilter() {
+    var elem = document.getElementById('filterList');
+    elem.style.visibility= 'hidden';
 }
 
