@@ -38,7 +38,7 @@ public class ProductController {
 
     public static ModelAndView renderFilteredProducts(Request req, Response res) {
         ProductDao productDataStore = ProductDaoMem.getInstance();
-        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
+        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(req);
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDaoDataStore = SupplierDaoMem.getInstance();
         Map params = new HashMap<>();
@@ -64,7 +64,7 @@ public class ProductController {
         int id = Integer.parseInt(req.queryParams("id"));
         ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(req);
         shoppingCartDataStore.decrease(id);
-        return renderProducts(req, res);
+        return renderAllProducts(req, res);
     }
 
     public  static ModelAndView deleteFromCart(Request req, Response res) {
@@ -72,7 +72,7 @@ public class ProductController {
         int id = Integer.parseInt(req.queryParams("id"));
         ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(req);
         shoppingCartDataStore.remove(id);
-        return renderProducts(req, res);
+        return renderAllProducts(req, res);
     }
 
     public static ModelAndView renderCart(Request req, Response res) {
