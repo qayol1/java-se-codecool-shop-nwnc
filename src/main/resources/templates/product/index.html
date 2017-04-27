@@ -25,6 +25,7 @@
             crossorigin="anonymous"></script>
 
     <link rel="stylesheet" type="text/css" href="/css/custom.css" />
+    <script src="/js/events.js"></script>
 </head>
 
 <body>
@@ -34,6 +35,13 @@
 </div>
 
 <div class="container">
+    <a href="/shoppingcart">
+    <div class="shoppingcart" style="float: right">
+        <img height="20px" th:attr="src='/img/shopping-cart-icon.png'" alt=""/>
+        <strong id="cart-count" style="float: right;" th:text="${shoppingcart.getAllProducts()}"></strong>
+    </div>
+    </a>
+    <div class="clearfix"></div>
     <div class="well well-sm">
         <strong th:text="${category.name}">Category Title</strong>
     </div>
@@ -51,7 +59,7 @@
                             <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
                         </div>
                         <div class="col-xs-12 col-md-6">
-                            <a class="btn btn-success" href="#">Add to cart</a>
+                            <button class="btn btn-success" th:onclick="'addToCart(\''+${prod.id}+'\');'">Add to cart</button>
                         </div>
                     </div>
                 </div>
@@ -62,6 +70,5 @@
 </div>
 
 <div th:replace="footer :: copy"></div>
-
 </body>
 </html>
