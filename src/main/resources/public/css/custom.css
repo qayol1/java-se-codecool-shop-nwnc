@@ -75,7 +75,7 @@
 
 
 .category {
-    color:yellowgreen;
+    color:#444;
     font-size: 15px;
 }
 
@@ -88,12 +88,12 @@
 
 .filtercategory {
     font-size: 20px;
-    color:white;
+    color:black;
     transition: all 0.3s ease;
 }
 
 .filtercategory:hover,.filtercategory:focus,.filtercategory:active {
-    color:yellow;
+    color:#444;
     font-size: 25px;
     transition: all 0.3s ease;
 }
@@ -123,14 +123,17 @@
 }
 
 #sidebar-wrapper {
+    border-right: solid #dddddd 1px;
+    padding-top: 5px;
+    padding-left: 40px;
     z-index: 1000;
     position: fixed;
     left: 250px;
     width: 0;
     height: 100%;
-    margin-left: -250px;
+    margin-left: -280px;
     overflow-y: auto;
-    background: #000000;
+    background: #ffffff;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -138,7 +141,8 @@
 }
 
 #wrapper.toggled #sidebar-wrapper {
-    width: 250px;
+    padding-top: 40px;
+    width: 300px;
 }
 
 #page-content-wrapper {
@@ -158,17 +162,23 @@
 .sidebar-nav {
     position: absolute;
     top: 50px;
-    width: 250px;
+    width: 300px;
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
 .sidebar-nav > .sidebar-brand {
+    padding-top: 20px;
     height: 65px;
     font-size: 12px;
     line-height: 30px;
-    color: white;
+    color: #444;
+}
+
+.navbar {
+    padding: 10px;
+    font-family: 'Lato', sans-serif;
 }
 
 
@@ -186,7 +196,7 @@
     }
 
     #wrapper.toggled #sidebar-wrapper {
-        width: 200px;
+        width: 250px;
     }
 
     #page-content-wrapper {
