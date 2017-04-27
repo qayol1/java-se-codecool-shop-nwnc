@@ -3,6 +3,15 @@
  */
 
 $( document ).ready(function() {
+    $('#checkb').change(function(){
+        if(this.checked) {
+            $('#shipping').css("display", "none");
+            $('.sh1').removeAttr("required");
+        }
+        else
+            $('#shipping').css("display", "inline");
+
+    });
     $("#menu-toggle").click(function (e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
@@ -59,5 +68,32 @@ function filter(categoryid) {
 function hideFilter() {
     var elem = document.getElementById('filterList');
     elem.style.visibility= 'hidden';
+}
+
+function addToCart(id) {
+    $.ajax({
+        method: 'POST',
+        url: '/add-to-cart',
+        data: {'id': id},
+        success: function () {
+            $("#cart-count").text(parseInt($("#cart-count").html()) + 1);
+        }
+    });
+}
+
+function removeFromCart(id) {
+    $.ajax({
+        method: 'POST',
+        url: '/add-to-cart',
+        data: {'id': id},
+        success: function () {
+            $("#cart-count").text(parseInt($("#cart-count").html()) - 1);
+        }
+    });
+}
+
+function plusAmount(id) {
+    $("#amount-count").val(parseInt($("#amount-count").val()) + 1);
+    addToCart(id);
 }
 
