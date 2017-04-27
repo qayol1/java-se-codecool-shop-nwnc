@@ -37,15 +37,17 @@ public class ProductController {
     }
 
     public static ModelAndView renderFilteredProducts(Request req, Response res) {
+        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
         ProductDao productDataStore = ProductDaoMem.getInstance();
-        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(req);
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDaoDataStore = SupplierDaoMem.getInstance();
         Map params = new HashMap<>();
-        params.put("category", productCategoryDataStore.find(1));
-        params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
+        List<ProductCategory> productCategoryList = storeCheckboxStatus(productCategoryDataStore.getAll(),req);
+        List<Supplier> supplierList = storeChechboxStatus(supplierDaoDataStore.getAll(),req);
+        params.put("category",productCategoryList);
+        params.put("products", filterBySupplier(req,filterByCategory(req, productDataStore.getAll())));
+        params.put("suppliers", supplierList);
         params.put("shoppingcart", shoppingCartDataStore);
-        params.put("suppliers", supplierDaoDataStore.getAll());
         return new ModelAndView(params, "product/index");
     }
 

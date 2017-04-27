@@ -1,5 +1,7 @@
 package com.codecool.shop.model;
 
+import java.util.ArrayList;
+
 /**
  * Created by abelvaradi on 2017.04.25..
  */
@@ -14,6 +16,8 @@ public class Customer {
     private String phoneNumber;
     private Address billingAddress;
     private Address shippingAddress;
+    private ArrayList<CreditCard> creditCards;
+    private ArrayList<PayPal> payPals;
 
     public Customer(String firstName, String lastName, String email, String phoneNumber, Address billingAddress,
                     Address shippingAddress){
@@ -58,7 +62,21 @@ public class Customer {
         return lastName;
     }
 
+    public ArrayList<CreditCard> getCreditCards() {
+        return creditCards;
+    }
 
+    public void addCreditCard(CreditCard card) {
+        creditCards.add(card);
+    }
+
+    public ArrayList<PayPal> getPayPals() {
+        return payPals;
+    }
+
+    public void addPayPal(PayPal payPal) {
+        payPals.add(payPal);
+    }
 
 }
 
