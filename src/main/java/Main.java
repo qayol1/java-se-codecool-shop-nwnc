@@ -1,6 +1,7 @@
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
+import com.codecool.shop.controller.CustomerController;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
@@ -22,6 +23,12 @@ public class Main {
         populateData();
 
 
+        get("/shoppingcart", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render( ProductController.renderCart(req, res) );
+        });
+
+
+
         // Always add generic routes to the end
         get("/", ProductController::renderAllProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
@@ -37,6 +44,15 @@ public class Main {
             return productCategoryDataStore.getAll().size();
         });
 
+        post("/checkout", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render( CustomerController.redirectCustomer(req) );
+        });
+
+        post("/add-to-cart", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render( ProductController.addToCart(req, res) );
+        });
+
+
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
     }
@@ -46,6 +62,9 @@ public class Main {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        CustomerDao CustomerDataStore = CustomerDaoMem.getInstance();
+        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
+
 
         //setting up a new supplier
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
@@ -81,6 +100,10 @@ public class Main {
         productDataStore.add(new Product("Asus ZenBook UX530UX", 749, "USD", "Asus - ZenBook Flip UX360CA 2-in-1 13.3\" Touch-Screen Laptop - Intel Core m3 - 8GB Memory - 512GB Solid State Drive - Mineral gray", laptop, asus));
         productDataStore.add(new Product("Asus Dual GeForce GTX 580", 1499, "USD", "The MARS II is the first dual GeForce GTX 580 card, and is part of ASUS Republic of Gamers (ROG) brand of premium products targeting the gamer-overclocker market. ", videoCard, asus));
 
+
+        //two items added to the shopping cart
+        shoppingCartDataStore.add(productDataStore.find(1));
+        shoppingCartDataStore.add(productDataStore.find(1));
 
     }
 

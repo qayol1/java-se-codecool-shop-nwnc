@@ -63,6 +63,17 @@
     margin: 0 0 11px;
 }
 
+.shoppingcart
+{
+    border: solid #b1b1b1 1px;
+    background-color: #eeeeee;
+    border-radius: 3px;
+    padding: 10px;
+    margin: 5px;
+    color: #424242;
+    position: relative;
+
+
 .category {
     color:yellowgreen;
     font-size: 15px;
@@ -187,4 +198,5 @@
         position: relative;
         margin-right: 0;
     }
+
 }

@@ -29,10 +29,24 @@
 
     <link rel="stylesheet" type="text/css" href="/css/custom.css" />
 
+    <script src="/js/events.js"></script>
+
+
 </head>
 
 <body>
 
+
+<div class="container">
+    <a href="/shoppingcart">
+    <div class="shoppingcart" style="float: right">
+        <img height="20px" th:attr="src='/img/shopping-cart-icon.png'" alt=""/>
+        <strong id="cart-count" style="float: right;" th:text="${shoppingcart.getAllProducts()}"></strong>
+    </div>
+    </a>
+    <div class="clearfix"></div>
+    <div class="well well-sm">
+        <strong th:text="${category.name}">Category Title</strong>
 <div id="wrapper">
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
@@ -88,6 +102,7 @@
                 <strong th:text="${category.name}">Category Title</strong>
             </div>
 
+
             <div id="products" class="row list-group">
                 <div th:each="prod,iterStat : ${products}">
                     <div class="item col-xs-4 col-lg-4" th:if="${prod.getProductCategory()} == ${category}">
@@ -114,5 +129,9 @@
 
     </div>
 </div>
+
+
+<div th:replace="footer :: copy"></div>
+
 </body>
 </html>
