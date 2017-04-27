@@ -33,7 +33,7 @@
         <table class="table">
             <tbody>
             <tr><td><h3>Your Data</h3></td></tr>
-            <tr><td><h6>First name: </h6></td><td th:text="${customer.getfirstName()}">Name</td><td><h6>Last name: </h6></td><td th:text="${customer.getlastName()}">Last</td></tr>
+            <tr><td><h6>First name: </h6></td><td th:text="${customer.getFirstName()}">Name</td><td><h6>Last name: </h6></td><td th:text="${customer.getLastName()}">Last</td></tr>
             <tr><td><h6>Email: </h6></td><td th:text="${customer.getEmail()}">email</td><td><h6>Phonenumber: </h6></td><td th:text="${customer.getPhoneNumber()}">phone</td></tr>
 
             <tr><td><h4>Billing Address: </h4></td><td></td><td><h4>Shipping Address: </h4></td></tr>
@@ -61,8 +61,8 @@
             <tr>
                 <td >72</td>
                 <td >350</td>
-                <td th:text="">A</td>
-                <td th:text="${customer.getName()}">A</td>
+                <td >0 </td>
+                <td >USD</td>
             </tr>
     </div>
     <!-- - name of the Product-->
@@ -71,8 +71,8 @@
         <th>Total Price with shipping cost</th>
         <th></th>
         <th></th>
-        <th th:text="${customer.getName()}">total</th>
-        <th th:text="${customer.getName()}">curr</th>
+        <th th:text="${shoppingcart.getTotalPrice()}">total</th>
+        <th text="USD"></th>
     </tr>
     </tbody>
     </table>
