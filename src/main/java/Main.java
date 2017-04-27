@@ -4,6 +4,7 @@ import static spark.debug.DebugScreen.enableDebugScreen;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
+import com.codecool.shop.login.LoginHandler;
 import com.codecool.shop.model.*;
 import spark.Request;
 import spark.Response;
@@ -21,8 +22,10 @@ public class Main {
         // populate some data for the memory storage
         populateData();
 
-        // Always start with more specific routes
-        get("/hello", (req, res) -> "Hello World");
+        get("/login", ProductController::renderProducts);
+
+
+
 
         // Always add generic routes to the end
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
@@ -46,6 +49,10 @@ public class Main {
         supplierDataStore.add(amazon);
         Supplier lenovo = new Supplier("Lenovo", "Computers");
         supplierDataStore.add(lenovo);
+
+        User us1=new User("batman","robin");
+        User us2=new User("admin","admin");
+        us2.setAdmin();
 
         //setting up a new product category
         ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.");
