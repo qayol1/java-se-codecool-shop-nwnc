@@ -13,6 +13,7 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 public class Main {
 
     public static void main(String[] args) {
+        final String SESSION_NAME = "username";
 
         // default server settings
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
@@ -29,6 +30,7 @@ public class Main {
 
 
 
+
         // Always add generic routes to the end
         get("/", ProductController::renderAllProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
@@ -42,6 +44,7 @@ public class Main {
         post("/getCategoryListSize", (Request req, Response res) -> {
             ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
             return productCategoryDataStore.getAll().size();
+
         });
 
         post("/checkout", (Request req, Response res) -> {
@@ -50,6 +53,14 @@ public class Main {
 
         post("/add-to-cart", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render( ProductController.addToCart(req, res) );
+        });
+
+        post("/remove-from-cart", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render( ProductController.removeFromCart(req, res) );
+        });
+
+        post("/delete-from-cart", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render( ProductController.deleteFromCart(req, res) );
         });
 
 
@@ -63,7 +74,6 @@ public class Main {
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
         CustomerDao CustomerDataStore = CustomerDaoMem.getInstance();
-        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
 
 
         //setting up a new supplier
@@ -100,10 +110,6 @@ public class Main {
         productDataStore.add(new Product("Asus ZenBook UX530UX", 749, "USD", "Asus - ZenBook Flip UX360CA 2-in-1 13.3\" Touch-Screen Laptop - Intel Core m3 - 8GB Memory - 512GB Solid State Drive - Mineral gray", laptop, asus));
         productDataStore.add(new Product("Asus Dual GeForce GTX 580", 1499, "USD", "The MARS II is the first dual GeForce GTX 580 card, and is part of ASUS Republic of Gamers (ROG) brand of premium products targeting the gamer-overclocker market. ", videoCard, asus));
 
-
-        //two items added to the shopping cart
-        shoppingCartDataStore.add(productDataStore.find(1));
-        shoppingCartDataStore.add(productDataStore.find(1));
 
     }
 

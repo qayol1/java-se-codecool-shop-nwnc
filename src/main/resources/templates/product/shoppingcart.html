@@ -30,7 +30,7 @@
 <body>
 
 <div class="container">
-    <table class="table">
+    <table class="table" id="cart-items">
         <tbody>
         <tr>
             <th><h1>Shopping Cart</h1></th>
@@ -41,31 +41,40 @@
             <th><h4>Price</h4></th>
             <th><h4>Amount</h4></th>
         </tr>
-        <div id="shooping-cart-products" class="row" th:each="item, iterStat : ${shoppingcart.getAll().keySet()}">
-            <tr>
+        <div th:id="'shopping-cart-' + ${item.id}" class="row"
+             th:each="item, iterStat : ${shoppingcart.getAll().keySet()}">
+            <tr th:id="'shopping-cart-row-' + ${item.id}">
                 <td><h6 th:text="${item.name}"></h6></td>
                 <td><h6 th:text="${item.description}"></h6></td>
-                <td><h6 th:text="${item.getPrice()}"></h6></td>
+                <td><h6 id="price" th:text="${item.getPrice()}"></h6></td>
                 <td>
                     <div class="input-group">
           <span class="input-group-btn">
-              <button id="plus" type="button" class="btn btn-default btn-number">
+              <button id="plus" type="button" class="btn btn-default btn-number"
+                      th:onclick="'minusAmount(\''+${item.id}+'\');'">
                   <span class="glyphicon glyphicon-minus"></span>
               </button>
           </span>
-                        <input id="amount-count" type="text" name="quant[1]" class="form-control input-number"
-                               th:value="${shoppingcart.getAll().get(item)}" value="1" min="1" max="10" />
+                        <input th:id="'amount-count'+${item.id}" type="text" name="quant[1]" class="counter form-control input-number"
+                               th:value="${shoppingcart.getAll().get(item)}" value="1" min="1" max="10"/>
                         <span class="input-group-btn">
-              <button id="minus" type="button" class="btn btn-default btn-number" th:onclick="'plusAmount(\''+${item.id}+'\');'">
+              <button id="minus" type="button" class="btn btn-default btn-number"
+                      th:onclick="'plusAmount(\''+${item.id}+'\');'">
                   <span class="glyphicon glyphicon-plus"></span>
               </button>
           </span>
                     </div>
                 </td>
+                <td>
+                    <button id="delete" type="button" class="btn btn-default"
+                            th:onclick="'deleteItem(\''+${item.id}+'\');'">
+                        <span class="glyphicon glyphicon-remove-sign"></span>
+                    </button>
+                </td>
             </tr>
         </div>
         <tr>
-            <td><strong>Total price: </strong><strong th:text="${shoppingcart.getTotalPrice()}+' USD'"></strong></td>
+            <td id="total-price"><strong>Total price: </strong><strong id="total-price-price" th:text="${shoppingcart.getTotalPrice()}+' USD'"></strong></td>
         </tr>
         </tbody>
     </table>

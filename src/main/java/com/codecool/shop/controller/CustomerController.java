@@ -39,7 +39,7 @@ public class CustomerController {
 
     public static ModelAndView redirectCustomer(Request req) {
         CustomerDao customerDao = CustomerDaoMem.getInstance();
-        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
+        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(req);
         createCustomer(req);
         System.out.println(customerDao.find(1).getLastName());
 
