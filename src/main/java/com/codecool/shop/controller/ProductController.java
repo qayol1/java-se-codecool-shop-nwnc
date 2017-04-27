@@ -15,6 +15,7 @@ import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import spark.Request;
 import spark.Response;
 import spark.ModelAndView;
@@ -72,6 +73,15 @@ public class ProductController {
         int id = Integer.parseInt(req.queryParams("id"));
         ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(req);
         shoppingCartDataStore.remove(id);
+        return renderAllProducts(req, res);
+    }
+
+    public static ModelAndView setAmount(Request req, Response res) {
+
+        int id = Integer.parseInt(req.queryParams("id"));
+        int num = Integer.parseInt(req.queryParams("num"));
+        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(req);
+        shoppingCartDataStore.getAll().put(shoppingCartDataStore.find(id), num);
         return renderAllProducts(req, res);
     }
 

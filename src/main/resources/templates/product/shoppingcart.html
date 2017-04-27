@@ -56,7 +56,7 @@
               </button>
           </span>
                         <input th:id="'amount-count'+${item.id}" type="text" name="quant[1]" class="counter form-control input-number"
-                               th:value="${shoppingcart.getAll().get(item)}" value="1" min="1" max="10"/>
+                               th:value="${shoppingcart.getAll().get(item)}" value="1" min="1" max="10" th:onchange="'setAmount(\''+${item.id}+'\');'"/>
                         <span class="input-group-btn">
               <button id="minus" type="button" class="btn btn-default btn-number"
                       th:onclick="'plusAmount(\''+${item.id}+'\');'">
