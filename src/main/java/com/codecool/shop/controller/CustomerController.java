@@ -6,9 +6,11 @@ import com.codecool.shop.dao.implementation.CustomerDaoMem;
 import com.codecool.shop.dao.implementation.ShoppingCartDaoMem;
 import com.codecool.shop.model.Address;
 import com.codecool.shop.model.Customer;
+import com.codecool.shop.model.User;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
+import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +40,17 @@ public class CustomerController {
     }
 
     public static ModelAndView redirectCustomer(Request req) {
+
+        Object temp=req.session().attribute("current");
+        if (temp!=null){
+            ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(req);
+            Map<String, Object> model=new HashMap<>();
+            User current=req.session().attribute("current");
+            model.put("customer",current.getCostumer());
+            model.put("shoppingcart", shoppingCartDataStore);
+            return new ModelAndView(model,"product/payment");
+        }
+
         CustomerDao customerDao = CustomerDaoMem.getInstance();
         ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(req);
         createCustomer(req);

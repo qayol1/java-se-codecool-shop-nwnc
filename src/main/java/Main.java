@@ -14,7 +14,6 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 public class Main {
 
     public static void main(String[] args) {
-        final String SESSION_NAME = "username";
 
         // default server settings
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
@@ -26,7 +25,7 @@ public class Main {
         populateData();
 
         post("/login", LoginHandler.manageLogin);
-        get("/login", LoginHandler.showLogin);
+        get("/admin",LoginHandler.adminPage);
 
 
         get("/shoppingcart", (Request req, Response res) -> {
@@ -54,6 +53,12 @@ public class Main {
             return new ThymeleafTemplateEngine().render(CustomerController.redirectCustomer(req));
         });
 
+        get("/checkout", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(CustomerController.redirectCustomer(req));
+        });
+
+
+
         post("/set-amount", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(ProductController.setAmount(req, res));
         });
@@ -69,7 +74,6 @@ public class Main {
         post("/delete-from-cart", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(ProductController.deleteFromCart(req, res));
         });
-
 
         // Add this line to your project to enable the debug screen
         enableDebugScreen();

@@ -28,6 +28,10 @@ public class User {
     public Customer getCostumer(){
         return this.costumer;
     }
+
+    public boolean isAdmin(){
+        return this.role.equals("admin");
+    }
     public String getUsername() { return this.username; }
 
     public void setAdmin(){

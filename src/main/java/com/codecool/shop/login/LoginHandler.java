@@ -20,24 +20,34 @@ public class LoginHandler {
         String username=request.queryParams("username");
         Map<String, Object> model=new HashMap<>();
         User currentUser = UserDaoMem.getInstance().find(username);
+        request.session().attribute("current",currentUser);
+
         if (currentUser.getUsername()== null){
             response.redirect("/index");
             return null;
         }
-        request.session().attribute("current",currentUser);
-        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(request);
-        User current=request.session().attribute("current");
-        model.put("customer",current.getCostumer());
-        model.put("shoppingcart", shoppingCartDataStore);
-        return new ThymeleafTemplateEngine().render(new ModelAndView(model,"product/payment"));
+        if (currentUser.isAdmin()){
+            response.redirect("/admin");
+            return null;
+        }
+        response.redirect("/checkout");
+        return null;
+
+
     };
 
-    public static Route showLogin = (Request request, Response response) -> {
+    public static Route adminPage = (Request request, Response response) -> {
 
+        if (request.session().attribute("current")==null){
+            response.redirect("/index");
+         return null;
+        }
+        User currentuser=request.session().attribute("current");
+        if (!currentuser.isAdmin()) {
+         response.redirect("/index");
+         return null;
+        }
         Map<String, Object> model=new HashMap<>();
-        User temp=request.session().attribute("current");
-        System.out.println(temp);
-        model.put("username",temp.getUsername());
-        return new ThymeleafTemplateEngine().render(new ModelAndView(model,"product/login"));
+        return new ThymeleafTemplateEngine().render(new ModelAndView(model,"product/admin"));
     };
 }
