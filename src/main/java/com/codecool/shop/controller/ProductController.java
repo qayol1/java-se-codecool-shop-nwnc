@@ -3,6 +3,7 @@ package com.codecool.shop.controller;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.ShoppingCartDao;
+import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.dao.implementation.ShoppingCartDaoMem;
@@ -31,17 +32,20 @@ public class ProductController {
         params.put("category", productCategoryDataStore.getAll());
         params.put("products", productDataStore.getAll());
         params.put("suppliers", supplierDaoDataStore.getAll());
+        params.put("shoppingcart", shoppingCartDataStore);
         return new ModelAndView(params, "product/index");
     }
 
     public static ModelAndView renderFilteredProducts(Request req, Response res) {
         ProductDao productDataStore = ProductDaoMem.getInstance();
+        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDaoDataStore = SupplierDaoMem.getInstance();
         Map params = new HashMap<>();
         params.put("category", productCategoryDataStore.find(1));
         params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
         params.put("shoppingcart", shoppingCartDataStore);
+        params.put("suppliers", supplierDaoDataStore.getAll());
         return new ModelAndView(params, "product/index");
     }
 
@@ -54,7 +58,7 @@ public class ProductController {
         ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
 
         shoppingCartDataStore.add(productDataStore.find(id));
-        return renderProducts(req, res);
+        return renderAllProducts(req, res);
     }
 
     public static ModelAndView renderCart(Request req, Response res) {
@@ -67,14 +71,6 @@ public class ProductController {
         return new ModelAndView(params, "product/shoppingcart");
     }
 
-=======
-        List<ProductCategory> productCategoryList = storeCheckboxStatus(productCategoryDataStore.getAll(),req);
-        List<Supplier> supplierList = storeChechboxStatus(supplierDaoDataStore.getAll(),req);
-        params.put("category",productCategoryList);
-        params.put("products", filterBySupplier(req,filterByCategory(req, productDataStore.getAll())));
-        params.put("suppliers", supplierList);
-        return new ModelAndView(params, "product/index");
-    }
 
     private static List<Supplier> storeChechboxStatus(List<Supplier> suplierList, Request req) {
         for (Supplier supplier: suplierList){
