@@ -41,11 +41,10 @@ public class CustomerController {
         CustomerDao customerDao = CustomerDaoMem.getInstance();
         ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(req);
         createCustomer(req);
-        System.out.println(customerDao.find(1).getLastName());
 
         Map params = new HashMap<>();
         params.put("customer", customerDao.find(1));
-        params.put("shoppingcart", shoppingCartDataStore);
+        params.put("shoppingcart", shoppingCartDataStore.getAll());
         return new ModelAndView(params, "product/payment");
     }
 }

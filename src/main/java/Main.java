@@ -5,6 +5,7 @@ import com.codecool.shop.controller.CustomerController;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
+import com.codecool.shop.login.LoginHandler;
 import com.codecool.shop.model.*;
 import spark.Request;
 import spark.Response;
@@ -20,9 +21,13 @@ public class Main {
         staticFileLocation("/public");
         port(8888);
 
+
+
         // populate some data for the memory storage
         populateData();
 
+        post("/login", LoginHandler.manageLogin);
+        get("/login",LoginHandler.showLogin);
 
         get("/shoppingcart", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render( ProductController.renderCart(req, res) );
@@ -34,6 +39,13 @@ public class Main {
         // Always add generic routes to the end
         get("/", ProductController::renderAllProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
+        get("/", (Request req, Response res) -> {
+            String name = req.session().attribute(SESSION_NAME);
+            if (name == null) {
+                req.session().attribute(SESSION_NAME, "Anonymus");
+
+            }
+           return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
         get("/index", (Request req, Response res) -> {
            return new ThymeleafTemplateEngine().render( ProductController.renderAllProducts(req, res) );
         });
@@ -78,6 +90,7 @@ public class Main {
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
         CustomerDao CustomerDataStore = CustomerDaoMem.getInstance();
+        UserDao userDataStore= UserDaoMem.getInstance();
 
 
         //setting up a new supplier
@@ -93,6 +106,13 @@ public class Main {
         supplierDataStore.add(msi);
         Supplier asus = new Supplier("Asus", "International manufacturer and distributor of computer hardware products.");
         supplierDataStore.add(asus);
+
+        User us1=new User("batman","robin");
+        User us2=new User("admin","admin");
+        us2.setAdmin();
+        userDataStore.add(us1);
+        userDataStore.add(us2);
+
 
         //setting up a new product category
         ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.");

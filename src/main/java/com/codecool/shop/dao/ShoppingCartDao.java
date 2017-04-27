@@ -1,6 +1,8 @@
 package com.codecool.shop.dao;
 
 import com.codecool.shop.model.Product;
+import spark.Request;
+
 
 import java.util.HashMap;
 
