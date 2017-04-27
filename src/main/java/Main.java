@@ -23,9 +23,8 @@ public class Main {
         // populate some data for the memory storage
         populateData();
 
-        get("/login", ProductController::renderProducts);
-
-
+        post("/login", LoginHandler.manageLogin);
+        get("/login",LoginHandler.showLogin);
 
         get("/shoppingcart", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render( ProductController.renderCart(req, res) );
@@ -61,6 +60,7 @@ public class Main {
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
         CustomerDao CustomerDataStore = CustomerDaoMem.getInstance();
         ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
+        UserDao userDataStore= UserDaoMem.getInstance();
 
 
         //setting up a new supplier
@@ -72,6 +72,9 @@ public class Main {
         User us1=new User("batman","robin");
         User us2=new User("admin","admin");
         us2.setAdmin();
+        userDataStore.add(us1);
+        userDataStore.add(us2);
+
 
         //setting up a new product category
         ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.");

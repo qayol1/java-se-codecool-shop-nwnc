@@ -7,6 +7,8 @@ public class User {
     public String role;
     public int id;
 
+    public User(){}
+
     public User(String user,String passw){
         this.username=user;
         this.password=passw;
@@ -17,7 +19,13 @@ public class User {
 
     public int getId() { return this.id; }
 
+    public String getUsername() { return this.username; }
+
     public void setAdmin(){
         this.role="admin";
+    }
+
+    public String toString(){
+        return this.username+this.password;
     }
 }
