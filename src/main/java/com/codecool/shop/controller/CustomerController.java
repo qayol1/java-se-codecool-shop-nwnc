@@ -21,6 +21,7 @@ public class CustomerController {
         String checkb = req.queryParams("checkb");
         CustomerDao customerDao = CustomerDaoMem.getInstance();
         customerDao.remove(1);
+        System.out.println(checkb);
         if (checkb!=null) {
             Address billingAddress = new Address(req.queryParams("billingCountry"), req.queryParams("billingCity"),
                     req.queryParams("billingZipcode"), req.queryParams("billingAddress"));
