@@ -77,5 +77,3 @@ function setTotalPrice () {
     //set the value of currents rows sum to the total-combat element in the current row
     $('#total-price-price').text(total + ' USD');
 }
-    
-}
