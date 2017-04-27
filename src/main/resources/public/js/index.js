@@ -28,6 +28,7 @@ $( document ).ready(function() {
     $("#shoppingchartbutton").click(function (e) {
         hideFilter();
     });
+
 });
 
 function setSuppliersChecked() {
@@ -86,6 +87,18 @@ function removeFromCart(id) {
         method: 'POST',
         url: '/remove-from-cart',
         data: {'id': id},
+        success: function () {
+            $("#cart-count").text(parseInt($("#cart-count").html()) - 1);
+        }
+    });
+}
+
+function setAmount(id) {
+    var num = parseInt($("#amount-count"+id).val());
+    $.ajax({
+        method: 'POST',
+        url: '/set-amount',
+        data: {'id': id, 'num': num},
         success: function () {
             $("#cart-count").text(parseInt($("#cart-count").html()) - 1);
         }

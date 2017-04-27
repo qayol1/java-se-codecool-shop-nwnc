@@ -51,6 +51,10 @@ public class Main {
             return new ThymeleafTemplateEngine().render( CustomerController.redirectCustomer(req) );
         });
 
+        post("/set-amount", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render( ProductController.setAmount(req, res) );
+        });
+
         post("/add-to-cart", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render( ProductController.addToCart(req, res) );
         });
