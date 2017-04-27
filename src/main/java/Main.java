@@ -21,6 +21,8 @@ public class Main {
         staticFileLocation("/public");
         port(8888);
 
+
+
         // populate some data for the memory storage
         populateData();
 
@@ -37,13 +39,10 @@ public class Main {
         // Equivalent with above
         get("/", (Request req, Response res) -> {
             String name = req.session().attribute(SESSION_NAME);
-            System.out.println(name);
             if (name == null) {
                 req.session().attribute(SESSION_NAME, "Anonymus");
-                System.out.println(name);
+
             }
-            String name2 = req.session().attribute(SESSION_NAME);
-            System.out.println(name2);
            return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
         });
 
@@ -74,7 +73,6 @@ public class Main {
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
         CustomerDao CustomerDataStore = CustomerDaoMem.getInstance();
-        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
         UserDao userDataStore= UserDaoMem.getInstance();
 
 
