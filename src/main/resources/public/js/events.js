@@ -1,3 +1,16 @@
+$(document).ready(function(){
+    $('#checkb').change(function(){
+        if(this.checked) {
+            $('#shipping').css("display", "none");
+            $('.sh1').removeAttr("required");
+        }
+        else
+            $('#shipping').css("display", "inline");
+
+    });
+});
+
+
 function addToCart(id) {
     $.ajax({
         method: 'POST',
@@ -63,4 +76,6 @@ function setTotalPrice () {
     });
     //set the value of currents rows sum to the total-combat element in the current row
     $('#total-price-price').text(total + ' USD');
+}
+    
 }

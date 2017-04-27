@@ -105,8 +105,10 @@
                                 <div class="row">
                                     <h4>Personal information</h4>
                                     <div class="form-group">
-                                        <input required="true" type="text" placeholder="Name" class="form-control"
-                                               name="name"/>
+                                        <input required="true" type="text" placeholder="First Name" class="form-control" name="first_name"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input required="true" type="text" placeholder="Last Name" class="form-control" name="last_name"/>
                                     </div>
                                     <div class="form-group">
                                         <input required="true" type="email" placeholder="Email (example@gmail.com)"
@@ -136,25 +138,30 @@
                                         <input required="true" type="text" placeholder="Zip-code" class="form-control"
                                                name="billingZipcode"/>
                                     </div>
+                                    <div class="form-group col-md-5">
+                                        <span class="input container-right"><input type="checkbox" id="checkb" name="checkb" value="check"
+                                                                                       aria-label="..."></input></span>
+                                        <h5>Billing and shipping address same</h5>
+                                    </div>
 
                                 </div>
-                                <div class="row">
+                                <div class="row shipping" id="shipping">
                                     <h4>Shipping address</h4>
                                     <div class="form-group">
-                                        <input required="true" type="text" placeholder="Country" class="form-control"
+                                        <input required="true" type="text" placeholder="Country" class="form-control sh1"
                                                name="shippingCountry"/>
                                     </div>
                                     <div class="form-group">
-                                        <input required="true" type="text" placeholder="Address" class="form-control"
+                                        <input required="true" type="text" placeholder="Address" class="form-control sh1"
                                                name="shippingAddress"/>
                                     </div>
 
                                     <div class="form-group col-md-5">
-                                        <input required="true" type="text" placeholder="City" class="form-control"
+                                        <input required="true" type="text" placeholder="City" class="form-control sh1"
                                                name="shippingCity"/>
                                     </div>
                                     <div class="form-group col-md-5">
-                                        <input required="true" type="text" placeholder="Zip-code" class="form-control"
+                                        <input required="true" type="text" placeholder="Zip-code" class="form-control sh1"
                                                name="shippingZipcode"/>
                                     </div>
 
