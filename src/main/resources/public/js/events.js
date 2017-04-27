@@ -1,3 +1,16 @@
+$(document).ready(function(){
+    $('#checkb').change(function(){
+        if(this.checked) {
+            $('#shipping').css("display", "none");
+            $('.sh1').removeAttr("required");
+        }
+        else
+            $('#shipping').css("display", "inline");
+
+    });
+});
+
+
 function addToCart(id) {
     $.ajax({
         method: 'POST',
@@ -28,3 +41,14 @@ function plusAmount(id) {
 function minusAmount(id) {
     
 }
+
+// function sameShipping() {
+//     var elem = document.getElementById("shipping");
+//
+//     if (elem.checked === true ) {
+//         elem.style.visibility="hidden";
+//     } else {
+//         elem.style.visibility="visible";
+//     }
+//
+// }

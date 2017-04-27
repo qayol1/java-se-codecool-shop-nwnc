@@ -16,13 +16,25 @@ import java.util.Map;
 public class CustomerController {
 
     public static void createCustomer(Request req) {
+        String checkb = req.queryParams("checkb");
         CustomerDao customerDao = CustomerDaoMem.getInstance();
         customerDao.remove(1);
-        customerDao.add(new Customer(req.queryParams("first_name"), req.queryParams("last_name"), req.queryParams("email"), req.queryParams("phone"),
-                new Address(req.queryParams("billingCountry"), req.queryParams("billingCity"),
-                        req.queryParams("billingZipcode"), req.queryParams("billingAddress")),
-                new Address(req.queryParams("shippingCountry"), req.queryParams("shippingCity"),
-                        req.queryParams("shippingZipcode"), req.queryParams("shippingAddress"))));
+        System.out.println(checkb);
+        if (checkb!=null) {
+            Address billingAddress = new Address(req.queryParams("billingCountry"), req.queryParams("billingCity"),
+                    req.queryParams("billingZipcode"), req.queryParams("billingAddress"));
+            Address shippingAddress = new Address(req.queryParams("billingCountry"), req.queryParams("billingCity"),
+                    req.queryParams("billingZipcode"), req.queryParams("billingAddress"));
+            customerDao.add(new Customer(req.queryParams("first_name"), req.queryParams("last_name"), req.queryParams("email"), req.queryParams("phone"),
+                    billingAddress, shippingAddress));
+        } else {
+            Address billingAddress = new Address(req.queryParams("billingCountry"), req.queryParams("billingCity"),
+                    req.queryParams("billingZipcode"), req.queryParams("billingAddress"));
+            Address shippingAddress = new Address(req.queryParams("shippingCountry"), req.queryParams("shippingCity"),
+                    req.queryParams("shippingZipcode"), req.queryParams("shippingAddress"));
+            customerDao.add(new Customer(req.queryParams("first_name"), req.queryParams("last_name"), req.queryParams("email"), req.queryParams("phone"),
+                    billingAddress, shippingAddress));
+        }
     }
 
     public static ModelAndView redirectCustomer(Request req) {
