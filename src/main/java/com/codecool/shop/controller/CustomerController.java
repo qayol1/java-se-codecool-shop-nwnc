@@ -57,7 +57,7 @@ public class CustomerController {
 
         Map params = new HashMap<>();
         params.put("customer", customerDao.find(1));
-        params.put("shoppingcart", shoppingCartDataStore.getAll());
+        params.put("shoppingcart", shoppingCartDataStore);
         return new ModelAndView(params, "product/payment");
     }
 }
