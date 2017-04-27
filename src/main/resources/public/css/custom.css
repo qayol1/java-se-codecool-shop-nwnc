@@ -8,6 +8,8 @@
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     border-radius: 0px;
+    width: 300px;
+    height: 350px;
 }
 .thumbnail img
 {
@@ -59,4 +61,152 @@
 .list-group-item-text
 {
     margin: 0 0 11px;
+}
+
+.shoppingcart {
+    border: solid #b1b1b1 1px;
+    background-color: #eeeeee;
+    border-radius: 3px;
+    padding: 10px;
+    margin: 5px;
+    color: #424242;
+    position: relative;
+}
+
+
+.category {
+    color:#444;
+    font-size: 15px;
+}
+
+
+.filtermenu {
+    font-size: 25px;
+    position: absolute;
+    padding-top: 8px;
+}
+
+.filtercategory {
+    font-size: 20px;
+    color:black;
+    transition: all 0.3s ease;
+}
+
+.filtercategory:hover,.filtercategory:focus,.filtercategory:active {
+    color:#444;
+    font-size: 25px;
+    transition: all 0.3s ease;
+}
+
+.title {
+    font-size: 35px;
+    position: absolute;
+    right: 0px;
+    width: 300px;
+}
+
+#filterList {
+    visibility: hidden;
+    height:100px;
+}
+
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled {
+    padding-left: 250px;
+}
+
+#sidebar-wrapper {
+    border-right: solid #dddddd 1px;
+    padding-top: 5px;
+    padding-left: 40px;
+    z-index: 1000;
+    position: fixed;
+    left: 250px;
+    width: 0;
+    height: 100%;
+    margin-left: -280px;
+    overflow-y: auto;
+    background: #ffffff;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    padding-top: 40px;
+    width: 300px;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+    top:50px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+    position: absolute;
+    margin-right: -250px;
+}
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+    position: absolute;
+    top: 50px;
+    width: 300px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+    padding-top: 20px;
+    height: 65px;
+    font-size: 12px;
+    line-height: 30px;
+    color: #444;
+}
+
+.navbar {
+    padding: 10px;
+    font-family: 'Lato', sans-serif;
+}
+
+
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 0;
+    }
+
+    #wrapper.toggled {
+        padding-left: 150px;
+    }
+
+    #sidebar-wrapper {
+        width: 0;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        width: 250px;
+    }
+
+    #page-content-wrapper {
+        padding: 20px;
+        position: relative;
+    }
+
+    #wrapper.toggled #page-content-wrapper {
+        position: relative;
+        margin-right: 0;
+    }
+
 }

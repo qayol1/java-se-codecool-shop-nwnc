@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Codecool"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Codecool Shop</title>
+
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/custom.css"/>
+    <script src="/js/events.js"></script>
+    <script src="/js/index.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <table class="table" id="cart-items">
+        <tbody>
+        <tr>
+            <th><h1>Shopping Cart</h1></th>
+        </tr>
+        <tr>
+            <th><h4>Product Name</h4></th>
+            <th><h4>Description</h4></th>
+            <th><h4>Price</h4></th>
+            <th><h4>Amount</h4></th>
+        </tr>
+        <div th:id="'shopping-cart-' + ${item.id}" class="row"
+             th:each="item, iterStat : ${shoppingcart.getAll().keySet()}">
+            <tr th:id="'shopping-cart-row-' + ${item.id}">
+                <td><h6 th:text="${item.name}"></h6></td>
+                <td><h6 th:text="${item.description}"></h6></td>
+                <td><h6 id="price" th:text="${item.getPrice()}"></h6></td>
+                <td>
+                    <div class="input-group">
+          <span class="input-group-btn">
+              <button id="plus" type="button" class="btn btn-default btn-number"
+                      th:onclick="'minusAmount(\''+${item.id}+'\');'">
+                  <span class="glyphicon glyphicon-minus"></span>
+              </button>
+          </span>
+                        <input th:id="'amount-count'+${item.id}" type="text" name="quant[1]" class="counter form-control input-number"
+                               th:value="${shoppingcart.getAll().get(item)}" value="1" min="1" max="10" th:onchange="'setAmount(\''+${item.id}+'\');'"/>
+                        <span class="input-group-btn">
+              <button id="minus" type="button" class="btn btn-default btn-number"
+                      th:onclick="'plusAmount(\''+${item.id}+'\');'">
+                  <span class="glyphicon glyphicon-plus"></span>
+              </button>
+          </span>
+                    </div>
+                </td>
+                <td>
+                    <button id="delete" type="button" class="btn btn-default"
+                            th:onclick="'deleteItem(\''+${item.id}+'\');'">
+                        <span class="glyphicon glyphicon-remove-sign"></span>
+                    </button>
+                </td>
+            </tr>
+        </div>
+        <tr>
+            <td id="total-price"><strong>Total price: </strong><strong id="total-price-price" th:text="${shoppingcart.getTotalPrice()}+' USD'"></strong></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <!--  Checkout Modal-->
+    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal">
+        Checkout
+    </button>
+    <form action="/index" method="get">
+        <button style="float: right" type="submit" class="btn btn-primary btn-md">
+            Back
+        </button>
+    </form>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="col-sm-5">
+
+                            <form class="form-horizontal" method="post" action="/checkout">
+                                <div class="row">
+                                    <h4>Personal information</h4>
+                                    <div class="form-group">
+                                        <input required="true" type="text" placeholder="First Name" class="form-control" name="first_name"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input required="true" type="text" placeholder="Last Name" class="form-control" name="last_name"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input required="true" type="email" placeholder="Email (example@gmail.com)"
+                                               class="form-control" name="email"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input required="true" type="tel" placeholder="Phone number"
+                                               class="form-control" name="phone"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <h4>Billing address</h4>
+                                    <div class="form-group">
+                                        <input required="true" type="text" placeholder="Country" class="form-control"
+                                               name="billingCountry"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input required="true" type="text" placeholder="Address" class="form-control"
+                                               name="billingAddress"/>
+                                    </div>
+
+                                    <div class="form-group col-md-5">
+                                        <input required="true" type="text" placeholder="City" class="form-control"
+                                               name="billingCity"/>
+                                    </div>
+                                    <div class="form-group col-md-5">
+                                        <input required="true" type="text" placeholder="Zip-code" class="form-control"
+                                               name="billingZipcode"/>
+                                    </div>
+                                    <div class="form-group col-md-5">
+                                        <span class="input container-right"><input type="checkbox" id="checkb" name="checkb" value="check"
+                                                                                       aria-label="..."></input></span>
+                                        <h5>Billing and shipping address same</h5>
+                                    </div>
+
+                                </div>
+                                <div class="row shipping" id="shipping">
+                                    <h4>Shipping address</h4>
+                                    <div class="form-group">
+                                        <input required="true" type="text" placeholder="Country" class="form-control sh1"
+                                               name="shippingCountry"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input required="true" type="text" placeholder="Address" class="form-control sh1"
+                                               name="shippingAddress"/>
+                                    </div>
+
+                                    <div class="form-group col-md-5">
+                                        <input required="true" type="text" placeholder="City" class="form-control sh1"
+                                               name="shippingCity"/>
+                                    </div>
+                                    <div class="form-group col-md-5">
+                                        <input required="true" type="text" placeholder="Zip-code" class="form-control sh1"
+                                               name="shippingZipcode"/>
+                                    </div>
+
+                                </div>
+                                <input type="submit" value="Proceed to Payment"/>
+
+                            </form>
+                            <form id="login">
+                                <input id="loginId" type="submit" value="Login if you can"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

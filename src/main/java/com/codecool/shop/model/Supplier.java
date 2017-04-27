@@ -5,6 +5,16 @@ import java.util.ArrayList;
 
 public class Supplier extends BaseModel {
     private ArrayList<Product> products;
+    private boolean checkedCheckbox = true;
+
+    public boolean isCheckedCheckbox() {
+        return checkedCheckbox;
+    }
+
+    public void setCheckedCheckbox(boolean checked) {
+        this.checkedCheckbox = checked;
+    }
+
 
     public Supplier(String name, String description) {
         super(name);
