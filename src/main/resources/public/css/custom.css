@@ -108,7 +108,18 @@
 .loginPart{
     font-size: 13px;
     position: relative;
-    left: 94%;
+    left: 40%;
+}
+
+.buttonLikeHref {
+    display: block;
+    width: 70px;
+    height: 25px;
+    background: #4E9CAF;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
 }
 
 #filterList {

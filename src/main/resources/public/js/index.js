@@ -29,6 +29,20 @@ $( document ).ready(function() {
         hideFilter();
     });
 
+    $.ajax({
+        method: 'POST',
+        url: '/isuserlogged',
+        success: function (data) {
+            if (data == "true") {
+                $(".loginPart").empty();
+                $(".loginPart").append("<div><a class='buttonLikeHref' href='/logout'>LogOut</a></div>")
+            }
+        }
+
+    });
+
+
+
 });
 
 function setSuppliersChecked() {
