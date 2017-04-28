@@ -28,6 +28,7 @@ public class Main {
         get("/admin",LoginHandler.adminPage);
 
 
+
         get("/shoppingcart", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(ProductController.renderCart(req, res));
         });
@@ -58,6 +59,14 @@ public class Main {
         });
 
 
+        post("/isuserlogged", (Request req, Response res) -> {
+            if (req.session().attribute("current")==null){
+                return false;
+            } else {
+                return true;
+            }
+
+        });
 
         post("/set-amount", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(ProductController.setAmount(req, res));

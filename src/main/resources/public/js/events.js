@@ -52,24 +52,44 @@ function deleteItem(id) {
 
 function showLoginModal() {
     $(".modal-body").empty();
-
     $(".modal-body").append(loginHtml());
-
 }
 
 $(function() {
-  $( "#login" ).submit(function( event ) {
-  event.preventDefault();
-  showLoginModal();
-  return false;
+  $( "#login" ).submit(function( event )
+    {
+        event.preventDefault();
+        showLoginModal();
+        return false;
+    });
+  checkoutBtnAct();
 });
+
+function checkoutBtnAct() {
+    $("#checkoutBtn").click( function () {
+    $.ajax({
+        method: 'POST',
+        url: '/isuserlogged',
+        success: function (data) {
+            if (data=="true"){
+                window.location.replace("/checkout");
+            } else {
+
+                $("#myModal").modal('show');
+            }
+        }
+    });
 });
+}
+
+
 
 function loginHtml() {
     var html='\
     <form id="loginForm" method="post" action="/login"> \
         <input type="text" name="username" value="" required>\
         <input type="password" name="password" value="" required>\
+        <input type="hidden" name="place" value="checkout">\
         <input type="submit" value="LOGIN">\
     </form>';
     return html;

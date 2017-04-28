@@ -105,6 +105,12 @@
     width: 300px;
 }
 
+.loginPart{
+    font-size: 13px;
+    position: relative;
+    left: 94%;
+}
+
 #filterList {
     visibility: hidden;
     height:100px;

@@ -18,7 +18,7 @@ public class LoginHandler {
 
     public static Route manageLogin = (Request request, Response response) -> {
         String username=request.queryParams("username");
-        Map<String, Object> model=new HashMap<>();
+
         User currentUser = UserDaoMem.getInstance().find(username);
         request.session().attribute("current",currentUser);
 
@@ -29,6 +29,11 @@ public class LoginHandler {
         if (currentUser.isAdmin()){
             response.redirect("/admin");
             return null;
+        }
+
+        String fromPage=request.queryParams("place");
+        if (fromPage.equals("main")) {
+            response.redirect("/index");
         }
         response.redirect("/checkout");
         return null;
@@ -50,4 +55,15 @@ public class LoginHandler {
         Map<String, Object> model=new HashMap<>();
         return new ThymeleafTemplateEngine().render(new ModelAndView(model,"product/admin"));
     };
+
+    public static Route  isUserLogged = (Request request, Response response) -> {
+
+        if (request.session().attribute("current")==null){
+            return false;
+        }
+        System.out.println("itt vagyok");
+        response.redirect("/checkout");
+        return true;
+    };
+
 }
