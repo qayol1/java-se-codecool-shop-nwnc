@@ -97,6 +97,10 @@ public class ProductController {
         return new ModelAndView(params, "product/shoppingcart");
     }
 
+    public static ModelAndView someFunc(Request req, Response res,String s) {
+        return ProductController.renderCart(req, res);
+    }
+
 
     private static List<Supplier> storeChechboxStatus(List<Supplier> suplierList, Request req) {
         for (Supplier supplier: suplierList){

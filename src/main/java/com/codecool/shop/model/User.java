@@ -6,6 +6,7 @@ public class User {
     private String password;
     private String role;
     public int id;
+    ShoppingCart shoppingCart;
     Customer costumer;
 
 
@@ -16,10 +17,18 @@ public class User {
         this.password=passw;
         this.role="user";
         this.costumer=null;
+        this.shoppingCart=null;
     }
 
     public void setId(int newid) { this.id=newid; }
 
+    public void setShoppingCart(ShoppingCart cart){
+        this.shoppingCart=cart;
+    }
+
+    ShoppingCart getShoppingCart(){
+        return this.shoppingCart;
+    }
     public int getId() { return this.id; }
 
     public void setCustomer(Customer cust){

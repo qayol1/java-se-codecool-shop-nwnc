@@ -5,6 +5,7 @@ import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.dao.implementation.ShoppingCartDaoMem;
 import com.codecool.shop.dao.implementation.UserDaoMem;
 import com.codecool.shop.model.User;
+import static com.codecool.shop.model.CurrentUser.*;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -17,16 +18,16 @@ import java.util.Map;
 public class LoginHandler {
 
     public static Route manageLogin = (Request request, Response response) -> {
+
         String username=request.queryParams("username");
+        request.session().attribute("currentuser",username);
 
-        User currentUser = UserDaoMem.getInstance().find(username);
-        request.session().attribute("current",currentUser);
 
-        if (currentUser.getUsername()== null){
+        if (currentUser(request)== null){
             response.redirect("/index");
             return null;
         }
-        if (currentUser.isAdmin()){
+        if (currentUser(request).isAdmin()){
             response.redirect("/admin");
             return null;
         }
@@ -43,12 +44,12 @@ public class LoginHandler {
 
     public static Route adminPage = (Request request, Response response) -> {
 
-        if (request.session().attribute("current")==null){
+        if (currentUser(request)==null){
             response.redirect("/index");
          return null;
         }
-        User currentuser=request.session().attribute("current");
-        if (!currentuser.isAdmin()) {
+
+        if (!currentUser(request).isAdmin()) {
          response.redirect("/index");
          return null;
         }
@@ -58,10 +59,9 @@ public class LoginHandler {
 
     public static Route  isUserLogged = (Request request, Response response) -> {
 
-        if (request.session().attribute("current")==null){
+        if (currentUser(request)==null){
             return false;
         }
-        System.out.println("itt vagyok");
         response.redirect("/checkout");
         return true;
     };

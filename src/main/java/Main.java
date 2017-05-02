@@ -7,11 +7,15 @@ import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.login.LoginHandler;
 import com.codecool.shop.model.*;
+import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
+import spark.TemplateViewRoute;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 public class Main {
+
+
 
     public static void main(String[] args) {
 
@@ -27,11 +31,18 @@ public class Main {
         post("/login", LoginHandler.manageLogin);
         get("/admin",LoginHandler.adminPage);
 
-
+        get("/logout", (Request req, Response res) -> {
+            req.session().removeAttribute("current");
+            res.redirect("/index");
+            return null;
+        });
 
         get("/shoppingcart", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(ProductController.renderCart(req, res));
         });
+
+
+
 
 
         // Always add generic routes to the end
@@ -58,6 +69,7 @@ public class Main {
             return new ThymeleafTemplateEngine().render(CustomerController.redirectCustomer(req));
         });
 
+        
 
         post("/isuserlogged", (Request req, Response res) -> {
             if (req.session().attribute("current")==null){
@@ -65,7 +77,6 @@ public class Main {
             } else {
                 return true;
             }
-
         });
 
         post("/set-amount", (Request req, Response res) -> {
