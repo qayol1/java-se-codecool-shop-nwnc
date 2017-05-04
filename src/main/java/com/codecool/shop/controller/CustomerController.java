@@ -6,8 +6,14 @@ import com.codecool.shop.dao.implementation.CustomerDaoMem;
 import com.codecool.shop.dao.implementation.ShoppingCartDaoMem;
 import com.codecool.shop.model.Address;
 import com.codecool.shop.model.Customer;
+import com.codecool.shop.model.ShoppingCart;
+import com.codecool.shop.model.User;
 import spark.ModelAndView;
 import spark.Request;
+import spark.Response;
+import spark.Route;
+import spark.template.thymeleaf.ThymeleafTemplateEngine;
+
 import java.util.HashMap;
 import java.util.Map;
 import static com.codecool.shop.model.CurrentUser.currentUser;
@@ -36,24 +42,24 @@ public class CustomerController {
         }
     }
 
-    public static ModelAndView redirectCustomer(Request req) {
-
-        Object temp=req.session().attribute("currentuser");
-        if (temp!=null){
-            ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(req);
+    public static Route redirectCustomer = (Request req, Response res) -> {
+        User current=currentUser(req);
+        if (current!=null){
+            ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
             Map<String, Object> model=new HashMap<>();
+            ShoppingCart cart=req.session().attribute("cart");
             model.put("customer",currentUser(req).getCostumer());
-            model.put("shoppingcart", shoppingCartDataStore);
-            return new ModelAndView(model,"product/payment");
+            model.put("shoppingcart", cart);
+            return new ThymeleafTemplateEngine().render(new ModelAndView(model,"product/payment"));
         }
 
         CustomerDao customerDao = CustomerDaoMem.getInstance();
-        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance(req);
-        createCustomer(req);
 
+        createCustomer(req);
+        ShoppingCart cart=req.session().attribute("cart");
         Map params = new HashMap<>();
         params.put("customer", customerDao.find(1));
-        params.put("shoppingcart", shoppingCartDataStore);
-        return new ModelAndView(params, "product/payment");
-    }
+        params.put("shoppingcart", cart);
+        return new ThymeleafTemplateEngine().render(new ModelAndView(params,"product/payment"));
+    };
 }

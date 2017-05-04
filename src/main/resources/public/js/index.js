@@ -29,6 +29,15 @@ $( document ).ready(function() {
         hideFilter();
     });
 
+    handleLoggedUser();
+
+
+
+
+
+});
+
+function handleLoggedUser() {
     $.ajax({
         method: 'POST',
         url: '/isuserlogged',
@@ -38,12 +47,8 @@ $( document ).ready(function() {
                 $(".loginPart").append("<div><a class='buttonLikeHref' href='/logout'>LogOut</a></div>")
             }
         }
-
     });
-
-
-
-});
+}
 
 function setSuppliersChecked() {
     $('input:checkbox.supplier').each(function(){
@@ -107,17 +112,6 @@ function removeFromCart(id) {
     });
 }
 
-function setAmount(id) {
-    var num = parseInt($("#amount-count"+id).val());
-    $.ajax({
-        method: 'POST',
-        url: '/set-amount',
-        data: {'id': id, 'num': num},
-        success: function () {
-            $("#cart-count").text(parseInt($("#cart-count").html()) - 1);
-        }
-    });
-}
 
 function deleteFromCart(id) {
     $.ajax({

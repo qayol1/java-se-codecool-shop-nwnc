@@ -1,22 +1,20 @@
 package com.codecool.shop.dao;
 
 import com.codecool.shop.model.Product;
+import com.codecool.shop.model.ShoppingCart;
 import spark.Request;
 
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by matyi on 2017.04.25..
  */
 public interface ShoppingCartDao {
 
-    Product find(int id);
-    int getAllProducts();
-    float getTotalPrice();
-    void add(Product product);
-    void decrease(int id);
+    ShoppingCart find(int id);
+    void add(ShoppingCart cart);
     void remove(int id);
-
-    HashMap<Product, Integer> getAll();
+    List<ShoppingCart> getAll();
 }

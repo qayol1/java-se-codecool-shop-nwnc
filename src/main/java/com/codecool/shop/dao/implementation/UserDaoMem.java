@@ -32,7 +32,7 @@ public class UserDaoMem implements UserDao {
 
     @Override
     public User find(String username) {
-        return DATA.stream().filter(t -> t.getUsername().equals(username)).findFirst().orElse(new User());
+        return DATA.stream().filter(t -> t.getUsername().equals(username)).findFirst().orElse(null);
     }
 
     @Override

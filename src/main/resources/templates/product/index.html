@@ -46,31 +46,22 @@
                 <p></p>
                 <div id="filterbutton" class="btn filtercategory">Filter</div>
                 <div id="filterList">
-                    <form action="/index" method="post">
+                    <form action="/index" method="get">
                         <p></p>
-                        <div class="category">Product category:</div>
-                        <span th:each="category:${category}">
-                            <span th:switch="${category.isCheckedCheckbox()}">
-                                <div th:case="true"><input type="checkbox" class="category" checked="" th:name="${category.name}" th:value="${category.name}" th:text="${category.name}"/></div>
-                                <div th:case="false"><input type="checkbox" class="category" th:name="${category.name}" th:value="${category.name}" th:text="${category.name}"/></div>
+                        <div th:each="filterCategory:${filter.getFilterCategories()}">
+
+                            <div th:class="${filterCategory.getClassName()}" th:text="${filterCategory.getValue()}"> </div>
+                            <div th:each="filterElement:${filterCategory.getElements()}">
+                                <span th:switch="${filterElement.isChecked()}">
+                                    <div th:case="true"><input type="checkbox" class="category" checked="" th:name="${filterCategory.getClassName()}" th:value="${filterElement.getName()}" th:text="${filterElement.getName()}"/></div>
+                                    <div th:case="false"><input type="checkbox" class="category" th:name="${filterCategory.getClassName()}" th:value="${filterElement.getName()}" th:text="${filterElement.getName()}"/></div>
+                                </span>
+                            </div>
+                            <span class="btn-group btn-group-xs">
+                                <button class="btn btn-md" type="button" value="Select all" onclick="setCatergoryChecked()">Select all</button>
+                                <button class="btn btn-md" type="button" value="Clear all" onclick="setCategoryUnchecked()">Clear all</button>
                             </span>
-                        </span>
-                        <span class="btn-group btn-group-xs">
-                            <button class="btn btn-md" type="button" value="Select all" onclick="setCatergoryChecked()">Select all</button>
-                            <button class="btn btn-md" type="button" value="Clear all" onclick="setCategoryUnchecked()">Clear all</button>
-                        </span>
-                        <p></p>
-                        <div class="category">Suppliers:</div>
-                        <span th:each="supplier:${suppliers}">
-                            <span th:switch="${supplier.isCheckedCheckbox()}">
-                                <div th:case="true"><input type="checkbox" class="supplier" checked="" th:name="${supplier.name}" th:value="${supplier.name}" th:text="${supplier.name}"/></div>
-                                <div th:case="false"><input type="checkbox" class="supplier" th:name="${supplier.name}" th:value="${supplier.name}" th:text="${supplier.name}"/></div>
-                            </span>
-                        </span>
-                        <span class="btn-group btn-group-xs">
-                            <button class="btn btn-md" type="button" value="Select all" onclick="setSuppliersChecked()">Select all</button>
-                            <button class="btn btn-md" type="button" value="Clear all" onclick="setSuppliersUnchecked()">Clear all</button>
-                        </span>
+                        </div>
                         <p></p>
                         <div><input class="btn btn-primary btn-sm" type="submit" value="Filter"/></div>
                     </form>
