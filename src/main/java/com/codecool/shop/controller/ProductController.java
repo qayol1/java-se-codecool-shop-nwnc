@@ -154,6 +154,9 @@ public class ProductController {
 
 
     private static Set filterBySupplier(List<Supplier> suppliers) {
+        if (suppliers==null){
+            return null;
+        }
         ProductDaoMem productDaoMem=ProductDaoMem.getInstance();
         Set<Product> filteredProductList = new HashSet<>();
         for (Supplier supplier : suppliers) {
