@@ -50,29 +50,20 @@ function handleLoggedUser() {
     });
 }
 
-function setSuppliersChecked() {
-    $('input:checkbox.supplier').each(function(){
+function setFilterCategoryChecked(param1) {
+
+    $('input:checkbox.'+param1).each(function(){
         $(this).prop('checked',true);
     });
 }
 
-function setSuppliersUnchecked() {
-    $('input:checkbox.supplier').each(function(){
+function setFilterCategoryUnchecked(param1) {
+    $('input:checkbox.'+param1).each(function(){
         $(this).prop('checked',false);
     });
 }
 
-function setCatergoryChecked() {
-    $('input:checkbox.category').each(function(){
-        $(this).prop('checked',true);
-    });
-}
 
-function setCategoryUnchecked() {
-    $('input:checkbox.category').each(function(){
-        $(this).prop('checked',false);
-    });
-}
 
 function filter(categoryid) {
     hideFilter();

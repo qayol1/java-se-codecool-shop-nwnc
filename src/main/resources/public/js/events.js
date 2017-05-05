@@ -56,14 +56,18 @@ function showLoginModal() {
 }
 
 $(function() {
-  $( "#login" ).submit(function( event )
-    {
-        event.preventDefault();
-        showLoginModal();
-        return false;
-    });
-  checkoutBtnAct();
+    handleLogin();
+    handleBack()
 });
+
+function handleLogin() {
+      $("#login").submit(function (event) {
+          event.preventDefault();
+          showLoginModal();
+          return false;
+      });
+      checkoutBtnAct();
+  }
 
 function checkoutBtnAct() {
     $("#checkoutBtn").click( function () {
@@ -81,6 +85,15 @@ function checkoutBtnAct() {
     });
 });
 }
+function handleBack() {
+    $("#backForm").submit(function (e) {
+        e.preventDefault();
+        parent.history.back();
+        return false;
+    });
+}
+
+
 
 
 

@@ -53,13 +53,13 @@
                             <div th:class="${filterCategory.getClassName()}" th:text="${filterCategory.getValue()}"> </div>
                             <div th:each="filterElement:${filterCategory.getElements()}">
                                 <span th:switch="${filterElement.isChecked()}">
-                                    <div th:case="true"><input type="checkbox" class="category" checked="" th:name="${filterCategory.getClassName()}" th:value="${filterElement.getName()}" th:text="${filterElement.getName()}"/></div>
-                                    <div th:case="false"><input type="checkbox" class="category" th:name="${filterCategory.getClassName()}" th:value="${filterElement.getName()}" th:text="${filterElement.getName()}"/></div>
+                                    <div th:case="true"><input type="checkbox" th:class="${filterCategory.getClassName()}" checked="" th:name="${filterCategory.getClassName()}" th:value="${filterElement.getName()}" th:text="${filterElement.getName()}"/></div>
+                                    <div th:case="false"><input type="checkbox" th:class="${filterCategory.getClassName()}" th:name="${filterCategory.getClassName()}" th:value="${filterElement.getName()}" th:text="${filterElement.getName()}"/></div>
                                 </span>
                             </div>
                             <span class="btn-group btn-group-xs">
-                                <button class="btn btn-md" type="button" value="Select all" onclick="setCatergoryChecked()">Select all</button>
-                                <button class="btn btn-md" type="button" value="Clear all" onclick="setCategoryUnchecked()">Clear all</button>
+                                <button class="btn btn-md" type="button" value="Select all" th:onclick="'setFilterCategoryChecked(\''+${filterCategory.getClassName()}+'\')'">Select all</button>
+                                <button class="btn btn-md" type="button" value="Clear all" th:onclick="'setFilterCategoryUnchecked(\''+${filterCategory.getClassName()}+'\')'">Clear all</button>
                             </span>
                         </div>
                         <p></p>

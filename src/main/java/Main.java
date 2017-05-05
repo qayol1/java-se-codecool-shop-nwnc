@@ -26,7 +26,6 @@ public class Main {
 
         get("/", ProductController.renderAllProducts);
         get("/index", ProductController.renderAllProducts);
-        //post("/index", ProductController.renderFilteredProducts);
 
         post("/login", LoginHandler.manageLogin);
         get("/admin",LoginHandler.adminPage);
