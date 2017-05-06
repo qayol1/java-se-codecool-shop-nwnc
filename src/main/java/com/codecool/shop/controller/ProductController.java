@@ -38,6 +38,7 @@ public class ProductController {
             }
 
         if (req.queryString() != null && req.queryString().length()!=0){
+            System.out.println("itt");
 
             String[] categoryNameList = req.queryMap().toMap().get("category");
             String[] supplierNameList = req.queryMap().toMap().get("supplier");
