@@ -41,6 +41,7 @@ public class Main {
         post("/add-to-cart", ProductController.addToCart);
         post("/remove-from-cart", ProductController.removeFromCart);
         post("/delete-from-cart", ProductController.deleteFromCart);
+        post("/get-shoppingcart-size",ProductController.shoppingCartSize);
 
         // Add this line to your project to enable the debug screen
         enableDebugScreen();

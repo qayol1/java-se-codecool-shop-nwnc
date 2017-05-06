@@ -3,6 +3,8 @@
  */
 
 $( document ).ready(function() {
+    setShoppingCartCount();
+
     $('#checkb').change(function(){
         if(this.checked) {
             $('#shipping').css("display", "none");
@@ -126,6 +128,17 @@ function minusAmount(id) {
     removeFromCart(id);
     setTotalPrice();
 }
+
+function setShoppingCartCount(){
+    $.ajax({
+        method: 'POST',
+        url: '/get-shoppingcart-size',
+        success:function (number) {
+             $("#cart-count").text(number);
+        }
+    })
+}
+
 
 function deleteItem(id) {
     $("#shopping-cart-"+id.toString()).empty().remove();

@@ -89,6 +89,7 @@ function handleBack() {
     $("#backForm").submit(function (e) {
         e.preventDefault();
         parent.history.back();
+        location.reload();
         return false;
     });
 }

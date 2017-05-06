@@ -170,4 +170,8 @@ public class ProductController {
         return filteredProductList;
     }
 
+    public static Route shoppingCartSize = (Request req,Response res) -> {
+        return getSessionShoppingCart(req).getAllProducts();
+    };
+
 }
