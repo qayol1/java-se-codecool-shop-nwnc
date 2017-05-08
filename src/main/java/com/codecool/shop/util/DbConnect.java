@@ -12,16 +12,21 @@ import java.util.Scanner;
  */
 public class DbConnect {
 
-    private String DatabaseName;
-    private String URL;
+    //filename = "src/main/resources/connection/properties/connectionProperties.txt" for the real db
+    //filename = "src/main/resources/connection/properties/connectionPropertiesForTest.txt" for the testing db
+
+
+    private String databaseName;
+    private String url;
     private String DATABASE;
     private String DB_USER;
     private String DB_PASSWORD;
-    private String fileName = "src/main/resources/connection/properties/connectionProperties.txt";
+    private String fileName;
 
-    public DbConnect() {
+    public DbConnect(String fileName) {
+        this.fileName = fileName;
         readProperties();
-        DATABASE = "jdbc:postgresql://"+URL+"/"+DatabaseName;
+        DATABASE = "jdbc:postgresql://"+url+"/"+databaseName;
     }
 
     private String readProperties () {
@@ -30,10 +35,10 @@ public class DbConnect {
             while (s.hasNext()) {
                 String nextLine = s.next();
                 if (nextLine.equals("url:")) {
-                    URL =s.next();
+                    url =s.next();
                 }
                 if (nextLine.equals("database:")) {
-                    DatabaseName =s.next();
+                    databaseName =s.next();
                 }
                 if (nextLine.equals("user:")) {
                     DB_USER =s.next();
