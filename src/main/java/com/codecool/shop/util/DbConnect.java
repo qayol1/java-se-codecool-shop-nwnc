@@ -53,7 +53,7 @@ public class DbConnect {
         return null;
     }
 
-    private Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         readProperties();
         return DriverManager.getConnection(
                 DATABASE,
