@@ -68,6 +68,7 @@
     background-color: #eeeeee;
     border-radius: 3px;
     padding: 10px;
+    min-width: 65px;
     margin: 5px;
     color: #424242;
     position: relative;
@@ -198,6 +199,9 @@
     font-family: 'Lato', sans-serif;
 }
 
+#cart-items {
+    display: none;
+}
 
 @media(min-width:768px) {
     #wrapper {
