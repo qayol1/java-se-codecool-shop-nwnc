@@ -1,15 +1,4 @@
-DROP TABLE IF EXISTS supplier, productCategory, product;
-
-CREATE TABLE product
-(
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(100),
-  description TEXT,
-  defaultPrice FLOAT ,
-  currencyString VARCHAR(100),
-  productCategory VARCHAR(100),
-  supplier VARCHAR(100)
-);
+﻿DROP TABLE IF EXISTS supplier, productCategory, product;
 
 CREATE TABLE supplier
 (
@@ -25,3 +14,16 @@ CREATE TABLE productCategory
   department VARCHAR(40),
   description TEXT
 );
+
+CREATE TABLE product
+(
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100),
+  description TEXT,
+  defaultPrice FLOAT ,
+  currencyString VARCHAR(100),
+  productCategory INTEGER REFERENCES productCategory(id),
+  supplier INTEGER REFERENCES supplier(id)
+);
+
+

@@ -96,9 +96,9 @@ public class ProductDaoJDBC implements ProductDao {
              ResultSet resultSet = statement.executeQuery(query)
 
         ) {
-            ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+            ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
 
-            SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+            SupplierDao supplierDataStore = SupplierDaoJDBC.getInstance();
 
 
             while (resultSet.next()) {

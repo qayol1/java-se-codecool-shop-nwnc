@@ -25,8 +25,8 @@ public class ProductController {
     public static Route renderAllProducts = (Request req, Response res) -> {
         ProductDao productDataStore = ProductDaoJDBC.getInstance();
         ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-        SupplierDao supplierDaoDataStore = SupplierDaoMem.getInstance();
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
+        SupplierDao supplierDaoDataStore = SupplierDaoJDBC.getInstance();
         ProductFilter filter=new ProductFilter();
         Map params = new HashMap<>();
 
@@ -43,6 +43,7 @@ public class ProductController {
             List<ProductCategory> productCategoryList = getRequestedCategories(categoryNameList);
             List<Supplier> productSupplierList = getRequestedSuppliers(supplierNameList);
 
+            System.out.println(filterBySupplier(productSupplierList));
             params.put("products", filterBySupplier(productSupplierList));
             params.put("category", productCategoryList);
             params.put("filter",filter);
@@ -52,6 +53,7 @@ public class ProductController {
         } else {
 
             filter.init();
+            System.out.println(productDataStore.getAll().get(0));
             params.put("category", productCategoryDataStore.getAll());
             params.put("products", productDataStore.getAll());
             params.put("filter",filter);
@@ -74,7 +76,7 @@ public class ProductController {
     };
 
     public static Route categoryListSize= (Request req,Response res) -> {
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
         return productCategoryDataStore.getAll().size();
 
     };
@@ -117,7 +119,7 @@ public class ProductController {
             return null;
         }
         List<ProductCategory> productCategoryList = new ArrayList<>();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
         List<ProductCategory> allProductCategories = productCategoryDataStore.getAll();
 
         for (ProductCategory category : allProductCategories) {
@@ -137,7 +139,7 @@ public class ProductController {
         }
 
         List<Supplier> supplierList=new ArrayList<>();
-        SupplierDao supplierDao = SupplierDaoMem.getInstance();
+        SupplierDao supplierDao = SupplierDaoJDBC.getInstance();
         List<Supplier> allSuppliers=supplierDao.getAll();
 
         for (Supplier supplier : allSuppliers) {
