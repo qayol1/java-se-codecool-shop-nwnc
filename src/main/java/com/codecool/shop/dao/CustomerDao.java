@@ -10,7 +10,7 @@ public interface CustomerDao {
 
     void add(Customer supplier);
     Customer find(int id);
-    void remove(int id);
+    boolean remove(int id);
 
     List<Customer> getAll();
 }
