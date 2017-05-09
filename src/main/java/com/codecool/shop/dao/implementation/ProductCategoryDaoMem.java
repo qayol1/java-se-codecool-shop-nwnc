@@ -2,10 +2,12 @@ package com.codecool.shop.dao.implementation;
 
 
 import com.codecool.shop.dao.ProductCategoryDao;
+import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ProductCategoryDaoMem implements ProductCategoryDao {
 
@@ -26,8 +28,14 @@ public class ProductCategoryDaoMem implements ProductCategoryDao {
 
     @Override
     public void add(ProductCategory category) {
-        category.setId(DATA.size() + 1);
-        DATA.add(category);
+        ArrayList<String> categoryNames = new ArrayList<>();
+        for (ProductCategory productCategory:DATA)  {
+            categoryNames.add(productCategory.getName());
+        }
+        if (!categoryNames.contains(category.getName())) {
+            category.setId(DATA.size() + 1);
+            DATA.add(category);
+        }
     }
 
     @Override
