@@ -5,6 +5,9 @@
 $( document ).ready(function() {
     setShoppingCartCount();
 
+    $('#cart-items').fadeIn("slow");
+
+
     $('#checkb').change(function(){
         if(this.checked) {
             $('#shipping').css("display", "none");
