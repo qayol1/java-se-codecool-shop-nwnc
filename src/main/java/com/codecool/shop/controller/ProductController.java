@@ -4,10 +4,7 @@ import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
-import com.codecool.shop.dao.implementation.ShoppingCartDaoMem;
-import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.ShoppingCart;
@@ -26,7 +23,7 @@ import java.util.*;
 public class ProductController {
 
     public static Route renderAllProducts = (Request req, Response res) -> {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
+        ProductDao productDataStore = ProductDaoJDBC.getInstance();
         ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDaoDataStore = SupplierDaoMem.getInstance();
@@ -67,7 +64,7 @@ public class ProductController {
 
     public static Route addToCart = (Request req, Response res) -> {
         int id = Integer.parseInt(req.queryParams("id"));
-        ProductDao productDataStore = ProductDaoMem.getInstance();
+        ProductDao productDataStore = ProductDaoJDBC.getInstance();
         ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
 
         ShoppingCart cart = req.session().attribute("cart");
@@ -102,7 +99,7 @@ public class ProductController {
 
 
     public static Route renderCart = (Request req, Response res) -> {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
+        ProductDao productDataStore = ProductDaoJDBC.getInstance();
         ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
         ShoppingCart cart = getSessionShoppingCart(req);
         Map params = new HashMap<>();
@@ -158,10 +155,10 @@ public class ProductController {
         if (suppliers==null){
             return null;
         }
-        ProductDaoMem productDaoMem=ProductDaoMem.getInstance();
+        ProductDaoJDBC productDaoJDBC=ProductDaoJDBC.getInstance();
         Set<Product> filteredProductList = new HashSet<>();
         for (Supplier supplier : suppliers) {
-            for (Product product : productDaoMem.getAll()) {
+            for (Product product : productDaoJDBC.getAll()) {
                 if (supplier.equals(product.getSupplier())) {
                     filteredProductList.add(product);
                 }

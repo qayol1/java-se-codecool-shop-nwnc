@@ -7,8 +7,8 @@ CREATE TABLE product
   description TEXT,
   defaultPrice FLOAT ,
   currencyString VARCHAR(100),
-  productCategory INTEGER REFERENCES productCategory(id),
-  supplier INTEGER REFERENCES supplier(id)
+  productCategory VARCHAR(100),
+  supplier VARCHAR(100)
 );
 
 CREATE TABLE supplier

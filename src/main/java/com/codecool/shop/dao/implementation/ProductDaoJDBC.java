@@ -34,7 +34,7 @@ public class ProductDaoJDBC implements ProductDao {
     public void add(Product product) {
         try {
             PreparedStatement stmt;
-            stmt = dbConnect.getConnection().prepareStatement(;
+            stmt = dbConnect.getConnection().prepareStatement(
                     ("INSERT INTO product" +
                             "(name," +
                             "description," +
@@ -61,7 +61,7 @@ public class ProductDaoJDBC implements ProductDao {
 
         try (Connection connection = dbConnect.getConnection();
              Statement statement =connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query);
+             ResultSet resultSet = statement.executeQuery(query)
 
         ){
             ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
@@ -88,10 +88,38 @@ public class ProductDaoJDBC implements ProductDao {
         return null;
     }
 
-    @Override
-    public void remove(int id) {
+    private List<Product> getProducts(String query) {
+        List<Product> productList = new ArrayList<>();
 
+        try (Connection connection = dbConnect.getConnection();
+             Statement statement =connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)
+
+        ) {
+            ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+
+            SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+
+
+            while (resultSet.next()) {
+
+                Product product = new Product(
+                        resultSet.getString("name"),
+                        resultSet.getFloat("defaultprice"),
+                        resultSet.getString("currencystring"),
+                        resultSet.getString("description"),
+                        productCategoryDataStore.find(resultSet.getInt("productcategory")),
+                        supplierDataStore.find(resultSet.getInt("supplier")));
+                product.setId(resultSet.getInt(1));
+                productList.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productList;
     }
+
 
     @Override
     public List<Product> getAll() {
@@ -109,6 +137,18 @@ public class ProductDaoJDBC implements ProductDao {
     public List<Product> getBy(ProductCategory productCategory) {
         String query = "SELECT * FROM product WHERE productcategory ='" + productCategory.getId() + "';";
         return this.getProducts(query);
+    }
+
+    @Override
+    public void remove(int id) {
+        String query = "DELETE FROM product WHERE id ='" + id + "';";
+        try (Connection connection = dbConnect.getConnection();
+             Statement statement = connection.createStatement();
+        ) {             statement.executeQuery(query) ; }
+        catch (SQLException e) {
+        e.printStackTrace();
+        }
+
     }
 
 

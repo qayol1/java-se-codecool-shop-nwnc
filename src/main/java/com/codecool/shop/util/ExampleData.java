@@ -9,7 +9,7 @@ public class ExampleData {
 
     public static void populateData() {
 
-        ProductDao productDataStore = ProductDaoMem.getInstance();
+        ProductDao productDataStore = ProductDaoJDBC.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
         CustomerDao CustomerDataStore = CustomerDaoMem.getInstance();
