@@ -35,16 +35,20 @@ public class ProductController {
             }
 
         if (req.queryString() != null && req.queryString().length()!=0){
-            System.out.println("itt");
-
             String[] categoryNameList = req.queryMap().toMap().get("category");
             String[] supplierNameList = req.queryMap().toMap().get("supplier");
             filter.init(categoryNameList,supplierNameList);
             List<ProductCategory> productCategoryList = getRequestedCategories(categoryNameList);
             List<Supplier> productSupplierList = getRequestedSuppliers(supplierNameList);
+            Set<Product> products = filterBySupplier(productSupplierList);
+
+            for (Product prod:products){
+                System.out.println(prod.getProductCategory().getName());
+            }
 
 
-            params.put("products", filterBySupplier(productSupplierList));
+
+            params.put("products", products);
             params.put("category", productCategoryList);
             params.put("filter",filter);
             params.put("shoppingcart", getSessionShoppingCart(req));
@@ -157,11 +161,12 @@ public class ProductController {
         if (suppliers==null){
             return null;
         }
+        System.out.println(suppliers);
         ProductDaoJDBC productDaoJDBC=ProductDaoJDBC.getInstance();
         Set<Product> filteredProductList = new HashSet<>();
         for (Supplier supplier : suppliers) {
             for (Product product : productDaoJDBC.getAll()) {
-                if (supplier.equals(product.getSupplier())) {
+                if (supplier.getName().equals(product.getSupplier().getName())) {
                     filteredProductList.add(product);
                 }
             }
