@@ -34,7 +34,7 @@ public class UserDaoJDBC implements UserDao {
                             "(username," +
                             "password," +
                             "role,"+
-                            "customerid"+") VALUES (?, ?, ?,?)"));
+                            "customerid"+") VALUES (?, ?, ?, ?)"));
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getPassword());
             stmt.setString(3, user.getRole());
