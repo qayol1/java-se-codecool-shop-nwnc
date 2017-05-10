@@ -4,6 +4,7 @@ import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.util.DbConnect;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,10 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
             instance = new ProductCategoryDaoJDBC();
         }
         return instance;
+    }
+
+    public void setConnection(String databasePath) {
+        this.dbConnect = new DbConnect(databasePath);
     }
 
     @Override
@@ -69,14 +74,21 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
     @Override
     public boolean remove(int id) {
-        String query = "DELETE FROM productcategory WHERE id=" + id + ";";
-        try (Connection connection = dbConnect.getConnection();
-             Statement statement = connection.createStatement();
-        ) {             statement.executeQuery(query) ; }
-        catch (SQLException e) {
-            e.printStackTrace();
+        if (find(id)!=null) {
+            String query = "DELETE FROM productcategory WHERE id=" + id + ";";
+            try (Connection connection = dbConnect.getConnection();
+                 Statement statement = connection.createStatement();
+            ) {  statement.executeQuery(query) ;
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return true;
+            }
+            else {
+            return false;
         }
-        return true;
+
     }
 
     @Override
