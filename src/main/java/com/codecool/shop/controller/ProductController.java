@@ -43,7 +43,7 @@ public class ProductController {
             List<ProductCategory> productCategoryList = getRequestedCategories(categoryNameList);
             List<Supplier> productSupplierList = getRequestedSuppliers(supplierNameList);
 
-            System.out.println(filterBySupplier(productSupplierList));
+
             params.put("products", filterBySupplier(productSupplierList));
             params.put("category", productCategoryList);
             params.put("filter",filter);
@@ -53,7 +53,7 @@ public class ProductController {
         } else {
 
             filter.init();
-            System.out.println(productDataStore.getAll().get(0));
+            System.out.println(productCategoryDataStore.getAll());
             params.put("category", productCategoryDataStore.getAll());
             params.put("products", productDataStore.getAll());
             params.put("filter",filter);
