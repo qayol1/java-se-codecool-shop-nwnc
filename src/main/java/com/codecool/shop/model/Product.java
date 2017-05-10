@@ -48,7 +48,7 @@ public class Product extends BaseModel {
 
     public void setProductCategory(ProductCategory productCategory) {
         this.productCategory = productCategory;
-        this.productCategory.addProduct(this);
+        //this.productCategory.addProduct(this);
     }
 
     public Supplier getSupplier() {
@@ -57,7 +57,7 @@ public class Product extends BaseModel {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
-        this.supplier.addProduct(this);
+        //this.supplier.addProduct(this);
     }
 
     @Override
@@ -65,14 +65,12 @@ public class Product extends BaseModel {
         return String.format("id: %1$d, " +
                         "name: %2$s, " +
                         "defaultPrice: %3$f, " +
-                        "defaultCurrency: %4$s, " +
-                        "productCategory: %5$s, " +
-                        "supplier: %6$s",
+                        "defaultCurrency: %4$s, ",
                 this.id,
                 this.name,
                 this.defaultPrice,
-                this.defaultCurrency.toString(),
-                this.productCategory.getName(),
-                this.supplier.getName());
+                this.defaultCurrency.toString());
+                //this.productCategory.getName(),
+                //this.supplier.getName());
     }
 }

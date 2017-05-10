@@ -8,7 +8,7 @@ import java.util.List;
  */
 public interface CustomerDao {
 
-    void add(Customer supplier);
+    int add(Customer supplier);
     Customer find(int id);
     void remove(int id);
 

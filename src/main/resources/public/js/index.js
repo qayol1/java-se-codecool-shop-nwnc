@@ -3,7 +3,7 @@
  */
 
 $( document ).ready(function() {
-    setShoppingCartCount();
+    //setShoppingCartCount();
 
     $('#cart-items').fadeIn("slow");
 

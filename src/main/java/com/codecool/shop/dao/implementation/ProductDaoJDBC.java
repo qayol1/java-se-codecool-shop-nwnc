@@ -34,7 +34,7 @@ public class ProductDaoJDBC implements ProductDao {
     public void add(Product product) {
         try {
             PreparedStatement stmt;
-            stmt = dbConnect.getConnection().prepareStatement(
+            stmt = DbConnect.getConnection().prepareStatement(
                     ("INSERT INTO product" +
                             "(name," +
                             "description," +
@@ -59,9 +59,9 @@ public class ProductDaoJDBC implements ProductDao {
 
         String query = "SELECT * FROM product WHERE id ='" + id + "';";
 
-        try (Connection connection = dbConnect.getConnection();
+        try (Connection connection = DbConnect.getConnection();
              Statement statement =connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)
+             ResultSet resultSet = statement.executeQuery(query);
 
         ){
             ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
