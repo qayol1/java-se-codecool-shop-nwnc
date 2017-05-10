@@ -3,7 +3,7 @@
  */
 
 $( document ).ready(function() {
-    setShoppingCartCount();
+    //setShoppingCartCount();
 
     $('#checkb').change(function(){
         if(this.checked) {

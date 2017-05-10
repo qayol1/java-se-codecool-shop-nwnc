@@ -67,7 +67,7 @@ public class CustomerDaoJDBC implements CustomerDao {
 
     @Override
     public Customer find(int customerid) {
-       String query = "SELECT * FROM product WHERE id ='" + customerid + "';";
+       String query = "SELECT * FROM customers WHERE id ='" + customerid + "';";
 
         try (Connection connection = DbConnect.getConnection();
              Statement statement =connection.createStatement();

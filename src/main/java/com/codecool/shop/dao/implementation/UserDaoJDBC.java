@@ -1,8 +1,6 @@
 package com.codecool.shop.dao.implementation;
 
-import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.UserDao;
+import com.codecool.shop.dao.*;
 import com.codecool.shop.model.User;
 import com.codecool.shop.util.DbConnect;
 
@@ -49,27 +47,23 @@ public class UserDaoJDBC implements UserDao {
 
     @Override
     public User find(String username) {
-       String query = "SELECT * FROM product WHERE username ='" + username + "';";
+       String query = "SELECT * FROM users WHERE username ='" + username + "';";
 
         try (Connection connection = DbConnect.getConnection();
              Statement statement =connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query);
 
         ){
-            ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-            SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
 
+            CustomerDao customerDataStore=CustomerDaoJDBC.getInstance();
 
             while (resultSet.next()){
 
                 User user = new User(
                         resultSet.getString("username"),
-                        resultSet.getString("password"));
-                        //resultSet.getString("role"));
-                        //resultSet.getString("description"),
-                       // shoppingcart.find(resultSet.getInt("productcategory")),
-                       // supplierDataStore.find(resultSet.getInt("supplier")));
-                        user.setId(resultSet.getInt(1));
+                        resultSet.getString("password"),
+                        resultSet.getString("role"),
+                        customerDataStore.find(resultSet.getInt("customerid")));
                 return user;
             }
         } catch (SQLException e) {
