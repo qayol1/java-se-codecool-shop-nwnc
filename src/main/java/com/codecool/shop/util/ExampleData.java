@@ -13,7 +13,16 @@ public class ExampleData {
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
         CustomerDao CustomerDataStore = CustomerDaoMem.getInstance();
+        CustomerDao CustomerDataStore2 = CustomerDaoJDBC.getInstance();
         UserDao userDataStore = UserDaoMem.getInstance();
+        UserDao userJDBC=UserDaoJDBC.getInstance();
+        ShoppingCartDao shoppingCartDao2 = ShoppingCartDaoJDBC.getInstance();
+
+        //System.out.println(shoppingCartDao2.find(1).getAll());
+        shoppingCartDao2.addNewCartToDb();
+
+
+
 
 
         //setting up a new supplier
@@ -31,6 +40,7 @@ public class ExampleData {
         supplierDataStore.add(asus);
         Customer c1 = new Customer("Bruce", "Wayne", "batman@robin.com", "06901111", new Address("USA", "Gotham", "1111", "BatCave"), new Address("USA", "Gotham", "1111", "BatCave"));
 
+        c1.setId(CustomerDataStore2.add(c1));
         User us1 = new User("batman", "robin");
         User us2 = new User("admin", "admin");
         us2.setAdmin();
@@ -38,6 +48,9 @@ public class ExampleData {
 
         userDataStore.add(us1);
         userDataStore.add(us2);
+
+        userJDBC.add(us1);
+       // userJDBC.add(us2);
 
 
         //setting up a new product category

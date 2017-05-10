@@ -16,17 +16,40 @@ public class Customer {
     private String phoneNumber;
     private Address billingAddress;
     private Address shippingAddress;
+    private ShoppingCart shoppingCart;
     private ArrayList<CreditCard> creditCards;
     private ArrayList<PayPal> payPals;
 
     public Customer(String firstName, String lastName, String email, String phoneNumber, Address billingAddress,
                     Address shippingAddress){
+
         this.lastName = lastName;
         this.firstName = firstName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.billingAddress = billingAddress;
         this.shippingAddress = shippingAddress;
+    }
+
+
+
+    public Customer(int id,String firstName, String lastName, String email, String phoneNumber,ShoppingCart cart){
+        this.id=id;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.billingAddress = null;
+        this.shippingAddress = null;
+        this.shoppingCart=cart;
+    }
+
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
     }
 
     public int getId() {

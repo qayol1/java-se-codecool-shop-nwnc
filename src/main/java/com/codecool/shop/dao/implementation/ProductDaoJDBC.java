@@ -34,7 +34,7 @@ public class ProductDaoJDBC implements ProductDao {
     public void add(Product product) {
         try {
             PreparedStatement stmt;
-            stmt = dbConnect.getConnection().prepareStatement(;
+            stmt = DbConnect.getConnection().prepareStatement(
                     ("INSERT INTO product" +
                             "(name," +
                             "description," +
@@ -59,7 +59,7 @@ public class ProductDaoJDBC implements ProductDao {
 
         String query = "SELECT * FROM product WHERE id ='" + id + "';";
 
-        try (Connection connection = dbConnect.getConnection();
+        try (Connection connection = DbConnect.getConnection();
              Statement statement =connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query);
 
@@ -96,19 +96,19 @@ public class ProductDaoJDBC implements ProductDao {
     @Override
     public List<Product> getAll() {
         String query = "SELECT * FROM product;";
-        return this.getProducts(query);
+        return null;
     }
 
     @Override
     public List<Product> getBy(Supplier supplier) {
         String query = "SELECT * FROM product WHERE supplier ='" + supplier.getId() + "';";
-        return this.getProducts(query);
+        return null;
     }
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
         String query = "SELECT * FROM product WHERE productcategory ='" + productCategory.getId() + "';";
-        return this.getProducts(query);
+        return null;
     }
 
 

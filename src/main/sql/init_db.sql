@@ -1,5 +1,21 @@
 DROP TABLE IF EXISTS supplier, productCategory, product;
 
+
+CREATE TABLE productCategory
+(
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(40),
+  department VARCHAR(40),
+  description TEXT
+);
+
+CREATE TABLE supplier
+(
+  id SERIAL PRIMARY KEY ,
+  name VARCHAR(40),
+  description TEXT
+);
+
 CREATE TABLE product
 (
   id SERIAL PRIMARY KEY,
@@ -11,17 +27,6 @@ CREATE TABLE product
   supplier INTEGER REFERENCES supplier(id)
 );
 
-CREATE TABLE supplier
-(
-  id SERIAL PRIMARY KEY ,
-  name VARCHAR(40),
-  description TEXT
-);
 
-CREATE TABLE productCategory
-(
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(40),
-  department VARCHAR(40),
-  description TEXT
-);
+
+

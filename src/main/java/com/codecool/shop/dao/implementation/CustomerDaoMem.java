@@ -24,9 +24,10 @@ public class CustomerDaoMem implements CustomerDao{
     }
 
     @Override
-    public void add(Customer customer) {
+    public int add(Customer customer) {
         customer.setId(costumerData.size() + 1);
         costumerData.add(customer);
+        return customer.getId();
     }
 
     @Override

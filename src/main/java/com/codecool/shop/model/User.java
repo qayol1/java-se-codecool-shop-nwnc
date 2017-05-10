@@ -12,13 +12,25 @@ public class User {
 
     public User(){}
 
-    public User(String user,String passw){
+
+
+    public User(String user, String passw){
         this.username=user;
         this.password=passw;
         this.role="user";
         this.costumer=null;
         this.shoppingCart=null;
     }
+
+    public User(String user, String passw,String role,Customer customer,ShoppingCart cart){
+        this.username=user;
+        this.password=passw;
+        this.role=role;
+        this.costumer=customer;
+        this.shoppingCart=cart;
+    }
+
+
 
     public void setId(int newid) { this.id=newid; }
 
@@ -36,6 +48,14 @@ public class User {
     }
     public Customer getCostumer(){
         return this.costumer;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
     }
 
     public boolean isAdmin(){

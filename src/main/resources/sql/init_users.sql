@@ -1,16 +1,15 @@
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS customers;
-DROP TABLE IF EXISTS shoppingcarts;
-DROP TABLE IF EXISTS shoppingcartitem;
+DROP TABLE IF EXISTS customers,users,shoppingcarts,shoppingcarelements;
 
-CREATE TABLE shoppingcarts
-(
+
+CREATE TABLE shoppingcarts (
   id SERIAL PRIMARY KEY
 );
 
-CREATE TABLE shoppingcartitem(
+
+CREATE TABLE shoppingcarelements
+(
   id SERIAL PRIMARY KEY,
-  shoppingcartid INT REFERENCES  shoppingcarts(id),
+  shoppingcartid INT,
   productid INT,
   productcount INT
 );
@@ -21,7 +20,11 @@ CREATE TABLE customers
 id SERIAL PRIMARY KEY,
 firstname varchar(40),
 lastname varchar(40),
-shoppingcartid INT REFERENCES shoppingcarts(id)
+email VARCHAR(255),
+phonenumber VARCHAR(40),
+billingaddress INT,
+shippingaddress INT,
+shoppingcartid INT
 );
 
 
@@ -37,4 +40,3 @@ customerid INT REFERENCES customers(id)
 
 
 INSERT INTO customers(firstname,lastname) VALUES ('bruce','wayne');
-INSERT INTO users (username,password,role,customerid) VALUES ('batman','robin','USER','1');
