@@ -4,6 +4,7 @@ package com.codecool.shop.dao.implementation;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.Supplier;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,6 +13,14 @@ import static org.junit.jupiter.api.Assertions.*;
  * Created by peter on 2017.05.09..
  */
 class SupplierDaoMemTest {
+    @AfterEach
+    public void clearExampleData() {
+        SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        for (int i=0; i<supplierDataStore.getAll().size(); i++) {
+            supplierDataStore.remove(i);
+        }
+    }
+
     @Test
     public void testSameCategoryNameCannotAdd() {
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();

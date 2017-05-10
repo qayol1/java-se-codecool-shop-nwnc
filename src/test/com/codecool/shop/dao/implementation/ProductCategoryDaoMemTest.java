@@ -2,6 +2,7 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.ProductCategory;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,6 +11,14 @@ import static org.junit.jupiter.api.Assertions.*;
  * Created by peter on 2017.05.09..
  */
 class ProductCategoryDaoMemTest {
+
+    @AfterEach
+    public void clearExampleData() {
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+        for (int i=0; i<productCategoryDataStore.getAll().size(); i++) {
+            productCategoryDataStore.remove(i);
+        }
+    }
 
     @Test
     public void testSameCategoryNameCannotAdd() {
