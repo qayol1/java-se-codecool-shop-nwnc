@@ -39,8 +39,9 @@ public class ProductDaoMem implements ProductDao {
     }
 
     @Override
-    public void remove(int id) {
+    public boolean remove(int id) {
         DATA.remove(find(id));
+        return true;
     }
 
     @Override
