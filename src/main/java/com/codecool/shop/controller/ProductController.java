@@ -4,10 +4,7 @@ import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
-import com.codecool.shop.dao.implementation.ShoppingCartDaoMem;
-import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.ShoppingCart;
@@ -26,10 +23,10 @@ import java.util.*;
 public class ProductController {
 
     public static Route renderAllProducts = (Request req, Response res) -> {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
+        ProductDao productDataStore = ProductDaoJDBC.getInstance();
         ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-        SupplierDao supplierDaoDataStore = SupplierDaoMem.getInstance();
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
+        SupplierDao supplierDaoDataStore = SupplierDaoJDBC.getInstance();
         ProductFilter filter=new ProductFilter();
         Map params = new HashMap<>();
 
@@ -46,6 +43,7 @@ public class ProductController {
             List<ProductCategory> productCategoryList = getRequestedCategories(categoryNameList);
             List<Supplier> productSupplierList = getRequestedSuppliers(supplierNameList);
 
+
             params.put("products", filterBySupplier(productSupplierList));
             params.put("category", productCategoryList);
             params.put("filter",filter);
@@ -55,6 +53,7 @@ public class ProductController {
         } else {
 
             filter.init();
+            System.out.println(productCategoryDataStore.getAll());
             params.put("category", productCategoryDataStore.getAll());
             params.put("products", productDataStore.getAll());
             params.put("filter",filter);
@@ -67,7 +66,7 @@ public class ProductController {
 
     public static Route addToCart = (Request req, Response res) -> {
         int id = Integer.parseInt(req.queryParams("id"));
-        ProductDao productDataStore = ProductDaoMem.getInstance();
+        ProductDao productDataStore = ProductDaoJDBC.getInstance();
         ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
 
         ShoppingCart cart = req.session().attribute("cart");
@@ -77,7 +76,7 @@ public class ProductController {
     };
 
     public static Route categoryListSize= (Request req,Response res) -> {
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
         return productCategoryDataStore.getAll().size();
 
     };
@@ -102,7 +101,7 @@ public class ProductController {
 
 
     public static Route renderCart = (Request req, Response res) -> {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
+        ProductDao productDataStore = ProductDaoJDBC.getInstance();
         ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
         ShoppingCart cart = getSessionShoppingCart(req);
         Map params = new HashMap<>();
@@ -120,7 +119,7 @@ public class ProductController {
             return null;
         }
         List<ProductCategory> productCategoryList = new ArrayList<>();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
         List<ProductCategory> allProductCategories = productCategoryDataStore.getAll();
 
         for (ProductCategory category : allProductCategories) {
@@ -140,7 +139,7 @@ public class ProductController {
         }
 
         List<Supplier> supplierList=new ArrayList<>();
-        SupplierDao supplierDao = SupplierDaoMem.getInstance();
+        SupplierDao supplierDao = SupplierDaoJDBC.getInstance();
         List<Supplier> allSuppliers=supplierDao.getAll();
 
         for (Supplier supplier : allSuppliers) {
@@ -158,10 +157,10 @@ public class ProductController {
         if (suppliers==null){
             return null;
         }
-        ProductDaoMem productDaoMem=ProductDaoMem.getInstance();
+        ProductDaoJDBC productDaoJDBC=ProductDaoJDBC.getInstance();
         Set<Product> filteredProductList = new HashSet<>();
         for (Supplier supplier : suppliers) {
-            for (Product product : productDaoMem.getAll()) {
+            for (Product product : productDaoJDBC.getAll()) {
                 if (supplier.equals(product.getSupplier())) {
                     filteredProductList.add(product);
                 }
