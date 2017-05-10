@@ -75,15 +75,15 @@ class ProductDaoMemTest {
     @Test
     void testGetBySupplier() {
         ProductDao productDao = ProductDaoMem.getInstance();
-        Supplier testSupplier = SupplierDaoMem.getInstance().find(1);
-        assertEquals(productDao.find(1).getSupplier(), testSupplier);
+        SupplierDao supplierDao = SupplierDaoMem.getInstance();
+        assertEquals(1, productDao.getBy(supplierDao.find(1)).size());
     }
 
     @Test
     void testGetByProductCategory() {
+        ProductCategoryDao productCategoryDao = ProductCategoryDaoMem.getInstance();
         ProductDao productDao = ProductDaoMem.getInstance();
-        ProductCategory testProductCategory = ProductCategoryDaoMem.getInstance().find(1);
-        assertEquals(productDao.find(1).getProductCategory(), testProductCategory);
+        assertEquals(1, productDao.getBy(productCategoryDao.find(1)).size());
     }
 
 }
