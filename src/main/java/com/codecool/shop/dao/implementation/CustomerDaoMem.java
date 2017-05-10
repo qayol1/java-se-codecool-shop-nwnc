@@ -35,8 +35,12 @@ public class CustomerDaoMem implements CustomerDao{
     }
 
     @Override
-    public void remove(int id) {
-        costumerData.remove(find(id));
+    public boolean remove(int id) {
+        if (find(id) != null) {
+            costumerData.remove(find(id));
+            return true;
+        }
+        return false;
     }
 
     @Override
