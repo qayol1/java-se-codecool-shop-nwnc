@@ -140,7 +140,7 @@ public class ProductDaoJDBC implements ProductDao {
     }
 
     @Override
-    public void remove(int id) {
+    public boolean remove(int id) {
         String query = "DELETE FROM product WHERE id ='" + id + "';";
         try (Connection connection = dbConnect.getConnection();
              Statement statement = connection.createStatement();
@@ -148,6 +148,7 @@ public class ProductDaoJDBC implements ProductDao {
         catch (SQLException e) {
         e.printStackTrace();
         }
+        return true;
 
     }
 

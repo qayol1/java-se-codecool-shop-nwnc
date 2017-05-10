@@ -68,7 +68,7 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
     }
 
     @Override
-    public void remove(int id) {
+    public boolean remove(int id) {
         String query = "DELETE FROM productcategory WHERE id=" + id + ";";
         try (Connection connection = dbConnect.getConnection();
              Statement statement = connection.createStatement();
@@ -76,7 +76,7 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
         catch (SQLException e) {
             e.printStackTrace();
         }
-
+        return true;
     }
 
     @Override
