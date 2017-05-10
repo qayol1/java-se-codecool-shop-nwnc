@@ -4,14 +4,26 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Created by peter on 2017.05.09..
- */
 class SupplierDaoMemTest {
     @Test
-    public void testIsVorking() {
-        assertEquals(10,10);
-
+    void getInstance() {
     }
+
+    @Test
+    void add() {
+    }
+
+    @Test
+    void find() {
+    }
+
+    @Test
+    void remove() {
+    }
+
+    @Test
+    void getAll() {
+    }
+
 
 }
