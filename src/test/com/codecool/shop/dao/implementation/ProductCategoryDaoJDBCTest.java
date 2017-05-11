@@ -36,15 +36,15 @@ class ProductCategoryDaoJDBCTest {
 
     @Test
     public void testIsProductCategoryDaoMemIsSingletone () {
-        ProductCategoryDao productCategoryDataStore1 = ProductCategoryDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore2 = ProductCategoryDaoMem.getInstance();
+        ProductCategoryDao productCategoryDataStore1 = ProductCategoryDaoJDBC.getInstance();
+        ProductCategoryDao productCategoryDataStore2 = ProductCategoryDaoJDBC.getInstance();
         assertEquals(productCategoryDataStore1.hashCode(), productCategoryDataStore2.hashCode());
     }
 
     @Test
     public void testRemoveById() {
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
-        ((ProductCategoryDaoJDBC)productCategoryDataStore).setConnection(filePath);
+        ProductCategoryDaoJDBC productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
+        productCategoryDataStore.setDbConnectForTest(filePath);
         ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer.");
         productCategoryDataStore.add(tablet);
         productCategoryDataStore.remove(1);
@@ -53,8 +53,8 @@ class ProductCategoryDaoJDBCTest {
 
     @Test
     public void testRemoveByNonExistingId() {
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
-        ((ProductCategoryDaoJDBC)productCategoryDataStore).setConnection(filePath);
+        ProductCategoryDaoJDBC productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
+        productCategoryDataStore.setDbConnectForTest(filePath);
         ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer.");
         productCategoryDataStore.add(tablet);
         assertFalse(productCategoryDataStore.remove(0));
@@ -62,8 +62,8 @@ class ProductCategoryDaoJDBCTest {
 
     @Test
     public void testGetAllProductCategory() {
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
-        ((ProductCategoryDaoJDBC)productCategoryDataStore).setConnection(filePath);
+        ProductCategoryDaoJDBC productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
+        productCategoryDataStore.setDbConnectForTest(filePath);
         ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet.");
         productCategoryDataStore.add(tablet);
         ProductCategory laptop = new ProductCategory("Laptop", "Hardware", "Is a small, portable personal computer.");

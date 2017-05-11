@@ -15,7 +15,8 @@ import java.util.List;
 public class ProductCategoryDaoJDBC implements ProductCategoryDao {
     private static ProductCategoryDaoJDBC instance = null;
 
-    private DbConnect dbConnect = new DbConnect("src/main/resources/connection/properties/connectionProperties.txt");
+    private DbConnect dbConnect;
+    private static String defaultFilepath = "src/main/resources/connection/properties/connectionProperties.txt";
 
     private ProductCategoryDaoJDBC() {
     }
@@ -27,8 +28,8 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
         return instance;
     }
 
-    public void setConnection(String databasePath) {
-        this.dbConnect = new DbConnect(databasePath);
+    protected void setDbConnectForTest(String testFilePath) {
+        dbConnect = new DbConnect(testFilePath);
     }
 
     @Override
@@ -74,20 +75,18 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
     @Override
     public boolean remove(int id) {
-        if (find(id)!=null) {
-            String query = "DELETE FROM productcategory WHERE id=" + id + ";";
-            try (Connection connection = dbConnect.getConnection();
-                 Statement statement = connection.createStatement();
-            ) {  statement.executeQuery(query) ;
-            }
-            catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return true;
-            }
-            else {
+        ProductCategory productCategory = find(id);
+        if (productCategory==null) {
             return false;
         }
+        String query = "DELETE FROM productcategory WHERE id=" + id + ";";
+        try (Connection connection = dbConnect.getConnection();
+             Statement statement = connection.createStatement();
+        ) {             statement.executeUpdate(query) ; }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
 
     }
 
@@ -116,6 +115,24 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
         }
         return productCategoryList;
 
+    }
+
+    public int getIdByName(String name) {
+        int result = 0;
+        String query = "SELECT * FROM productcategory WHERE name=?;";
+        Connection connection = null;
+        try {
+            connection = dbConnect.getConnection();
+            PreparedStatement pstmt = connection.prepareStatement( query );
+            pstmt.setString( 1, name);
+            ResultSet resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                result = Integer.parseInt((resultSet.getString("id")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
 
