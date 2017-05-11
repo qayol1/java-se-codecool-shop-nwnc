@@ -38,5 +38,3 @@ role VARCHAR(40),
 customerid INT REFERENCES customers(id)
 );
 
-
-INSERT INTO customers(firstname,lastname) VALUES ('bruce','wayne');

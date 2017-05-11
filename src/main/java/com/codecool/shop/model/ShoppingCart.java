@@ -1,7 +1,12 @@
 package com.codecool.shop.model;
 
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ShoppingCart {
     int id;
@@ -35,8 +40,13 @@ public class ShoppingCart {
 
     public void add(Product product) {
 
-        if (this.Products.containsKey(product)) {
-            this.Products.put(product, this.Products.get(product) + 1);
+        List<Integer> productidlist = this.Products.entrySet().stream().map(p -> p.getKey().getId()).collect(Collectors.toList());
+        if (productidlist.contains(product.getId())) {
+            for (Product prod : this.Products.keySet()) {
+                if (prod.getId() == product.getId()) {
+                    this.Products.put(prod, this.Products.get(prod) + 1);
+                }
+            }
         } else {
             this.Products.put(product, 1);
         }
@@ -51,6 +61,9 @@ public class ShoppingCart {
 
     public int getAllProducts() {
         int count = 0;
+        if (this.Products==null) {
+            return count;
+        }
         for (Product prod : this.Products.keySet()) {
             count += this.Products.get(prod);
         }
