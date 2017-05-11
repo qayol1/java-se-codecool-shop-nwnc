@@ -112,25 +112,25 @@
 .loginPart{
     font-size: 15px;
     position: relative;
-    left: 7%;
+    left: 12%;
     width:100px;
+    max-height: 50px;
 }
 
+.logout {
+    top: -15px;
+    left: -10px;
+}
 .registerPart {
     position: relative;
-    left:5%;
+    left: 9.5%;
+    top: 0;
     width:100px;
+    max-height: 50px;
 }
 
 .buttonLikeHref {
     display: block;
-    width: 70px;
-    height: 25px;
-    background: #4E9CAF;
-    padding: 10px;
-    border-radius: 5px;
-    color: white;
-    font-weight: bold;
 }
 
 #filterList {

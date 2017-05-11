@@ -2,15 +2,15 @@
  * Created by peter on 2017.04.26..
  */
 
-$( document ).ready(function() {
+$(document).ready(function () {
     setShoppingCartCount();
 
     $('#cart-items').fadeIn("slow");
     $(".thumbnail").fadeIn("slow");
 
 
-    $('#checkb').change(function(){
-        if(this.checked) {
+    $('#checkb').change(function () {
+        if (this.checked) {
             $('#shipping').css("display", "none");
             $('.sh1').removeAttr("required");
         }
@@ -25,12 +25,19 @@ $( document ).ready(function() {
     $("#filterbutton").click(function (e) {
         var elem = document.getElementById('filterList');
         if (elem.style.visibility !== "visible") {
-            elem.style.visibility= 'visible';
+            elem.style.visibility = 'visible';
         } else {
-            elem.style.visibility= 'hidden';
+            elem.style.visibility = 'hidden';
         }
 
     });
+
+    if($(".logout").length) {
+        console.log("van");
+        $(".loginPart").removeAttr("data-toggle")
+    } else {
+        $(".loginPart").attr("data-toggle", "modal")
+    }
 
 
     $("#shoppingchartbutton").click(function (e) {
@@ -39,9 +46,6 @@ $( document ).ready(function() {
 
     handleLoggedUser();
 
-    // $(".thumbnail").each(function(index) {
-    //     $(this).fadeIn(300);
-    // });
 
 });
 
@@ -52,9 +56,10 @@ function handleLoggedUser() {
         success: function (data) {
             if (data!="nulluser") {
                 $(".loginPart").empty();
-                $(".loginPart").append("<div><a class='buttonLikeHref' href='/logout'>LogOut</a></div>");
+                $(".loginPart").append("<a href='/logout'><span class='btn filtermenu loginPart logout' >LogOut</span></a>");
                 $(".registerPart").empty();
-                $(".registerPart").append("<div>"+data+"</div>")
+                $(".registerPart").append("<div>"+data+"</div>");
+                $(".loginPart").removeAttr("data-toggle")
             }
         }
     });
@@ -84,7 +89,6 @@ function setAmount(id) {
         }
     });
 }
-
 
 function filter(categoryid) {
     hideFilter();
@@ -160,13 +164,13 @@ function setShoppingCartCount() {
 
 
 function deleteItem(id) {
-    $("#shopping-cart-"+id.toString()).empty().remove();
-    $("#shopping-cart-row-"+id.toString()).empty().remove();
+    $("#shopping-cart-" + id.toString()).empty().remove();
+    $("#shopping-cart-row-" + id.toString()).empty().remove();
     setTotalPrice();
     deleteFromCart(id);
 }
 
-function setTotalPrice () {
+function setTotalPrice() {
     var total = 0;
     $('#cart-items tr').each(function () {
         //the value of sum needs to be reset for each row, so it has to be set inside the row loop
@@ -182,9 +186,55 @@ function setTotalPrice () {
 }
 
 function validateForm() {
-    var x = document.forms["customerInput"]["first_name"].value;
-    if (x == "kk") {
-        alert("Name must be KK");
+    var fisrt_name = document.forms["customerInput"]["first_name"].value;
+    var last_name = document.forms["customerInput"]["last_name"].value;
+    var email = document.forms["customerInput"]["email"].value;
+    var phone = document.forms["customerInput"]["phone"].value;
+    var billingCountry = document.forms["customerInput"]["billingCountry"].value;
+    var billingAddress = document.forms["customerInput"]["billingAddress"].value;
+    var billingCity = document.forms["customerInput"]["billingCity"].value;
+    var billingZipcode = document.forms["customerInput"]["billingZipcode"].value;
+    var shippingCountry = document.forms["customerInput"]["shippingCountry"].value;
+    var shippingAddress = document.forms["customerInput"]["shippingAddress"].value;
+    var shippingCity = document.forms["customerInput"]["shippingCity"].value;
+    var shippingZipcode = document.forms["customerInput"]["shippingZipcode"].value;
+
+    var letters = /^[A-Za-z]+$/;
+    var numbers = /^[0-9]+$/;
+    var number_and_letter = /^[A-Za-z0-9]+$/;
+    var email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var phone_regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+
+    if (!fisrt_name.match(letters)) {
+        alert("Invalid First Name");
+        return false;
+    }
+    if (!last_name.match(letters)) {
+        alert("Invalid Last Name");
+        return false;
+    }
+    if (!billingCountry.match(letters)) {
+        alert("Invalid Country name");
+        return false;
+    }
+    if (!billingCity.match(letters)) {
+        alert("Invalid City name");
+        return false;
+    }
+    if (!billingAddress.match(number_and_letter)) {
+        alert("Invalid Address");
+        return false;
+    }
+    if (!billingZipcode.match(number_and_letter)) {
+        alert("Invalid Zipcode");
+        return false;
+    }
+    if(!email.match(email_regex)) {
+        alert("Invalid email.");
+        return false;
+    }
+    if(!phone.match(phone_regex)) {
+        alert("Invalid phone number.");
         return false;
     }
 }
