@@ -6,6 +6,7 @@ $( document ).ready(function() {
     //setShoppingCartCount();
 
     $('#cart-items').fadeIn("slow");
+    $(".thumbnail").fadeIn("slow");
 
 
     $('#checkb').change(function(){
@@ -37,8 +38,6 @@ $( document ).ready(function() {
     });
 
     handleLoggedUser();
-
-    $(".thumbnail").fadeIn("slow");
 
     // $(".thumbnail").each(function(index) {
     //     $(this).fadeIn(300);
