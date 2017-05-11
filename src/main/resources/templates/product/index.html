@@ -27,6 +27,7 @@
 
     <script src="/js/index.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
 
 
@@ -40,6 +41,7 @@
 <div id="wrapper">
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
+        <div style="margin-bottom: 5%"></div>
         <div class="sidebar-nav">
             <div class="sidebar-brand">
                 <a href="/shoppingcart"><div id="shoppingchartbutton" class="btn filtercategory">Shopping Cart</div></a>
@@ -50,9 +52,9 @@
                         <p></p>
                         <div th:each="filterCategory:${filter.getFilterCategories()}">
 
-                            <div class="category" th:text="${filterCategory.getValue()}"></div>
+                            <div class="category" th:text=" ${filterCategory.getValue()}"></div>
                             <div th:each="filterElement:${filterCategory.getElements()}">
-                                <span th:switch="${filterElement.isChecked()}">
+                                <span th:switch=" ${filterElement.isChecked()}">
                                     <div th:case="true"><input type="checkbox" th:class="${filterCategory.getClassName()}" checked="" th:name="${filterCategory.getClassName()}" th:value="${filterElement.getName()}" th:id="${filterElement.getName()}" /><label th:for="${filterElement.getName()}" th:text="${filterElement.getName()}"></label></div>
                                     <div th:case="false"><input type="checkbox" th:class="${filterCategory.getClassName()}" th:name="${filterCategory.getClassName()}" th:value="${filterElement.getName()}" th:id="${filterElement.getName()}"/><label th:for="${filterElement.getName()}" th:text="${filterElement.getName()}"></label></div>
                                 </span>
@@ -75,13 +77,17 @@
         <div>
             <div>
                 <span class="btn filtermenu" id="menu-toggle">&#9776; Menu</span>
-                 <span class="loginPart">
-                    <span>Already a user? </span>
-                <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal">
-                    Login
-                </button>
+                <span class="btn filtermenu loginPart" data-toggle="modal" data-target="#myModal">
+                    Login  |
+                </span>
+                <span>
+                <span class="btn filtermenu registerPart"  data-toggle="modal" data-target="#myModal2">
+                    Register
+                </span>
                  </span>
-                <span class="title">NWNC Shop</span>
+                <div class="title" align="center">
+                    <span>NWNC Shop</span><div class="clearfix"></div>
+                </div>
                 <a href="/shoppingcart">
                     <div class="shoppingcart" style="float: right">
                         <img height="20px" th:attr="src='/img/shopping-cart-icon.png'" alt=""/>
@@ -114,7 +120,7 @@
                                         <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
                                     </div>
                                     <div class="col-xs-12 col-md-6">
-                                        <button class="btn btn-success" th:onclick="'addToCart(\''+${prod.id}+'\');'">Add to cart</button>
+                                        <button class="btn btn-primary" th:onclick="'addToCart(\''+${prod.id}+'\');'">Add to cart</button>
                                     </div>
                                 </div>
                             </div>
@@ -129,26 +135,28 @@
 </div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    <h4 class="modal-title" id="myModalLabel">Login</h4>
                 </div>
                 <div class="modal-body">
                     <div class="container">
                         <div class="col-sm-5" style="display: block">
                             <form id="loginForm" method="post" action="/login">
-                                <label><b>Username</b></label>
-
+                                <label><strong>Username</strong></label>
+                                <div class="clearfix"></div>
                                 <input type="text" placeholder="Enter Username" name="username" required="true"/>
-                                 <br></br>
-                                <label><b>Password</b></label>
+                                <div class="clearfix"></div>
+                                <label><strong>Password</strong></label>
+                                <div class="clearfix"></div>
                                 <input type="password" placeholder="Enter Password" name="password" required="true"/>
+                                <div class="clearfix"></div>
                                 <br></br>
                                 <input type="hidden" name="place" value="main"/>
-                                <button type="submit">Login</button>
+                                <button class="btn btn-default-primary btn-sm" type="submit">Login</button>
                             </form>
                         </div>
                     </div>
@@ -156,6 +164,100 @@
             </div>
         </div>
     <input type="hidden" id="refresh" value="no"/>
+</div>
+
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModal2">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="col-sm-5">
+
+                        <form class="form-horizontal" method="post" action="/register">
+                            <div class="row">
+                                <h4>Login information</h4>
+                                <div class="form-group">
+                                    <input required="true" type="text" placeholder="Username" class="form-control" name="username"/>
+                                </div>
+                                <div class="form-group">
+                                    <input required="true" type="password" placeholder="Password" class="form-control" name="password"/>
+                                </div>
+                                <h4>Personal information</h4>
+                                <div class="form-group">
+                                    <input required="true" type="text" placeholder="First Name" class="form-control" name="first_name"/>
+                                </div>
+                                <div class="form-group">
+                                    <input required="true" type="text" placeholder="Last Name" class="form-control" name="last_name"/>
+                                </div>
+                                <div class="form-group">
+                                    <input required="true" type="email" placeholder="Email (example@gmail.com)"
+                                           class="form-control" name="email"/>
+                                </div>
+                                <div class="form-group">
+                                    <input required="true" type="tel" placeholder="Phone number"
+                                           class="form-control" name="phone"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <h4>Billing address</h4>
+                                <div class="form-group">
+                                    <input required="true" type="text" placeholder="Country" class="form-control"
+                                           name="billingCountry"/>
+                                </div>
+                                <div class="form-group">
+                                    <input required="true" type="text" placeholder="Address" class="form-control"
+                                           name="billingAddress"/>
+                                </div>
+
+                                <div class="form-group col-md-5">
+                                    <input required="true" type="text" placeholder="City" class="form-control"
+                                           name="billingCity"/>
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <input required="true" type="text" placeholder="Zip-code" class="form-control"
+                                           name="billingZipcode"/>
+                                </div>
+                                <div class="form-group col-md-5">
+                                        <span class="input container-right"><input type="checkbox" id="checkb" name="checkb" value="check"
+                                                                                   aria-label="..."></input></span>
+                                    <h5>Billing and shipping address same</h5>
+                                </div>
+
+                            </div>
+                            <div class="row shipping" id="shipping">
+                                <h4>Shipping address</h4>
+                                <div class="form-group">
+                                    <input required="true" type="text" placeholder="Country" class="form-control sh1"
+                                           name="shippingCountry"/>
+                                </div>
+                                <div class="form-group">
+                                    <input required="true" type="text" placeholder="Address" class="form-control sh1"
+                                           name="shippingAddress"/>
+                                </div>
+
+                                <div class="form-group col-md-5">
+                                    <input required="true" type="text" placeholder="City" class="form-control sh1"
+                                           name="shippingCity"/>
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <input required="true" type="text" placeholder="Zip-code" class="form-control sh1"
+                                           name="shippingZipcode"/>
+                                </div>
+
+                            </div>
+                            <input type="submit" value="Register new user"/>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 

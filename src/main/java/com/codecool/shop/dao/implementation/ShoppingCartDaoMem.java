@@ -36,6 +36,15 @@ public class ShoppingCartDaoMem implements ShoppingCartDao {
     }
 
     @Override
+    public void removeElementFromCart(Product product,ShoppingCart cart) {
+
+    }
+
+    @Override
+    public void deleteElementsFromCart(Product product,ShoppingCart cart){}
+
+
+    @Override
     public int addNewCartToDb(){
         return 1;
     }
@@ -48,6 +57,11 @@ public class ShoppingCartDaoMem implements ShoppingCartDao {
     @Override
     public void remove(int id) {
         DATA.remove(find(id));
+    }
+
+    @Override
+    public void setElementCount(ShoppingCart cart,int productid,int newamount) {
+
     }
 
     @Override

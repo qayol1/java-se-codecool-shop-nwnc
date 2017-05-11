@@ -38,7 +38,7 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
             ) {
 
                 int count = getCartElementCount(cart, product);
-                stmt.setInt(1, count+1);
+                stmt.setInt(1, count + 1);
                 stmt.setInt(2, cart.getId());
                 stmt.setInt(3, product.getId());
                 stmt.executeUpdate();
@@ -149,25 +149,70 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
             }
 
             if (cartelements.size() == 0) {
-                return new ShoppingCart(id, null);
+                return new ShoppingCart(id, cartelements);
             }
 
             return new ShoppingCart(id, cartelements);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
+    @Override
+    public void removeElementFromCart(Product product, ShoppingCart cart) {
+        if (getCartElementCount(cart, product) == 1) {
+            deleteElementsFromCart(product, cart);
+        } else {
+            try (
+                    PreparedStatement stmt = DbConnect.getConnection().prepareStatement(
+                            ("UPDATE shoppingcarelements SET productcount = ? WHERE (shoppingcartid = ?) AND (productid = ?)"))
+            ) {
+                int count = getCartElementCount(cart, product);
+                stmt.setInt(1, count - 1);
+                stmt.setInt(2, cart.getId());
+                stmt.setInt(3, product.getId());
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.getStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void deleteElementsFromCart(Product product,ShoppingCart cart){
+        try (
+                PreparedStatement stmt = DbConnect.getConnection().prepareStatement(
+                            ("DELETE FROM shoppingcarelements  WHERE (shoppingcartid = ?) AND (productid = ?)"))
+            ) {
+                stmt.setInt(1, cart.getId());
+                stmt.setInt(2, product.getId());
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.getStackTrace();
+            }
+    }
 
     @Override
     public void remove(int id) {
-
     }
 
     @Override
-    public List<ShoppingCart> getAll() {
-        return null;
+    public void setElementCount(ShoppingCart cart,int productid,int newamount) {
+        try (
+                    PreparedStatement stmt = DbConnect.getConnection().prepareStatement(
+                            ("UPDATE shoppingcarelements SET productcount = ? WHERE (shoppingcartid = ?) AND (productid = ?)"))
+            ) {
+
+                stmt.setInt(1, newamount);
+                stmt.setInt(2, cart.getId());
+                stmt.setInt(3, productid);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.getStackTrace();
+            }
     }
+
+    @Override
+    public List<ShoppingCart> getAll() { return null;}
 }

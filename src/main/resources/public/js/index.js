@@ -6,6 +6,7 @@ $(document).ready(function () {
     setShoppingCartCount();
 
     $('#cart-items').fadeIn("slow");
+    $(".thumbnail").fadeIn("slow");
 
 
     $('#checkb').change(function () {
@@ -30,6 +31,15 @@ $(document).ready(function () {
         }
 
     });
+
+    if($(".logout").length) {
+        console.log("van");
+        $(".loginPart").removeAttr("data-toggle")
+    } else {
+        $(".loginPart").attr("data-toggle", "modal")
+    }
+
+
     $("#shoppingchartbutton").click(function (e) {
         hideFilter();
     });
@@ -44,9 +54,12 @@ function handleLoggedUser() {
         method: 'POST',
         url: '/isuserlogged',
         success: function (data) {
-            if (data == "true") {
+            if (data!="nulluser") {
                 $(".loginPart").empty();
-                $(".loginPart").append("<div><a class='buttonLikeHref' href='/logout'>LogOut</a></div>")
+                $(".loginPart").append("<a href='/logout'><span class='btn filtermenu loginPart logout' >LogOut</span></a>");
+                $(".registerPart").empty();
+                $(".registerPart").append("<div>"+data+"</div>");
+                $(".loginPart").removeAttr("data-toggle")
             }
         }
     });
@@ -65,6 +78,17 @@ function setFilterCategoryUnchecked(param1) {
     });
 }
 
+function setAmount(id) {
+    var num = parseInt($("#amount-count" + id).val());
+    $.ajax({
+        method: 'POST',
+        url: '/set-amount',
+        data: {'id': id, 'num': num},
+        success: function () {
+            $("#cart-count").text(parseInt($("#cart-count").html()) - 1);
+        }
+    });
+}
 
 function filter(categoryid) {
     hideFilter();

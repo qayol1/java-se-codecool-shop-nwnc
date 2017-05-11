@@ -38,6 +38,7 @@ public class LoginHandler {
         String fromPage = request.queryParams("place");
         if (fromPage.equals("main")) {
             response.redirect("/index");
+            return null;
         }
         response.redirect("/checkout");
         return null;
@@ -61,10 +62,10 @@ public class LoginHandler {
     };
 
     public static Route isUserLogged = (Request request, Response response) -> {
-        if (currentUser(request) == null) {
-            return false;
+        if (isUserLoggedIn(request)) {
+            return currentUser(request).getCostumer().getFirstName();
         }
-        return true;
+        return "nulluser";
     };
 
     public static Route logout = (Request req, Response res) -> {

@@ -69,6 +69,7 @@
     border-radius: 3px;
     padding: 10px;
     min-width: 65px;
+    height: 50px;
     margin: 5px;
     color: #424242;
     position: relative;
@@ -88,39 +89,48 @@
 }
 
 .filtercategory {
-    font-size: 20px;
+    font-size: 25px;
     color:black;
-    transition: all 0.3s ease;
+    transition: all 0.1s ease;
 }
 
-.filtercategory:hover,.filtercategory:focus,.filtercategory:active {
-    color:#444;
-    font-size: 25px;
-    transition: all 0.3s ease;
-}
+/*.filtercategory:hover,.filtercategory:focus,.filtercategory:active {*/
+    /*color:white;*/
+    /*font-size: 22px;*/
+    /*transition: all 0.1s ease;*/
+    /*background-color: #444;*/
+/*}*/
 
 .title {
     font-size: 35px;
     position: absolute;
-    right: 0px;
+    margin-top:-40px;
+    left: 35%;
     width: 300px;
 }
 
 .loginPart{
-    font-size: 13px;
+    font-size: 15px;
     position: relative;
-    left: 40%;
+    left: 12%;
+    width:100px;
+    max-height: 50px;
+}
+
+.logout {
+    top: -15px;
+    left: -10px;
+}
+.registerPart {
+    position: relative;
+    left: 9.5%;
+    top: 0;
+    width:100px;
+    max-height: 50px;
 }
 
 .buttonLikeHref {
     display: block;
-    width: 70px;
-    height: 25px;
-    background: #4E9CAF;
-    padding: 10px;
-    border-radius: 5px;
-    color: white;
-    font-weight: bold;
 }
 
 #filterList {
@@ -159,7 +169,6 @@
 }
 
 #wrapper.toggled #sidebar-wrapper {
-    padding-top: 40px;
     width: 300px;
 }
 

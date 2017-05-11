@@ -2,12 +2,13 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.CustomerDao;
 import com.codecool.shop.dao.ShoppingCartDao;
-import com.codecool.shop.dao.implementation.CustomerDaoMem;
-import com.codecool.shop.dao.implementation.ShoppingCartDaoMem;
+import com.codecool.shop.dao.UserDao;
+import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.model.Address;
 import com.codecool.shop.model.Customer;
 import com.codecool.shop.model.ShoppingCart;
 import com.codecool.shop.model.User;
+import com.codecool.shop.util.RequestUtil;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -17,6 +18,7 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import java.util.HashMap;
 import java.util.Map;
 import static com.codecool.shop.model.CurrentUser.currentUser;
+import static com.codecool.shop.model.CurrentUser.isUserLoggedIn;
 
 public class CustomerController {
 
@@ -42,9 +44,48 @@ public class CustomerController {
         }
     }
 
+    public static void registerCustomer(Request req) {
+        CustomerDao customerDao = CustomerDaoJDBC.getInstance();
+        UserDao userDao = UserDaoJDBC.getInstance();
+        String checkb = req.queryParams("checkb");
+        if (checkb!=null) {
+            Address billingAddress = new Address(req.queryParams("billingCountry"), req.queryParams("billingCity"),
+                    req.queryParams("billingZipcode"), req.queryParams("billingAddress"));
+            Address shippingAddress = new Address(req.queryParams("billingCountry"), req.queryParams("billingCity"),
+                    req.queryParams("billingZipcode"), req.queryParams("billingAddress"));
+            Customer c1 = new Customer(req.queryParams("first_name"), req.queryParams("last_name"), req.queryParams("email"), req.queryParams("phone"),
+                    billingAddress, shippingAddress);
+            c1.setId(customerDao.add(c1));
+            User us1 = new User(req.queryParams("username"), req.queryParams("password"));
+            us1.setCustomer(c1);
+            userDao.add(us1);
+            RequestUtil.setSessionUser(req,us1.getUsername());
+
+        } else {
+            Address billingAddress = new Address(req.queryParams("billingCountry"), req.queryParams("billingCity"),
+                    req.queryParams("billingZipcode"), req.queryParams("billingAddress"));
+            Address shippingAddress = new Address(req.queryParams("shippingCountry"), req.queryParams("shippingCity"),
+                    req.queryParams("shippingZipcode"), req.queryParams("shippingAddress"));
+            Customer c1 = new Customer(req.queryParams("first_name"), req.queryParams("last_name"), req.queryParams("email"), req.queryParams("phone"),
+                    billingAddress, shippingAddress);
+            c1.setId(customerDao.add(c1));
+            User us1 = new User(req.queryParams("username"), req.queryParams("password"));
+            us1.setCustomer(c1);
+            userDao.add(us1);
+            RequestUtil.setSessionUser(req,us1.getUsername());
+        }
+
+    }
+
+    public static Route registerUser = (Request req, Response res) -> {
+        registerCustomer(req);
+        res.redirect("/index");
+        return null;
+    };
+
     public static Route redirectCustomer = (Request req, Response res) -> {
-        User current=currentUser(req);
-        if (current!=null){
+
+        if (isUserLoggedIn(req)){
             ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
             Map<String, Object> model=new HashMap<>();
             ShoppingCart cart=req.session().attribute("cart");
