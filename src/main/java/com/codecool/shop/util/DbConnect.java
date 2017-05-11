@@ -60,13 +60,4 @@ public class DbConnect {
                 DB_USER,
                 DB_PASSWORD);
     }
-
-    public void connect() {
-        Connection connection = null;
-        try {
-            connection = getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }

@@ -14,9 +14,10 @@ import java.util.List;
 public class SupplierDaoJDBC implements SupplierDao {
     private static SupplierDaoJDBC instance = null;
 
-    private DbConnect dbConnect = new DbConnect("src/main/resources/connection/properties/connectionProperties.txt");
+    private DbConnect dbConnect;
 
     private SupplierDaoJDBC() {
+        DbConnect dbConnect = new DbConnect("")
     }
 
     public static SupplierDaoJDBC getInstance() {
