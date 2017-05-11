@@ -8,6 +8,7 @@ import com.codecool.shop.model.Address;
 import com.codecool.shop.model.Customer;
 import com.codecool.shop.model.ShoppingCart;
 import com.codecool.shop.model.User;
+import com.codecool.shop.util.RequestUtil;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -17,6 +18,7 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import java.util.HashMap;
 import java.util.Map;
 import static com.codecool.shop.model.CurrentUser.currentUser;
+import static com.codecool.shop.model.CurrentUser.isUserLoggedIn;
 
 public class CustomerController {
 
@@ -67,20 +69,22 @@ public class CustomerController {
             c1.setId(customerDao.add(c1));
             User us1 = new User(req.queryParams("username"), req.queryParams("password"));
             us1.setCustomer(c1);
-              userDao.add(us1);
+            userDao.add(us1);
+            System.out.println(us1.getUsername());
+            RequestUtil.setSessionUser(req,us1.getUsername());
         }
 
     }
 
     public static Route registerUser = (Request req, Response res) -> {
         registerCustomer(req);
-            res.redirect("/index");
-           return null;
+        res.redirect("/index");
+        return null;
     };
 
     public static Route redirectCustomer = (Request req, Response res) -> {
-        User current=currentUser(req);
-        if (current!=null){
+
+        if (isUserLoggedIn(req)){
             ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
             Map<String, Object> model=new HashMap<>();
             ShoppingCart cart=req.session().attribute("cart");
