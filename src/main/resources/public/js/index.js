@@ -50,10 +50,11 @@ function handleLoggedUser() {
         method: 'POST',
         url: '/isuserlogged',
         success: function (data) {
-            if (data == "true") {
-
+            if (data!="nulluser") {
                 $(".loginPart").empty();
-                $(".loginPart").append("<div><a class='buttonLikeHref' href='/logout'>LogOut</a></div>")
+                $(".loginPart").append("<div><a class='buttonLikeHref' href='/logout'>LogOut</a></div>");
+                $(".registerPart").empty();
+                $(".registerPart").append("<div>"+data+"</div>")
             }
         }
     });

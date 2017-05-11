@@ -75,7 +75,7 @@ function checkoutBtnAct() {
         method: 'POST',
         url: '/isuserlogged',
         success: function (data) {
-            if (data=="true"){
+            if (data!="nulluser"){
                 window.location.replace("/checkout");
             } else {
 
