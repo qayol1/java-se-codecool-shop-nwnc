@@ -1,7 +1,5 @@
 package com.codecool.shop.dao.implementation;
 
-import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.Supplier;
 import com.codecool.shop.util.DbConnect;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,9 +35,7 @@ class SupplierDaoJDBCTest {
     @Test
     public void testIsProductCategoryDaoMemIsSingletone () {
         SupplierDaoJDBC supplierDataStore2 = SupplierDaoJDBC.getInstance();
-        supplierDataStore2.setDbConnectForTest(filepath);
         SupplierDaoJDBC supplierDataStore1 = SupplierDaoJDBC.getInstance();
-        supplierDataStore1.setDbConnectForTest(filepath);
         assertEquals(supplierDataStore1.hashCode(),supplierDataStore2.hashCode());
     }
 
@@ -93,5 +89,27 @@ class SupplierDaoJDBCTest {
         Supplier asus = new Supplier("Asus", "International manufacturer and distributor of computer hardware products.");
         supplierDataStore.add(asus);
         assertEquals(6,supplierDataStore.getAll().size());
+    }
+
+    @Test
+    public void testGetIdByName() {
+        SupplierDaoJDBC supplierDataStore = SupplierDaoJDBC.getInstance();
+        supplierDataStore.setDbConnectForTest(filepath);
+        Supplier amazon = new Supplier("Amazon", "Digital content and services");
+        supplierDataStore.add(amazon);
+        int id = supplierDataStore.getIdByName("Amazon");
+        assertNotNull(id,Integer.toString(id));
+    }
+
+    @Test
+    public void testSameSupplierNameCannotAdd() {
+        SupplierDaoJDBC supplierDataStore = SupplierDaoJDBC.getInstance();
+        supplierDataStore.setDbConnectForTest(filepath);
+        Supplier amazon1 = new Supplier("Amazon", "Digital content and services");
+        supplierDataStore.add(amazon1);
+        Supplier amazon2 = new Supplier("Amazon", "Digital content and services");
+        supplierDataStore.add(amazon2);
+        int size = supplierDataStore.getAll().size();
+        assertEquals(1, size);
     }
 }

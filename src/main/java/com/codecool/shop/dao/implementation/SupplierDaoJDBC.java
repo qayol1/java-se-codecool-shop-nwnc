@@ -34,19 +34,21 @@ public class SupplierDaoJDBC implements SupplierDao {
 
     @Override
     public void add(Supplier supplier) {
-        try {
-            PreparedStatement stmt;
-            stmt = dbConnect.getConnection().prepareStatement(
-                    ("INSERT INTO supplier (name, description) VALUES (?, ?)"));
-            stmt.setString(1, supplier.getName());
-            stmt.setString(2, supplier.getDescription());
-            stmt.executeUpdate();
-            ResultSet resultSet = stmt.getGeneratedKeys();
-            while (resultSet.next()) {
-                supplier.setId(resultSet.getInt(1));
+        if (getIdByName(supplier.getName()) == 0) {
+            try {
+                PreparedStatement stmt;
+                stmt = dbConnect.getConnection().prepareStatement(
+                        ("INSERT INTO supplier (name, description) VALUES (?, ?)"));
+                stmt.setString(1, supplier.getName());
+                stmt.setString(2, supplier.getDescription());
+                stmt.executeUpdate();
+                ResultSet resultSet = stmt.getGeneratedKeys();
+                while (resultSet.next()) {
+                    supplier.setId(resultSet.getInt(1));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        }catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
