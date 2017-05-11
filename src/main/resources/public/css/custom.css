@@ -104,7 +104,7 @@
 .title {
     font-size: 35px;
     position: absolute;
-    margin-top:10px;
+    margin-top:-40px;
     left: 35%;
     width: 300px;
 }
@@ -112,7 +112,14 @@
 .loginPart{
     font-size: 15px;
     position: relative;
-    left: 10%;
+    left: 7%;
+    width:100px;
+}
+
+.registerPart {
+    position: relative;
+    left:5%;
+    width:100px;
 }
 
 .buttonLikeHref {
