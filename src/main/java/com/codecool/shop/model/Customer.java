@@ -46,7 +46,7 @@ public class Customer {
         this.shoppingCart=cart;
     }
 
-    git@Override
+    @Override
     public String toString() {
         return "Customer{" +
                 "id=" + id +
