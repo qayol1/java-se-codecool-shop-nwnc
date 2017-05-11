@@ -67,7 +67,7 @@ class SupplierDaoJDBCTest {
     @Test
     public void testRemoveByNonExistingId() {
         SupplierDao supplierDataStore = SupplierDaoJDBC.getInstance(filepath);
-        assertEquals(true,supplierDataStore.remove(2));
+        assertEquals(false,supplierDataStore.remove(2));
     }
 
     @Test

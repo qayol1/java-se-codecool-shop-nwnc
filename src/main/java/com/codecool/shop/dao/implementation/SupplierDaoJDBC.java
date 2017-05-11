@@ -76,6 +76,10 @@ public class SupplierDaoJDBC implements SupplierDao {
 
     @Override
     public boolean remove(int id) {
+        Supplier supplier = find(id);
+        if (supplier==null) {
+            return false;
+        }
         String query = "DELETE FROM supplier WHERE id=" + id + ";";
         try (Connection connection = dbConnect.getConnection();
              Statement statement = connection.createStatement();
