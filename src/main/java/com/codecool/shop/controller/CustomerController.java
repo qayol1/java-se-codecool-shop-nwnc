@@ -59,6 +59,8 @@ public class CustomerController {
             User us1 = new User(req.queryParams("username"), req.queryParams("password"));
             us1.setCustomer(c1);
             userDao.add(us1);
+            RequestUtil.setSessionUser(req,us1.getUsername());
+
         } else {
             Address billingAddress = new Address(req.queryParams("billingCountry"), req.queryParams("billingCity"),
                     req.queryParams("billingZipcode"), req.queryParams("billingAddress"));
@@ -70,7 +72,6 @@ public class CustomerController {
             User us1 = new User(req.queryParams("username"), req.queryParams("password"));
             us1.setCustomer(c1);
             userDao.add(us1);
-            System.out.println(us1.getUsername());
             RequestUtil.setSessionUser(req,us1.getUsername());
         }
 
