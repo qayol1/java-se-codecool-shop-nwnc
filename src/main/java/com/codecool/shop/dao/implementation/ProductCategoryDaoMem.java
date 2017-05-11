@@ -52,6 +52,12 @@ public class ProductCategoryDaoMem implements ProductCategoryDao {
     }
 
     @Override
+    public boolean empty() {
+        DATA.clear();
+        return true;
+    }
+
+    @Override
     public List<ProductCategory> getAll() {
         return DATA;
     }

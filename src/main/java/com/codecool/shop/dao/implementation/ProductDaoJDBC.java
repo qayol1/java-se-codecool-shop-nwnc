@@ -21,20 +21,18 @@ public class ProductDaoJDBC implements ProductDao {
     private DbConnect dbConnect;
     private static String defaultFilepath = "src/main/resources/connection/properties/connectionProperties.txt";
 
-    private ProductDaoJDBC(String filepath) {
-        dbConnect = new DbConnect(filepath);
+    private ProductDaoJDBC() {
+        dbConnect = new DbConnect(defaultFilepath);
     }
 
     public static ProductDaoJDBC getInstance() {
-        return getInstance(defaultFilepath);
-    }
-
-    public static ProductDaoJDBC getInstance(String filepath) {
         if (instance == null) {
-            instance = new ProductDaoJDBC(filepath);
+            instance = new ProductDaoJDBC();
         }
         return instance;
     }
+
+    protected void setDbConnectForTest(String testFilepath) {dbConnect = new DbConnect(testFilepath); }
 
     @Override
     public void add(Product product) {
@@ -147,15 +145,42 @@ public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public boolean remove(int id) {
+        Product product = find(id);
+        if (product==null) {
+            return false;
+        }
         String query = "DELETE FROM product WHERE id ='" + id + "';";
         try (Connection connection = dbConnect.getConnection();
              Statement statement = connection.createStatement();
-        ) {             statement.executeQuery(query) ; }
+        ) {             statement.executeUpdate(query) ; }
         catch (SQLException e) {
         e.printStackTrace();
         }
         return true;
 
+    }
+
+    @Override
+    public boolean empty() {
+        return false;
+    }
+
+    public int getIdByName(String name) {
+        int result = 0;
+        String query = "SELECT * FROM product WHERE name=?;";
+        Connection connection = null;
+        try {
+            connection = dbConnect.getConnection();
+            PreparedStatement pstmt = connection.prepareStatement( query );
+            pstmt.setString( 1, name);
+            ResultSet resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                result = Integer.parseInt((resultSet.getString("id")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 

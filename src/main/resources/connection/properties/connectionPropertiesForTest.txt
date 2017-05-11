@@ -1,4 +1,4 @@
 url: localhost:5432
 database: codecoolshopTest
-user: abelvaradi
-password: elite99
+user: matyi
+password: matyi

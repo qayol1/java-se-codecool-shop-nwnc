@@ -11,6 +11,7 @@ public interface ProductDao {
     void add(Product product);
     Product find(int id);
     boolean remove(int id);
+    boolean empty();
 
     List<Product> getAll();
     List<Product> getBy(Supplier supplier);
