@@ -1,4 +1,4 @@
-package com.codecool.shop.dao.implementation;
+package com.codecool.shop.dao.implementation.database;
 
 
 import com.codecool.shop.dao.ProductDao;
@@ -6,11 +6,11 @@ import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ShoppingCart;
 import com.codecool.shop.util.DbConnect;
-import jdk.management.resource.internal.inst.SocketRMHooks;
 
 import java.sql.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ShoppingCartDaoJDBC implements ShoppingCartDao {
@@ -58,6 +58,45 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
                 stmt.setInt(1, cart.getId());
                 stmt.setInt(2, product.getId());
                 stmt.setInt(3, 1);
+                System.out.println("lefut");
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.getStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void addNewCartElement(ShoppingCart cart, Product product,int num) {
+
+        if (isElementInCart(cart, product)) {
+
+            try (
+                    PreparedStatement stmt = DbConnect.getConnection().prepareStatement(
+                            ("UPDATE shoppingcarelements SET productcount = ? WHERE (shoppingcartid = ?) AND (productid = ?)"))
+            ) {
+
+                int count = getCartElementCount(cart, product);
+                stmt.setInt(1, count+num);
+                stmt.setInt(2, cart.getId());
+                stmt.setInt(3, product.getId());
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.getStackTrace();
+            }
+
+        } else {
+            try (
+                    PreparedStatement stmt = DbConnect.getConnection().prepareStatement(
+                            ("INSERT INTO shoppingcarelements" +
+                                    "(shoppingcartid," +
+                                    "productid," +
+                                    "productcount" + ") VALUES (?, ?, ?)"), Statement.RETURN_GENERATED_KEYS);
+            ) {
+
+                stmt.setInt(1, cart.getId());
+                stmt.setInt(2, product.getId());
+                stmt.setInt(3, num);
                 System.out.println("lefut");
                 stmt.executeUpdate();
             } catch (SQLException e) {
@@ -198,12 +237,18 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
     }
 
     @Override
+    public void mergeCarts(ShoppingCart sessionCart,ShoppingCart databaseCart){
+        for (Map.Entry<Product,Integer> entry:sessionCart.getAll().entrySet()){
+            addNewCartElement(databaseCart,entry.getKey(),entry.getValue());
+        }
+    }
+
+    @Override
     public void setElementCount(ShoppingCart cart,int productid,int newamount) {
         try (
                     PreparedStatement stmt = DbConnect.getConnection().prepareStatement(
                             ("UPDATE shoppingcarelements SET productcount = ? WHERE (shoppingcartid = ?) AND (productid = ?)"))
             ) {
-
                 stmt.setInt(1, newamount);
                 stmt.setInt(2, cart.getId());
                 stmt.setInt(3, productid);

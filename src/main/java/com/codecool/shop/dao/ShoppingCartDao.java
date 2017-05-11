@@ -22,5 +22,7 @@ public interface ShoppingCartDao {
     void removeElementFromCart(Product product,ShoppingCart cart);
     void deleteElementsFromCart(Product product,ShoppingCart cart);
     int addNewCartToDb();
+    void mergeCarts(ShoppingCart sessionCart,ShoppingCart databaseCart);
+    void addNewCartElement(ShoppingCart cart, Product product,int num);
     List<ShoppingCart> getAll();
 }

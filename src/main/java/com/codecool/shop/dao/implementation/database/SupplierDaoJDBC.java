@@ -1,10 +1,9 @@
-package com.codecool.shop.dao.implementation;
+package com.codecool.shop.dao.implementation.database;
 
-import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.dao.SupplierDao;
+import com.codecool.shop.model.Supplier;
 import com.codecool.shop.util.DbConnect;
 
-import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,18 +11,19 @@ import java.util.List;
 /**
  * Created by abelvaradi on 2017.05.09..
  */
-public class ProductCategoryDaoJDBC implements ProductCategoryDao {
-    private static ProductCategoryDaoJDBC instance = null;
+public class SupplierDaoJDBC implements SupplierDao {
+    private static SupplierDaoJDBC instance = null;
 
     private DbConnect dbConnect;
     private static String defaultFilepath = "src/main/resources/connection/properties/connectionProperties.txt";
 
-    private ProductCategoryDaoJDBC() {
+    private SupplierDaoJDBC() {
+        dbConnect = new DbConnect(defaultFilepath);
     }
 
-    public static ProductCategoryDaoJDBC getInstance() {
+    public static SupplierDaoJDBC getInstance() {
         if (instance == null) {
-            instance = new ProductCategoryDaoJDBC();
+            instance = new SupplierDaoJDBC();
         }
         return instance;
     }
@@ -33,25 +33,29 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
     }
 
     @Override
-    public void add(ProductCategory productCategory) {
-        try {
-            PreparedStatement stmt;
-            stmt = dbConnect.getConnection().prepareStatement(
-                    ("INSERT INTO productcategory (name, department, description) VALUES (?, ?, ?)"));
-            stmt.setString(1, productCategory.getName());
-            stmt.setString(2, productCategory.getDepartment());
-            stmt.setString(3, productCategory.getDescription());
-            stmt.executeUpdate();
-            ResultSet resultSet = stmt.getGeneratedKeys();
-        }catch (SQLException e) {
-            e.printStackTrace();
+    public void add(Supplier supplier) {
+        if (getIdByName(supplier.getName()) == 0) {
+            try {
+                PreparedStatement stmt;
+                stmt = dbConnect.getConnection().prepareStatement(
+                        ("INSERT INTO supplier (name, description) VALUES (?, ?)"));
+                stmt.setString(1, supplier.getName());
+                stmt.setString(2, supplier.getDescription());
+                stmt.executeUpdate();
+                ResultSet resultSet = stmt.getGeneratedKeys();
+                while (resultSet.next()) {
+                    supplier.setId(resultSet.getInt(1));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
-    public ProductCategory find(int id) {
+    public Supplier find(int id) {
 
-        String query = "SELECT * FROM productcategory WHERE id ='" + id + "';";
+        String query = "SELECT * FROM supplier WHERE id ='" + id + "';";
 
         try (Connection connection = dbConnect.getConnection();
              Statement statement =connection.createStatement();
@@ -59,12 +63,11 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
         ){
             while (resultSet.next()){
-                ProductCategory productCategory = new ProductCategory(
+                Supplier supplier = new Supplier(
                         resultSet.getString("name"),
-                        resultSet.getString("department"),
                         resultSet.getString("description"));
-                productCategory.setId(resultSet.getInt(1));
-                return productCategory;
+                supplier.setId(resultSet.getInt(1));
+                return supplier;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,14 +78,14 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
     @Override
     public boolean remove(int id) {
-        ProductCategory productCategory = find(id);
-        if (productCategory==null) {
+        Supplier supplier = find(id);
+        if (supplier==null) {
             return false;
         }
-        String query = "DELETE FROM productcategory WHERE id=" + id + ";";
+        String query = "DELETE FROM supplier WHERE id=" + id + ";";
         try (Connection connection = dbConnect.getConnection();
              Statement statement = connection.createStatement();
-        ) {             statement.executeUpdate(query) ; }
+        ) {             statement.executeQuery(query) ; }
         catch (SQLException e) {
             e.printStackTrace();
         }
@@ -96,35 +99,34 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
     }
 
     @Override
-    public List<ProductCategory> getAll() {
-        String query = "SELECT * FROM productcategory;";
+    public List<Supplier> getAll() {
+        String query = "SELECT * FROM supplier;";
 
-        List<ProductCategory> productCategoryList = new ArrayList<>();
+        List<Supplier> supplierList = new ArrayList<>();
 
         try (Connection connection = dbConnect.getConnection();
              Statement statement =connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)
+             ResultSet resultSet = statement.executeQuery(query);
         ) {
             while (resultSet.next()) {
-                ProductCategory productCategory = new ProductCategory(
+                Supplier supplier = new Supplier(
                         resultSet.getString("name"),
-                        resultSet.getString("department"),
                         resultSet.getString("description")
                 );
-                productCategory.setId(resultSet.getInt(1));
-                productCategoryList.add(productCategory);
+                supplier.setId(resultSet.getInt(1));
+                supplierList.add(supplier);
             }
         }
         catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return productCategoryList;
+                e.printStackTrace();
+            }
+            return supplierList;
 
     }
 
     public int getIdByName(String name) {
         int result = 0;
-        String query = "SELECT * FROM productcategory WHERE name=?;";
+        String query = "SELECT * FROM supplier WHERE name=?;";
         Connection connection = null;
         try {
             connection = dbConnect.getConnection();
@@ -140,4 +142,6 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
         return result;
     }
 }
+
+
 

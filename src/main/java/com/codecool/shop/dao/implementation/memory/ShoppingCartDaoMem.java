@@ -1,10 +1,8 @@
-package com.codecool.shop.dao.implementation;
+package com.codecool.shop.dao.implementation.memory;
 
 import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ShoppingCart;
-import com.sun.scenario.effect.impl.prism.PrDrawable;
-import spark.Request;
 
 import java.util.*;
 
@@ -61,8 +59,12 @@ public class ShoppingCartDaoMem implements ShoppingCartDao {
 
     @Override
     public void setElementCount(ShoppingCart cart,int productid,int newamount) {
-
     }
+    @Override
+    public void mergeCarts(ShoppingCart sessionCart,ShoppingCart databaseCart){}
+
+    @Override
+    public void addNewCartElement(ShoppingCart cart, Product product,int num){}
 
     @Override
     public List<ShoppingCart> getAll() {

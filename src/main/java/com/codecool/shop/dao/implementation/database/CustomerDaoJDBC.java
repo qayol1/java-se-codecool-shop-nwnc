@@ -1,9 +1,7 @@
-package com.codecool.shop.dao.implementation;
+package com.codecool.shop.dao.implementation.database;
 
 import com.codecool.shop.dao.CustomerDao;
-import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ShoppingCartDao;
-import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.Customer;
 import com.codecool.shop.util.DbConnect;
 

@@ -1,4 +1,4 @@
-package com.codecool.shop.dao.implementation;
+package com.codecool.shop.dao.implementation.database;
 
 import com.codecool.shop.dao.*;
 import com.codecool.shop.model.User;

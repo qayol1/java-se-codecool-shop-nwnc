@@ -2,7 +2,8 @@ package com.codecool.shop.util;
 
 
 import com.codecool.shop.dao.*;
-import com.codecool.shop.dao.implementation.*;
+import com.codecool.shop.dao.implementation.database.*;
+import com.codecool.shop.dao.implementation.memory.UserDaoMem;
 import com.codecool.shop.model.*;
 
 import java.sql.DatabaseMetaData;
@@ -104,7 +105,7 @@ public class ExampleData {
 
 
             CustomerDao CustomerDataStore = CustomerDaoJDBC.getInstance();
-            UserDao userJDBC=UserDaoJDBC.getInstance();
+            UserDao userJDBC= UserDaoJDBC.getInstance();
 
             Customer c1 = new Customer("Bruce", "Wayne", "batman@robin.com", "06901111", new Address("USA", "Gotham", "1111", "BatCave"), new Address("USA", "Gotham", "1111", "BatCave"));
             c1.setId(CustomerDataStore.add(c1));

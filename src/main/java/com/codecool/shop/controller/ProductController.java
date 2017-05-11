@@ -4,17 +4,19 @@ import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.*;
+import com.codecool.shop.dao.implementation.database.ProductCategoryDaoJDBC;
+import com.codecool.shop.dao.implementation.database.ProductDaoJDBC;
+import com.codecool.shop.dao.implementation.database.ShoppingCartDaoJDBC;
+import com.codecool.shop.dao.implementation.database.SupplierDaoJDBC;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.ShoppingCart;
 import com.codecool.shop.model.Supplier;
-import com.codecool.shop.dao.*;
-import com.codecool.shop.dao.implementation.*;
-import com.codecool.shop.model.*;
 import com.codecool.shop.util.ProductFilter;
 import spark.Request;
+
 import static com.codecool.shop.model.CurrentUser.*;
+
 import spark.Response;
 import spark.ModelAndView;
 import spark.Route;
@@ -29,82 +31,51 @@ public class ProductController {
     public static Route renderAllProducts = (Request req, Response res) -> {
         ProductDao productDataStore = ProductDaoJDBC.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
-        ProductFilter filter=new ProductFilter();
+        ProductFilter filter = new ProductFilter();
         Map params = new HashMap<>();
 
         if (getSessionShoppingCart(req) == null) {
-                setSessionShoppingcart(req, new ShoppingCart());
-            }
-
-        if (isUserLoggedIn(req)) {
-                if (req.queryString() != null && req.queryString().length()!=0) {
-                    String[] categoryNameList = req.queryMap().toMap().get("category");
-                    String[] supplierNameList = req.queryMap().toMap().get("supplier");
-                    filter.init(categoryNameList, supplierNameList);
-                    List<ProductCategory> productCategoryList = getRequestedCategories(categoryNameList);
-                    List<Supplier> productSupplierList = getRequestedSuppliers(supplierNameList);
-
-                    params.put("products", filterBySupplier(productSupplierList));
-                    params.put("category", productCategoryList);
-                    params.put("filter", filter);
-
-                    return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
-                }
-                filter.init();
-                params.put("category", productCategoryDataStore.getAll());
-                params.put("products", productDataStore.getAll());
-                params.put("filter",filter);
-
-                return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
-
-        } else
-            {
-
-                if (req.queryString() != null && req.queryString().length()!=0){
-
-                    String[] categoryNameList = req.queryMap().toMap().get("category");
-                    String[] supplierNameList = req.queryMap().toMap().get("supplier");
-
-                    filter.init(categoryNameList,supplierNameList);
-
-                    List<ProductCategory> productCategoryList = getRequestedCategories(categoryNameList);
-                    List<Supplier> productSupplierList = getRequestedSuppliers(supplierNameList);
-
-                    params.put("products", filterBySupplier(productSupplierList));
-                    params.put("category", productCategoryList);
-                    params.put("filter",filter);
-
-                    return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
-            } else {
-
-                filter.init();
-                params.put("category", productCategoryDataStore.getAll());
-                params.put("products", productDataStore.getAll());
-                params.put("filter",filter);
-                return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
-            }
+            setSessionShoppingcart(req, new ShoppingCart());
         }
 
-    };
+        if (req.queryString() != null && req.queryString().length() != 0) {
 
+            String[] categoryNameList = req.queryMap().toMap().get("category");
+            String[] supplierNameList = req.queryMap().toMap().get("supplier");
+
+            filter.init(categoryNameList, supplierNameList);
+
+            List<ProductCategory> productCategoryList = getRequestedCategories(categoryNameList);
+            List<Supplier> productSupplierList = getRequestedSuppliers(supplierNameList);
+
+            params.put("products", filterBySupplier(productSupplierList));
+            params.put("category", productCategoryList);
+            params.put("filter", filter);
+
+            return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
+        }
+
+        filter.init();
+        params.put("category", productCategoryDataStore.getAll());
+        params.put("products", productDataStore.getAll());
+        params.put("filter", filter);
+
+        return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
+    };
 
 
     public static Route addToCart = (Request req, Response res) -> {
         ProductDao productDataStore = ProductDaoJDBC.getInstance();
 
-        if (isUserLoggedIn(req)){
-
-
+        if (isUserLoggedIn(req)) {
             int id = Integer.parseInt(req.queryParams("id"));
-            ShoppingCartDao shoppingCartDao=ShoppingCartDaoJDBC.getInstance();
+            ShoppingCartDao shoppingCartDao = ShoppingCartDaoJDBC.getInstance();
 
-            ShoppingCart cart=currentUser(req).getCostumer().getShoppingCart();
-            Product prod= productDataStore.find(id);
+            ShoppingCart cart = currentUser(req).getCostumer().getShoppingCart();
+            Product prod = productDataStore.find(id);
 
-            shoppingCartDao.addNewCartElement(cart,prod);
+            shoppingCartDao.addNewCartElement(cart, prod);
             return true;
-
-
         } else {
             int id = Integer.parseInt(req.queryParams("id"));
             ShoppingCart cart = req.session().attribute("cart");
@@ -114,61 +85,52 @@ public class ProductController {
         }
     };
 
-    public static Route categoryListSize= (Request req,Response res) -> {
+    public static Route categoryListSize = (Request req, Response res) -> {
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
         return productCategoryDataStore.getAll().size();
-
     };
 
     public static Route removeFromCart = (Request req, Response res) -> {
-
         int id = Integer.parseInt(req.queryParams("id"));
 
-        if (isUserLoggedIn(req)){
-            ProductDao productDao=ProductDaoJDBC.getInstance();
+        if (isUserLoggedIn(req)) {
+            ProductDao productDao = ProductDaoJDBC.getInstance();
 
-            ShoppingCartDao shoppingCartDao=ShoppingCartDaoJDBC.getInstance();
-            shoppingCartDao.removeElementFromCart(productDao.find(id),currentUser(req).getCostumer().getShoppingCart());
+            ShoppingCartDao shoppingCartDao = ShoppingCartDaoJDBC.getInstance();
+            shoppingCartDao.removeElementFromCart(productDao.find(id), currentUser(req).getCostumer().getShoppingCart());
             return true;
         } else {
             ShoppingCart cart = getSessionShoppingCart(req);
             cart.decrease(id);
-            setSessionShoppingcart(req,cart);
+            setSessionShoppingcart(req, cart);
             return true;
         }
-
     };
 
     public static Route deleteFromCart = (Request req, Response res) -> {
         int id = Integer.parseInt(req.queryParams("id"));
-        if (isUserLoggedIn(req)){
-            ShoppingCartDao shoppingCartDao=ShoppingCartDaoJDBC.getInstance();
-            ProductDao productDao=ProductDaoJDBC.getInstance();
-            shoppingCartDao.deleteElementsFromCart(productDao.find(id),currentUser(req).getCostumer().getShoppingCart());
+        if (isUserLoggedIn(req)) {
+            ShoppingCartDao shoppingCartDao = ShoppingCartDaoJDBC.getInstance();
+            ProductDao productDao = ProductDaoJDBC.getInstance();
+            shoppingCartDao.deleteElementsFromCart(productDao.find(id), currentUser(req).getCostumer().getShoppingCart());
             return true;
         } else {
-
             ShoppingCart cart = getSessionShoppingCart(req);
             cart.remove(id);
-            setSessionShoppingcart(req,cart);
+            setSessionShoppingcart(req, cart);
             return true;
         }
-
-
     };
 
-
     public static Route renderCart = (Request req, Response res) -> {
-
-
         ProductDao productDataStore = ProductDaoJDBC.getInstance();
         Map params = new HashMap<>();
 
-        if (isUserLoggedIn(req)){
-            ShoppingCart cart=currentUser(req).getCostumer().getShoppingCart();
+        if (isUserLoggedIn(req)) {
+            ShoppingCart cart = currentUser(req).getCostumer().getShoppingCart();
             params.put("products", productDataStore.getAll());
             params.put("shoppingcart", cart);
-         return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/shoppingcart"));
+            return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/shoppingcart"));
 
         }
 
@@ -176,17 +138,12 @@ public class ProductController {
         params.put("products", productDataStore.getAll());
         params.put("shoppingcart", cart);
         return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/shoppingcart"));
+    };
 
 
-        };
-
-
-
-
-    private static  List<ProductCategory> getRequestedCategories(String[] categoryNames){
-        if (categoryNames==null)
-        {
-            ProductCategoryDao productCategoryDao=ProductCategoryDaoJDBC.getInstance();
+    private static List<ProductCategory> getRequestedCategories(String[] categoryNames) {
+        if (categoryNames == null) {
+            ProductCategoryDao productCategoryDao = ProductCategoryDaoJDBC.getInstance();
             return productCategoryDao.getAll();
         }
         List<ProductCategory> productCategoryList = new ArrayList<>();
@@ -203,34 +160,33 @@ public class ProductController {
         return productCategoryList;
     }
 
-    private static  List<Supplier> getRequestedSuppliers(String[] supplierNames){
+    private static List<Supplier> getRequestedSuppliers(String[] supplierNames) {
 
-        if (supplierNames==null){
-            SupplierDao supplierDao=SupplierDaoJDBC.getInstance();
+        if (supplierNames == null) {
+            SupplierDao supplierDao = SupplierDaoJDBC.getInstance();
             return supplierDao.getAll();
         }
 
-        List<Supplier> supplierList=new ArrayList<>();
+        List<Supplier> supplierList = new ArrayList<>();
         SupplierDao supplierDao = SupplierDaoJDBC.getInstance();
-        List<Supplier> allSuppliers=supplierDao.getAll();
+        List<Supplier> allSuppliers = supplierDao.getAll();
 
         for (Supplier supplier : allSuppliers) {
             for (String supplierName : supplierNames) {
-                if (supplier.getName().equals(supplierName)){
+                if (supplier.getName().equals(supplierName)) {
                     supplierList.add(supplier);
                 }
             }
         }
         return supplierList;
-    };
-
+    }
 
     private static Set filterBySupplier(List<Supplier> suppliers) {
-        if (suppliers==null){
+        if (suppliers == null) {
             return null;
         }
         System.out.println(suppliers);
-        ProductDaoJDBC productDaoJDBC=ProductDaoJDBC.getInstance();
+        ProductDaoJDBC productDaoJDBC = ProductDaoJDBC.getInstance();
         Set<Product> filteredProductList = new HashSet<>();
         for (Supplier supplier : suppliers) {
             for (Product product : productDaoJDBC.getAll()) {
@@ -242,34 +198,30 @@ public class ProductController {
         return filteredProductList;
     }
 
-    public static Route setAmount = (Request req,Response res) -> {
+    public static Route setAmount = (Request req, Response res) -> {
         int id = Integer.parseInt(req.queryParams("id"));
         int num = Integer.parseInt(req.queryParams("num"));
-        if (num<1) {return null;}
-
-        if (isUserLoggedIn(req)) {
-            ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoJDBC.getInstance();
-            ShoppingCart cart=currentUser(req).getCostumer().getShoppingCart();
-            shoppingCartDataStore.setElementCount(cart,id,num);
-            return null;
-        } else {
-            ShoppingCartDao shoppingCartDao=ShoppingCartDaoMem.getInstance();
-            ShoppingCart cart = getSessionShoppingCart(req);
-            cart.getAll().put(cart.find(id),num);
-            setSessionShoppingcart(req,cart);
+        if (num < 1) {
             return null;
         }
 
-
-
-
+        if (isUserLoggedIn(req)) {
+            ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoJDBC.getInstance();
+            ShoppingCart cart = currentUser(req).getCostumer().getShoppingCart();
+            shoppingCartDataStore.setElementCount(cart, id, num);
+            return null;
+        } else {
+            ShoppingCart cart = getSessionShoppingCart(req);
+            cart.getAll().put(cart.find(id), num);
+            setSessionShoppingcart(req, cart);
+            return null;
+        }
     };
 
-    public static Route shoppingCartSize = (Request req,Response res) -> {
-        if (isUserLoggedIn(req)){
+    public static Route shoppingCartSize = (Request req, Response res) -> {
+        if (isUserLoggedIn(req)) {
             return currentUser(req).getCostumer().getShoppingCart().getAllProducts();
         }
         return getSessionShoppingCart(req).getAllProducts();
     };
-
 }

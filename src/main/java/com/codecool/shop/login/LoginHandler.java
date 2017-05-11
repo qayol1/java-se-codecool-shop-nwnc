@@ -1,13 +1,12 @@
 package com.codecool.shop.login;
 
 
-import com.codecool.shop.dao.ShoppingCartDao;
-import com.codecool.shop.dao.implementation.ShoppingCartDaoMem;
-import com.codecool.shop.dao.implementation.UserDaoMem;
-import com.codecool.shop.model.User;
-
 import static com.codecool.shop.model.CurrentUser.*;
 
+import com.codecool.shop.dao.ShoppingCartDao;
+import com.codecool.shop.dao.implementation.database.ShoppingCartDaoJDBC;
+import com.codecool.shop.model.ShoppingCart;
+import com.codecool.shop.model.User;
 import com.codecool.shop.util.RequestUtil;
 import spark.ModelAndView;
 import spark.Request;
@@ -25,17 +24,23 @@ public class LoginHandler {
         String username = request.queryParams("username");
         RequestUtil.setSessionUser(request,username);
 
-
-        if (currentUser(request) == null) {
+        User user=currentUser(request);
+        if (user == null) {
             response.redirect("/index");
             return null;
         }
-        if (currentUser(request).isAdmin()) {
+        if (user.isAdmin()) {
             response.redirect("/admin");
             return null;
         }
 
         String fromPage = request.queryParams("place");
+        ShoppingCartDao shoppingCartDao= ShoppingCartDaoJDBC.getInstance();
+
+        ShoppingCart sessionSC=RequestUtil.getSessionShoppingCart(request);
+        ShoppingCart cartDatabase=user.getCostumer().getShoppingCart();
+        shoppingCartDao.mergeCarts(sessionSC,cartDatabase);
+        RequestUtil.setSessionShoppingcart(request,new ShoppingCart());
         if (fromPage.equals("main")) {
             response.redirect("/index");
             return null;
