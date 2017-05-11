@@ -3,6 +3,7 @@ package com.codecool.shop.dao.implementation;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.ProductCategory;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,6 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
  * Created by peter on 2017.05.09..
  */
 class ProductCategoryDaoMemTest {
+
+    @BeforeEach
+    public void clearDataStore() {
+        ProductCategoryDao productCategoryDao = ProductCategoryDaoMem.getInstance();
+        productCategoryDao.empty();
+    }
 
     @AfterEach
     public void clearExampleData() {
