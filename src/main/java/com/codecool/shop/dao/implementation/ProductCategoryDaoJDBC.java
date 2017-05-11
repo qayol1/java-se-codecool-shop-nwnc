@@ -91,6 +91,11 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
     }
 
     @Override
+    public boolean empty() {
+        return false;
+    }
+
+    @Override
     public List<ProductCategory> getAll() {
         String query = "SELECT * FROM productcategory;";
 

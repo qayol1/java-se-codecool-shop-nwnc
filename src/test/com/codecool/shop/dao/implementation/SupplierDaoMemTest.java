@@ -5,6 +5,7 @@ import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.Supplier;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,6 +14,13 @@ import static org.junit.jupiter.api.Assertions.*;
  * Created by peter on 2017.05.09..
  */
 class SupplierDaoMemTest {
+
+    @BeforeEach
+    public void clearDataStore() {
+        SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        supplierDataStore.empty();
+    }
+
     @AfterEach
     public void clearExampleData() {
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();

@@ -94,6 +94,11 @@ public class SupplierDaoJDBC implements SupplierDao {
     }
 
     @Override
+    public boolean empty() {
+        return false;
+    }
+
+    @Override
     public List<Supplier> getAll() {
         String query = "SELECT * FROM supplier;";
 

@@ -48,6 +48,12 @@ public class ProductDaoMem implements ProductDao {
     }
 
     @Override
+    public boolean empty() {
+        DATA.clear();
+        return true;
+    }
+
+    @Override
     public List<Product> getAll() {
         return DATA;
     }

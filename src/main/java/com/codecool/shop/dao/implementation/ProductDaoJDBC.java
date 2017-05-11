@@ -18,9 +18,11 @@ import java.util.List;
 public class ProductDaoJDBC implements ProductDao {
     private static ProductDaoJDBC instance = null;
 
-    private DbConnect dbConnect = new DbConnect("src/main/resources/connection/properties/connectionProperties.txt");
+    private DbConnect dbConnect;
+    private static String defaultFilepath = "src/main/resources/connection/properties/connectionProperties.txt";
 
     private ProductDaoJDBC() {
+        dbConnect = new DbConnect(defaultFilepath);
     }
 
     public static ProductDaoJDBC getInstance() {
@@ -29,6 +31,8 @@ public class ProductDaoJDBC implements ProductDao {
         }
         return instance;
     }
+
+    protected void setDbConnectForTest(String testFilepath) {dbConnect = new DbConnect(testFilepath); }
 
     @Override
     public void add(Product product) {
@@ -141,15 +145,42 @@ public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public boolean remove(int id) {
+        Product product = find(id);
+        if (product==null) {
+            return false;
+        }
         String query = "DELETE FROM product WHERE id ='" + id + "';";
         try (Connection connection = dbConnect.getConnection();
              Statement statement = connection.createStatement();
-        ) {             statement.executeQuery(query) ; }
+        ) {             statement.executeUpdate(query) ; }
         catch (SQLException e) {
         e.printStackTrace();
         }
         return true;
 
+    }
+
+    @Override
+    public boolean empty() {
+        return false;
+    }
+
+    public int getIdByName(String name) {
+        int result = 0;
+        String query = "SELECT * FROM product WHERE name=?;";
+        Connection connection = null;
+        try {
+            connection = dbConnect.getConnection();
+            PreparedStatement pstmt = connection.prepareStatement( query );
+            pstmt.setString( 1, name);
+            ResultSet resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                result = Integer.parseInt((resultSet.getString("id")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 
