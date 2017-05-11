@@ -6,29 +6,31 @@ public class User {
     private String password;
     private String role;
     public int id;
-    ShoppingCart shoppingCart;
     Customer costumer;
 
 
     public User(){}
 
-    public User(String user,String passw){
+
+
+    public User(String user, String passw){
         this.username=user;
         this.password=passw;
         this.role="user";
         this.costumer=null;
-        this.shoppingCart=null;
     }
+
+    public User(String user, String passw,String role,Customer customer){
+        this.username=user;
+        this.password=passw;
+        this.role=role;
+        this.costumer=customer;
+    }
+
+
 
     public void setId(int newid) { this.id=newid; }
 
-    public void setShoppingCart(ShoppingCart cart){
-        this.shoppingCart=cart;
-    }
-
-    public ShoppingCart getShoppingCart(){
-        return this.shoppingCart;
-    }
     public int getId() { return this.id; }
 
     public void setCustomer(Customer cust){
@@ -36,6 +38,14 @@ public class User {
     }
     public Customer getCostumer(){
         return this.costumer;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
     }
 
     public boolean isAdmin(){

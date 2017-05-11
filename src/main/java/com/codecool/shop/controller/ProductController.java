@@ -9,8 +9,12 @@ import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.ShoppingCart;
 import com.codecool.shop.model.Supplier;
+import com.codecool.shop.dao.*;
+import com.codecool.shop.dao.implementation.*;
+import com.codecool.shop.model.*;
 import com.codecool.shop.util.ProductFilter;
 import spark.Request;
+import static com.codecool.shop.model.CurrentUser.*;
 import spark.Response;
 import spark.ModelAndView;
 import spark.Route;
@@ -35,20 +39,34 @@ public class ProductController {
             }
 
         if (req.queryString() != null && req.queryString().length()!=0){
+
             String[] categoryNameList = req.queryMap().toMap().get("category");
             String[] supplierNameList = req.queryMap().toMap().get("supplier");
             filter.init(categoryNameList,supplierNameList);
             List<ProductCategory> productCategoryList = getRequestedCategories(categoryNameList);
             List<Supplier> productSupplierList = getRequestedSuppliers(supplierNameList);
+            String username=req.session().attribute("currentuser");
+
+            if (username!=null) {
+
+                System.out.println("itt");
+                UserDao userDataBase=UserDaoJDBC.getInstance();
+                User usr= userDataBase.find(username);
+
+                ShoppingCart cart=usr.getCostumer().getShoppingCart();
+
+
+                System.out.println(cart.getAllProducts());
+                params.put("products", filterBySupplier(productSupplierList));
+                params.put("category", productCategoryList);
+                params.put("filter",filter);
+                params.put("shoppingcart", cart);
+
+            return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
+            }
             Set<Product> products = filterBySupplier(productSupplierList);
 
-            for (Product prod:products){
-                System.out.println(prod.getProductCategory().getName());
-            }
-
-
-
-            params.put("products", products);
+            params.put("products", filterBySupplier(productSupplierList));
             params.put("category", productCategoryList);
             params.put("filter",filter);
             params.put("shoppingcart", getSessionShoppingCart(req));
@@ -57,7 +75,6 @@ public class ProductController {
         } else {
 
             filter.init();
-            System.out.println(productCategoryDataStore.getAll());
             params.put("category", productCategoryDataStore.getAll());
             params.put("products", productDataStore.getAll());
             params.put("filter",filter);
