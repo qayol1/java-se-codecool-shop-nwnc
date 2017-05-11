@@ -30,15 +30,19 @@ $( document ).ready(function() {
         }
 
     });
+
+
     $("#shoppingchartbutton").click(function (e) {
         hideFilter();
     });
 
     handleLoggedUser();
 
+    $(".thumbnail").fadeIn("slow");
 
-
-
+    // $(".thumbnail").each(function(index) {
+    //     $(this).fadeIn(300);
+    // });
 
 });
 

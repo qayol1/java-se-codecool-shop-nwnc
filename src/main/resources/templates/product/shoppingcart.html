@@ -25,6 +25,7 @@
             crossorigin="anonymous"></script>
 
     <link rel="stylesheet" type="text/css" href="/css/custom.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
     <script src="/js/events.js"></script>
     <script src="/js/index.js"></script>
 </head>
@@ -51,7 +52,7 @@
                 <td>
                     <div class="input-group">
           <span class="input-group-btn">
-              <button id="plus" type="button" class="btn btn-default btn-number"
+              <button id="plus" type="button" class="btn btn-default btn-number btn-md"
                       th:onclick="'minusAmount(\''+${item.id}+'\');'">
                   <span class="glyphicon glyphicon-minus"></span>
               </button>
@@ -59,7 +60,7 @@
                         <input th:id="'amount-count'+${item.id}" type="text" name="quant[1]" class="counter form-control input-number"
                                th:value="${shoppingcart.getAll().get(item)}" value="1" min="1" max="10" th:onchange="'setAmount(\''+${item.id}+'\');'"/>
                         <span class="input-group-btn">
-              <button id="minus" type="button" class="btn btn-default btn-number"
+              <button id="minus" type="button" class="btn btn-default btn-number btn-md"
                       th:onclick="'plusAmount(\''+${item.id}+'\');'">
                   <span class="glyphicon glyphicon-plus"></span>
               </button>
@@ -67,7 +68,7 @@
                     </div>
                 </td>
                 <td>
-                    <button id="delete" type="button" class="btn btn-default"
+                    <button id="delete" type="button" class="btn btn-default btn-md"
                             th:onclick="'deleteItem(\''+${item.id}+'\');'">
                         <span class="glyphicon glyphicon-remove-sign"></span>
                     </button>
@@ -82,10 +83,11 @@
 
 
     <!--  Checkout Modal-->
-    <button type="button" id="checkoutBtn" class="btn btn-primary btn-md">
-        Checkout
-    </button>
+
     <form id="backForm" action="/index" method="get">
+        <button type="button" id="checkoutBtn" class="btn btn-primary btn-md">
+            Checkout
+        </button>
         <button style="float: right" type="submit" class="btn btn-primary btn-md">
             Back
         </button>
@@ -131,11 +133,11 @@
                                                name="billingAddress"/>
                                     </div>
 
-                                    <div class="form-group col-md-5">
+                                    <div class="form-group col-md-5" style="float: left;">
                                         <input required="true" type="text" placeholder="City" class="form-control"
                                                name="billingCity"/>
                                     </div>
-                                    <div class="form-group col-md-5">
+                                    <div class="form-group col-md-5" style="float: right;">
                                         <input required="true" type="text" placeholder="Zip-code" class="form-control"
                                                name="billingZipcode"/>
                                     </div>
@@ -157,21 +159,21 @@
                                                name="shippingAddress"/>
                                     </div>
 
-                                    <div class="form-group col-md-5">
+                                    <div class="form-group col-md-5" style="float: left;">
                                         <input required="true" type="text" placeholder="City" class="form-control sh1"
                                                name="shippingCity"/>
                                     </div>
-                                    <div class="form-group col-md-5">
+                                    <div class="form-group col-md-5" style="float: right;">
                                         <input required="true" type="text" placeholder="Zip-code" class="form-control sh1"
                                                name="shippingZipcode"/>
                                     </div>
 
                                 </div>
-                                <input type="submit" value="Proceed to Payment"/>
+                                <input type="submit" class="btn btn-defaul btn-sm" value="Proceed to Payment"/>
 
                             </form>
                             <form id="login">
-                                <input id="loginId" type="submit" value="Login if you can"/>
+                                <input id="loginId" class="btn btn-defaul btn-sm" type="submit" value="Login if you can"/>
                             </form>
                         </div>
                     </div>
