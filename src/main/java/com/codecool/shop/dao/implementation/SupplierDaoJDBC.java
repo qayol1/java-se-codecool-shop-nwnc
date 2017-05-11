@@ -17,19 +17,19 @@ public class SupplierDaoJDBC implements SupplierDao {
     private DbConnect dbConnect;
     private static String defaultFilepath = "src/main/resources/connection/properties/connectionProperties.txt";
 
-    private SupplierDaoJDBC(String filepath) {
-        dbConnect = new DbConnect(filepath);
+    private SupplierDaoJDBC() {
+        dbConnect = new DbConnect(defaultFilepath);
     }
 
     public static SupplierDaoJDBC getInstance() {
-        return getInstance(defaultFilepath);
-    }
-
-    public static SupplierDaoJDBC getInstance(String filepath) {
         if (instance == null) {
-            instance = new SupplierDaoJDBC(filepath);
+            instance = new SupplierDaoJDBC();
         }
         return instance;
+    }
+
+    protected void setDbConnectForTest(String testFilePath) {
+        dbConnect = new DbConnect(testFilePath);
     }
 
     @Override

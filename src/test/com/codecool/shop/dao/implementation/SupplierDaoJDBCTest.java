@@ -36,27 +36,32 @@ class SupplierDaoJDBCTest {
 
     @Test
     public void testIsProductCategoryDaoMemIsSingletone () {
-        SupplierDao supplierDataStore2 = SupplierDaoJDBC.getInstance(filepath);
-        SupplierDao supplierDataStore1 = SupplierDaoJDBC.getInstance();
+        SupplierDaoJDBC supplierDataStore2 = SupplierDaoJDBC.getInstance();
+        supplierDataStore2.setDbConnectForTest(filepath);
+        SupplierDaoJDBC supplierDataStore1 = SupplierDaoJDBC.getInstance();
+        supplierDataStore1.setDbConnectForTest(filepath);
         assertEquals(supplierDataStore1.hashCode(),supplierDataStore2.hashCode());
     }
 
 
     @Test
     public void testFindByIdIfNonExistingId() {
-        SupplierDao supplierDataStore = SupplierDaoJDBC.getInstance(filepath);
+        SupplierDaoJDBC supplierDataStore = SupplierDaoJDBC.getInstance();
+        supplierDataStore.setDbConnectForTest(filepath);
         assertEquals(null,supplierDataStore.find(-4));
     }
 
     @Test
     public void testFindByIfIdZero() {
-        SupplierDao supplierDataStore = SupplierDaoJDBC.getInstance(filepath);
+        SupplierDaoJDBC supplierDataStore = SupplierDaoJDBC.getInstance();
+        supplierDataStore.setDbConnectForTest(filepath);
         assertEquals(null,supplierDataStore.find(0));
     }
 
     @Test
     public void testRemoveById() {
-        SupplierDaoJDBC supplierDataStore = SupplierDaoJDBC.getInstance(filepath);
+        SupplierDaoJDBC supplierDataStore = SupplierDaoJDBC.getInstance();
+        supplierDataStore.setDbConnectForTest(filepath);
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
         supplierDataStore.add(amazon);
         supplierDataStore.getIdByName(amazon.getName());
@@ -66,13 +71,15 @@ class SupplierDaoJDBCTest {
 
     @Test
     public void testRemoveByNonExistingId() {
-        SupplierDao supplierDataStore = SupplierDaoJDBC.getInstance(filepath);
+        SupplierDaoJDBC supplierDataStore = SupplierDaoJDBC.getInstance();
+        supplierDataStore.setDbConnectForTest(filepath);
         assertEquals(false,supplierDataStore.remove(2));
     }
 
     @Test
     public void testGetAllSupplier() {
-        SupplierDao supplierDataStore = SupplierDaoJDBC.getInstance(filepath);
+        SupplierDaoJDBC supplierDataStore = SupplierDaoJDBC.getInstance();
+        supplierDataStore.setDbConnectForTest(filepath);
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
         supplierDataStore.add(amazon);
         Supplier lenovo = new Supplier("Lenovo", "Computers");
