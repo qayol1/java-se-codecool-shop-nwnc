@@ -66,10 +66,11 @@ public class ExampleData {
     }
 
         private static void fillDatabaseWithExampleData() {
-            createExampleUsers();
+            //createExampleUsers();
             fillDbWithSuppliers();
             fillDbWithProductCategory();
             fillDbWithProducts();
+            fillDbWithUsers();
         }
 
         private static void createExampleUsers() {
@@ -100,41 +101,24 @@ public class ExampleData {
         }
 
         public static void fillDbWithUsers(){
-            ProductDao productDataStore = ProductDaoMem.getInstance();
-            ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-            SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
-            CustomerDao CustomerDataStore = CustomerDaoMem.getInstance();
-            CustomerDao CustomerDataStore2 = CustomerDaoJDBC.getInstance();
-            UserDao userDataStore = UserDaoMem.getInstance();
+
+
+            CustomerDao CustomerDataStore = CustomerDaoJDBC.getInstance();
             UserDao userJDBC=UserDaoJDBC.getInstance();
-            ShoppingCartDao shoppingCartDao2 = ShoppingCartDaoJDBC.getInstance();
 
-            //System.out.println(shoppingCartDao2.find(1).getAll());
-            shoppingCartDao2.addNewCartToDb();
             Customer c1 = new Customer("Bruce", "Wayne", "batman@robin.com", "06901111", new Address("USA", "Gotham", "1111", "BatCave"), new Address("USA", "Gotham", "1111", "BatCave"));
+            c1.setId(CustomerDataStore.add(c1));
 
-            c1.setId(CustomerDataStore2.add(c1));
-
-            c1.setId(CustomerDataStore2.add(c1));
             User us1 = new User("batman", "robin");
             User us2 = new User("admin", "admin");
             us2.setAdmin();
             us1.setCustomer(c1);
 
-            userDataStore.add(us1);
-            userDataStore.add(us2);
 
             userJDBC.add(us1);
+            //userJDBC.add(us2);
            // userJDBC.add(us2);
 
-
-            //setting up a new product category
-            ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.");
-            productCategoryDataStore.add(tablet);
-            ProductCategory laptop = new ProductCategory("Laptop", "Hardware", "Is a small, portable personal computer with a \"clamshell\" form factor.");
-            productCategoryDataStore.add(laptop);
-            ProductCategory videoCard = new ProductCategory("Video Card", "Hardware", "A video card (also called a display card, graphics card) is an expansion card which generates a feed of output images to a display ");
-            productCategoryDataStore.add(videoCard);
 
         }
 

@@ -6,6 +6,7 @@ import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ShoppingCart;
 import com.codecool.shop.util.DbConnect;
+import jdk.management.resource.internal.inst.SocketRMHooks;
 
 import java.sql.*;
 import java.util.HashMap;
@@ -27,8 +28,29 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
     }
 
     @Override
+    public void addNewCartElement(ShoppingCart cart,Product product){
+        try (
+                PreparedStatement stmt = DbConnect.getConnection().prepareStatement(
+                    ("INSERT INTO shoppingcarelements" +
+                            "(shoppingcartid," +
+                            "productid," +
+                            "productcount"+") VALUES (?, ?, ?)"),Statement.RETURN_GENERATED_KEYS);
+            ) {
+
+                stmt.setInt(1, cart.getId());
+                stmt.setInt(2, product.getId());
+                stmt.setInt(3, 1);
+                System.out.println("lefut");
+                stmt.executeUpdate();
+            } catch (SQLException e){
+                e.getStackTrace();
+        }
+
+    }
+
+    @Override
     public int addNewCartToDb(){
-           String query = "INSERT INTO shoppingcarts DEFAULT VALUES;" ;
+
            try (
             Connection connection = DbConnect.getConnection();
             PreparedStatement stmt = connection.prepareStatement("INSERT INTO shoppingcarts DEFAULT VALUES;",Statement.RETURN_GENERATED_KEYS);

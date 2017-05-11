@@ -14,7 +14,6 @@ import java.util.List;
 public class SupplierDaoJDBC implements SupplierDao {
     private static SupplierDaoJDBC instance = null;
 
-    private DbConnect dbConnect = new DbConnect("src/main/resources/connection/properties/connectionProperties.txt");
 
     private SupplierDaoJDBC() {
     }
@@ -30,7 +29,7 @@ public class SupplierDaoJDBC implements SupplierDao {
     public void add(Supplier supplier) {
         try {
             PreparedStatement stmt;
-            stmt = dbConnect.getConnection().prepareStatement(
+            stmt = DbConnect.getConnection().prepareStatement(
                     ("INSERT INTO supplier (name, description) VALUES (?, ?)"));
             stmt.setString(1, supplier.getName());
             stmt.setString(2, supplier.getDescription());
@@ -49,7 +48,7 @@ public class SupplierDaoJDBC implements SupplierDao {
 
         String query = "SELECT * FROM supplier WHERE id ='" + id + "';";
 
-        try (Connection connection = dbConnect.getConnection();
+        try (Connection connection = DbConnect.getConnection();
              Statement statement =connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)
 
@@ -71,7 +70,7 @@ public class SupplierDaoJDBC implements SupplierDao {
     @Override
     public boolean remove(int id) {
         String query = "DELETE FROM supplier WHERE id=" + id + ";";
-        try (Connection connection = dbConnect.getConnection();
+        try (Connection connection = DbConnect.getConnection();
              Statement statement = connection.createStatement();
         ) {             statement.executeQuery(query) ; }
         catch (SQLException e) {
@@ -87,7 +86,7 @@ public class SupplierDaoJDBC implements SupplierDao {
 
         List<Supplier> supplierList = new ArrayList<>();
 
-        try (Connection connection = dbConnect.getConnection();
+        try (Connection connection = DbConnect.getConnection();
              Statement statement =connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query);
         ) {

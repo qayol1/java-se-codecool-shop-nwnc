@@ -25,6 +25,9 @@ public class ShoppingCartDaoMem implements ShoppingCartDao {
     }
 
     @Override
+    public void addNewCartElement(ShoppingCart cart,Product product){}
+
+    @Override
     public int addNewCartToDb(){
         return 1;
     }
