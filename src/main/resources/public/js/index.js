@@ -2,14 +2,14 @@
  * Created by peter on 2017.04.26..
  */
 
-$( document ).ready(function() {
+$(document).ready(function () {
     setShoppingCartCount();
 
     $('#cart-items').fadeIn("slow");
 
 
-    $('#checkb').change(function(){
-        if(this.checked) {
+    $('#checkb').change(function () {
+        if (this.checked) {
             $('#shipping').css("display", "none");
             $('.sh1').removeAttr("required");
         }
@@ -24,9 +24,9 @@ $( document ).ready(function() {
     $("#filterbutton").click(function (e) {
         var elem = document.getElementById('filterList');
         if (elem.style.visibility !== "visible") {
-            elem.style.visibility= 'visible';
+            elem.style.visibility = 'visible';
         } else {
-            elem.style.visibility= 'hidden';
+            elem.style.visibility = 'hidden';
         }
 
     });
@@ -35,9 +35,6 @@ $( document ).ready(function() {
     });
 
     handleLoggedUser();
-
-
-
 
 
 });
@@ -57,25 +54,36 @@ function handleLoggedUser() {
 
 function setFilterCategoryChecked(param1) {
 
-    $('input:checkbox.'+param1).each(function(){
-        $(this).prop('checked',true);
+    $('input:checkbox.' + param1).each(function () {
+        $(this).prop('checked', true);
     });
 }
 
 function setFilterCategoryUnchecked(param1) {
-    $('input:checkbox.'+param1).each(function(){
-        $(this).prop('checked',false);
+    $('input:checkbox.' + param1).each(function () {
+        $(this).prop('checked', false);
     });
 }
 
+function setAmount(id) {
+    var num = parseInt($("#amount-count" + id).val());
+    $.ajax({
+        method: 'POST',
+        url: '/set-amount',
+        data: {'id': id, 'num': num},
+        success: function () {
+            $("#cart-count").text(parseInt($("#cart-count").html()) - 1);
+        }
+    });
+}
 
 
 function filter(categoryid) {
     hideFilter();
     $.post("/getCategoryListSize", function (data) {
-        for (i = 1; i < data+1; i++) {
+        for (i = 1; i < data + 1; i++) {
             if (i != categoryid) {
-                $("#category"+i).hide();
+                $("#category" + i).hide();
             }
         }
     });
@@ -83,7 +91,7 @@ function filter(categoryid) {
 
 function hideFilter() {
     var elem = document.getElementById('filterList');
-    elem.style.visibility= 'hidden';
+    elem.style.visibility = 'hidden';
 }
 
 function addToCart(id) {
@@ -118,39 +126,39 @@ function deleteFromCart(id) {
 }
 
 function plusAmount(id) {
-    $("#amount-count"+id).val(parseInt($("#amount-count"+id).val()) + 1);
+    $("#amount-count" + id).val(parseInt($("#amount-count" + id).val()) + 1);
     addToCart(id);
     setTotalPrice();
 }
 
 function minusAmount(id) {
-    $("#amount-count"+id).val(parseInt($("#amount-count"+id).val()) - 1);
-    if (parseInt($("#amount-count"+id).val()) <= 0) {
+    $("#amount-count" + id).val(parseInt($("#amount-count" + id).val()) - 1);
+    if (parseInt($("#amount-count" + id).val()) <= 0) {
         deleteItem(id);
     }
     removeFromCart(id);
     setTotalPrice();
 }
 
-function setShoppingCartCount(){
+function setShoppingCartCount() {
     $.ajax({
         method: 'POST',
         url: '/get-shoppingcart-size',
-        success:function (number) {
-             $("#cart-count").text(number);
+        success: function (number) {
+            $("#cart-count").text(number);
         }
     })
 }
 
 
 function deleteItem(id) {
-    $("#shopping-cart-"+id.toString()).empty().remove();
-    $("#shopping-cart-row-"+id.toString()).empty().remove();
+    $("#shopping-cart-" + id.toString()).empty().remove();
+    $("#shopping-cart-row-" + id.toString()).empty().remove();
     setTotalPrice();
     deleteFromCart(id);
 }
 
-function setTotalPrice () {
+function setTotalPrice() {
     var total = 0;
     $('#cart-items tr').each(function () {
         //the value of sum needs to be reset for each row, so it has to be set inside the row loop

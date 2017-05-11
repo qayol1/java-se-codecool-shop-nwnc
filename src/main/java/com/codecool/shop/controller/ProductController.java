@@ -37,12 +37,7 @@ public class ProductController {
             }
 
         if (isUserLoggedIn(req)) {
-
-                ShoppingCart cart=currentUser(req).getCostumer().getShoppingCart();
-                System.out.println(cart.getId());
-
                 if (req.queryString() != null && req.queryString().length()!=0) {
-
                     String[] categoryNameList = req.queryMap().toMap().get("category");
                     String[] supplierNameList = req.queryMap().toMap().get("supplier");
                     filter.init(categoryNameList, supplierNameList);
@@ -52,7 +47,6 @@ public class ProductController {
                     params.put("products", filterBySupplier(productSupplierList));
                     params.put("category", productCategoryList);
                     params.put("filter", filter);
-                    params.put("shoppingcart", cart);
 
                     return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
                 }
@@ -60,7 +54,7 @@ public class ProductController {
                 params.put("category", productCategoryDataStore.getAll());
                 params.put("products", productDataStore.getAll());
                 params.put("filter",filter);
-                params.put("shoppingcart", cart);
+
                 return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
 
         } else
@@ -72,12 +66,13 @@ public class ProductController {
                     String[] supplierNameList = req.queryMap().toMap().get("supplier");
 
                     filter.init(categoryNameList,supplierNameList);
+
                     List<ProductCategory> productCategoryList = getRequestedCategories(categoryNameList);
                     List<Supplier> productSupplierList = getRequestedSuppliers(supplierNameList);
+
                     params.put("products", filterBySupplier(productSupplierList));
                     params.put("category", productCategoryList);
                     params.put("filter",filter);
-                    params.put("shoppingcart", getSessionShoppingCart(req));
 
                     return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
             } else {
@@ -86,7 +81,6 @@ public class ProductController {
                 params.put("category", productCategoryDataStore.getAll());
                 params.put("products", productDataStore.getAll());
                 params.put("filter",filter);
-                params.put("shoppingcart", getSessionShoppingCart(req));
                 return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
             }
         }
@@ -127,21 +121,40 @@ public class ProductController {
     };
 
     public static Route removeFromCart = (Request req, Response res) -> {
+
         int id = Integer.parseInt(req.queryParams("id"));
-        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
-        ShoppingCart cart = getSessionShoppingCart(req);
-        cart.decrease(id);
-        setSessionShoppingcart(req,cart);
-        return true;
+
+        if (isUserLoggedIn(req)){
+            ProductDao productDao=ProductDaoJDBC.getInstance();
+
+            ShoppingCartDao shoppingCartDao=ShoppingCartDaoJDBC.getInstance();
+            shoppingCartDao.removeElementFromCart(productDao.find(id),currentUser(req).getCostumer().getShoppingCart());
+            return true;
+        } else {
+            ShoppingCart cart = getSessionShoppingCart(req);
+            cart.decrease(id);
+            setSessionShoppingcart(req,cart);
+            return true;
+        }
+
     };
 
     public static Route deleteFromCart = (Request req, Response res) -> {
         int id = Integer.parseInt(req.queryParams("id"));
-        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
-        ShoppingCart cart = getSessionShoppingCart(req);
-        cart.remove(id);
-        setSessionShoppingcart(req,cart);
-        return true;
+        if (isUserLoggedIn(req)){
+            ShoppingCartDao shoppingCartDao=ShoppingCartDaoJDBC.getInstance();
+            ProductDao productDao=ProductDaoJDBC.getInstance();
+            shoppingCartDao.deleteElementsFromCart(productDao.find(id),currentUser(req).getCostumer().getShoppingCart());
+            return true;
+        } else {
+
+            ShoppingCart cart = getSessionShoppingCart(req);
+            cart.remove(id);
+            setSessionShoppingcart(req,cart);
+            return true;
+        }
+
+
     };
 
 
@@ -153,9 +166,6 @@ public class ProductController {
 
         if (isUserLoggedIn(req)){
             ShoppingCart cart=currentUser(req).getCostumer().getShoppingCart();
-            for (Product prod:cart.getAll().keySet()){
-                System.out.println(prod.getName());
-            }
             params.put("products", productDataStore.getAll());
             params.put("shoppingcart", cart);
          return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/shoppingcart"));
@@ -231,6 +241,29 @@ public class ProductController {
         }
         return filteredProductList;
     }
+
+    public static Route setAmount = (Request req,Response res) -> {
+        int id = Integer.parseInt(req.queryParams("id"));
+        int num = Integer.parseInt(req.queryParams("num"));
+        if (num<1) {return null;}
+
+        if (isUserLoggedIn(req)) {
+            ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoJDBC.getInstance();
+            ShoppingCart cart=currentUser(req).getCostumer().getShoppingCart();
+            shoppingCartDataStore.setElementCount(cart,id,num);
+            return null;
+        } else {
+            ShoppingCartDao shoppingCartDao=ShoppingCartDaoMem.getInstance();
+            ShoppingCart cart = getSessionShoppingCart(req);
+            cart.getAll().put(cart.find(id),num);
+            setSessionShoppingcart(req,cart);
+            return null;
+        }
+
+
+
+
+    };
 
     public static Route shoppingCartSize = (Request req,Response res) -> {
         if (isUserLoggedIn(req)){
