@@ -14,14 +14,23 @@ import java.util.List;
 public class SupplierDaoJDBC implements SupplierDao {
     private static SupplierDaoJDBC instance = null;
 
-    private DbConnect dbConnect = new DbConnect("src/main/resources/connection/properties/connectionProperties.txt");
+    private DbConnect dbConnect;
+    private static String defaultFilepath = "src/main/resources/connection/properties/connectionProperties.txt";
 
-    private SupplierDaoJDBC() {
+    private SupplierDaoJDBC(String filepath) {
+        dbConnect = new DbConnect(filepath);
     }
 
     public static SupplierDaoJDBC getInstance() {
         if (instance == null) {
-            instance = new SupplierDaoJDBC();
+            instance = new SupplierDaoJDBC(defaultFilepath);
+        }
+        return instance;
+    }
+
+    public static SupplierDaoJDBC getInstance(String filepath) {
+        if (instance == null) {
+            instance = new SupplierDaoJDBC(filepath);
         }
         return instance;
     }
