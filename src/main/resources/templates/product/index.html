@@ -81,7 +81,11 @@
                     <!--<span>Already a user? </span>-->
                 <span class="btn filtermenu" data-toggle="modal" data-target="#myModal">
                     Login
+
                 </span>
+                     <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal2">
+                    Register
+                </button>
                  </span>
                 <div class="title" align="center">
                     <span>NWNC Shop</span><div class="clearfix"></div>
@@ -89,7 +93,7 @@
                 <a href="/shoppingcart">
                     <div class="shoppingcart" style="float: right">
                         <img height="20px" th:attr="src='/img/shopping-cart-icon.png'" alt=""/>
-                        <strong id="cart-count" style="float: right;" th:text="${shoppingcart.getAllProducts()}"></strong>
+                        <strong id="cart-count" style="float: right;" ></strong>
                     </div>
                 </a>
             </div>
@@ -162,6 +166,100 @@
             </div>
         </div>
     <input type="hidden" id="refresh" value="no"/>
+</div>
+
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModal2">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="col-sm-5">
+
+                        <form class="form-horizontal" method="post" action="/register">
+                            <div class="row">
+                                <h4>Login information</h4>
+                                <div class="form-group">
+                                    <input required="true" type="text" placeholder="Username" class="form-control" name="username"/>
+                                </div>
+                                <div class="form-group">
+                                    <input required="true" type="password" placeholder="Password" class="form-control" name="password"/>
+                                </div>
+                                <h4>Personal information</h4>
+                                <div class="form-group">
+                                    <input required="true" type="text" placeholder="First Name" class="form-control" name="first_name"/>
+                                </div>
+                                <div class="form-group">
+                                    <input required="true" type="text" placeholder="Last Name" class="form-control" name="last_name"/>
+                                </div>
+                                <div class="form-group">
+                                    <input required="true" type="email" placeholder="Email (example@gmail.com)"
+                                           class="form-control" name="email"/>
+                                </div>
+                                <div class="form-group">
+                                    <input required="true" type="tel" placeholder="Phone number"
+                                           class="form-control" name="phone"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <h4>Billing address</h4>
+                                <div class="form-group">
+                                    <input required="true" type="text" placeholder="Country" class="form-control"
+                                           name="billingCountry"/>
+                                </div>
+                                <div class="form-group">
+                                    <input required="true" type="text" placeholder="Address" class="form-control"
+                                           name="billingAddress"/>
+                                </div>
+
+                                <div class="form-group col-md-5">
+                                    <input required="true" type="text" placeholder="City" class="form-control"
+                                           name="billingCity"/>
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <input required="true" type="text" placeholder="Zip-code" class="form-control"
+                                           name="billingZipcode"/>
+                                </div>
+                                <div class="form-group col-md-5">
+                                        <span class="input container-right"><input type="checkbox" id="checkb" name="checkb" value="check"
+                                                                                   aria-label="..."></input></span>
+                                    <h5>Billing and shipping address same</h5>
+                                </div>
+
+                            </div>
+                            <div class="row shipping" id="shipping">
+                                <h4>Shipping address</h4>
+                                <div class="form-group">
+                                    <input required="true" type="text" placeholder="Country" class="form-control sh1"
+                                           name="shippingCountry"/>
+                                </div>
+                                <div class="form-group">
+                                    <input required="true" type="text" placeholder="Address" class="form-control sh1"
+                                           name="shippingAddress"/>
+                                </div>
+
+                                <div class="form-group col-md-5">
+                                    <input required="true" type="text" placeholder="City" class="form-control sh1"
+                                           name="shippingCity"/>
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <input required="true" type="text" placeholder="Zip-code" class="form-control sh1"
+                                           name="shippingZipcode"/>
+                                </div>
+
+                            </div>
+                            <input type="submit" value="Register new user"/>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 

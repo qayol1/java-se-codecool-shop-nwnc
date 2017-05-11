@@ -104,4 +104,10 @@ class ProductDaoJDBCTest {
         assertEquals(0, productDaoJDBC.getAll().size());
     }
 
+    @Test
+    public void testClearDataStorage() {
+        ProductDaoJDBC productDaoJDBC = productSetConnection();
+        assertFalse(productDaoJDBC.empty());
+    }
+
 }

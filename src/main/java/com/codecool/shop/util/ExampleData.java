@@ -13,23 +13,25 @@ import java.sql.SQLException;
 public class ExampleData {
 
     public static void populateData() {
-        DbConnect dbConnect = new DbConnect("src/main/resources/connection/properties/connectionProperties.txt");
         DatabaseMetaData dbm = null;
         try {
-            dbm = dbConnect.getConnection().getMetaData();
+            dbm = DbConnect.getConnection().getMetaData();
             ResultSet tables = dbm.getTables(null, null, "product", null);
             if (!tables.next()) {
-                fillDatabase(dbConnect);
+                fillDatabase();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-  private static void fillDatabase(DbConnect dbConnect) {
-        try {
-            PreparedStatement stmt = dbConnect.getConnection().prepareStatement(
 
+
+
+
+    private static void fillDatabase() {
+        try {
+            PreparedStatement stmt = DbConnect.getConnection().prepareStatement(
                     ("CREATE TABLE supplier\n" +
                             "(\n" +
                             "  id SERIAL PRIMARY KEY ,\n" +
@@ -61,26 +63,26 @@ public class ExampleData {
         }
 
         fillDatabaseWithExampleData();
-
     }
 
-    private static void fillDatabaseWithExampleData() {
-        createExampleUsers();
-        fillDbWithSuppliers();
-        fillDbWithProductCategory();
-        fillDbWithProducts();
-    }
+        private static void fillDatabaseWithExampleData() {
+            //createExampleUsers();
+            fillDbWithSuppliers();
+            fillDbWithProductCategory();
+            fillDbWithProducts();
+            fillDbWithUsers();
+        }
 
-    private static void createExampleUsers() {
-        UserDao userDataStore = UserDaoMem.getInstance();
-        Customer c1 = new Customer("Bruce", "Wayne", "batman@robin.com", "06901111", new Address("USA", "Gotham", "1111", "BatCave"), new Address("USA", "Gotham", "1111", "BatCave"));
-        User us1 = new User("batman", "robin");
-        User us2 = new User("admin", "admin");
-        us2.setAdmin();
-        us1.setCustomer(c1);
-        userDataStore.add(us1);
-        userDataStore.add(us2);
-    }
+        private static void createExampleUsers() {
+            UserDao userDataStore = UserDaoMem.getInstance();
+            Customer c1 = new Customer("Bruce", "Wayne", "batman@robin.com", "06901111", new Address("USA", "Gotham", "1111", "BatCave"), new Address("USA", "Gotham", "1111", "BatCave"));
+            User us1 = new User("batman", "robin");
+            User us2 = new User("admin", "admin");
+            us2.setAdmin();
+            us1.setCustomer(c1);
+            userDataStore.add(us1);
+            userDataStore.add(us2);
+        }
 
     private static void fillDbWithSuppliers() {
         SupplierDao supplierDataStore = SupplierDaoJDBC.getInstance();
@@ -98,15 +100,38 @@ public class ExampleData {
         supplierDataStore.add(asus);
     }
 
-    private static void fillDbWithProductCategory() {
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
-        ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.");
-        productCategoryDataStore.add(tablet);
-        ProductCategory laptop = new ProductCategory("Laptop", "Hardware", "Is a small, portable personal computer with a \"clamshell\" form factor.");
-        productCategoryDataStore.add(laptop);
-        ProductCategory videoCard = new ProductCategory("Video Card", "Hardware", "A video card (also called a display card, graphics card) is an expansion card which generates a feed of output images to a display ");
-        productCategoryDataStore.add(videoCard);
-    }
+        public static void fillDbWithUsers(){
+
+
+            CustomerDao CustomerDataStore = CustomerDaoJDBC.getInstance();
+            UserDao userJDBC=UserDaoJDBC.getInstance();
+
+            Customer c1 = new Customer("Bruce", "Wayne", "batman@robin.com", "06901111", new Address("USA", "Gotham", "1111", "BatCave"), new Address("USA", "Gotham", "1111", "BatCave"));
+            c1.setId(CustomerDataStore.add(c1));
+
+            User us1 = new User("batman", "robin");
+            User us2 = new User("admin", "admin");
+            us2.setAdmin();
+            us1.setCustomer(c1);
+
+
+            userJDBC.add(us1);
+            //userJDBC.add(us2);
+           // userJDBC.add(us2);
+
+
+        }
+
+
+        private static void fillDbWithProductCategory() {
+            ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
+            ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.");
+            productCategoryDataStore.add(tablet);
+            ProductCategory laptop = new ProductCategory("Laptop", "Hardware", "Is a small, portable personal computer with a \"clamshell\" form factor.");
+            productCategoryDataStore.add(laptop);
+            ProductCategory videoCard = new ProductCategory("Video Card", "Hardware", "A video card (also called a display card, graphics card) is an expansion card which generates a feed of output images to a display ");
+            productCategoryDataStore.add(videoCard);
+        }
 
     private static void fillDbWithProducts() {
         ProductDao productDataStore = ProductDaoJDBC.getInstance();
@@ -125,4 +150,3 @@ public class ExampleData {
 
     }
 }
-
