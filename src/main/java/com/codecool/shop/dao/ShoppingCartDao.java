@@ -17,7 +17,10 @@ public interface ShoppingCartDao {
     void addNewCartElement(ShoppingCart cart,Product product);
     boolean isElementInCart(ShoppingCart cart,Product product);
     int getCartElementCount(ShoppingCart cart,Product product);
+    void setElementCount(ShoppingCart cart,int productid,int newamount);
     void remove(int id);
+    void removeElementFromCart(Product product,ShoppingCart cart);
+    void deleteElementsFromCart(Product product,ShoppingCart cart);
     int addNewCartToDb();
     List<ShoppingCart> getAll();
 }

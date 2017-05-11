@@ -41,6 +41,8 @@ public class Main {
 
         post("/getCategoryListSize", ProductController.categoryListSize);
 
+        post("/set-amount",ProductController.setAmount);
+
         post("/add-to-cart", ProductController.addToCart);
         post("/remove-from-cart", ProductController.removeFromCart);
         post("/delete-from-cart", ProductController.deleteFromCart);

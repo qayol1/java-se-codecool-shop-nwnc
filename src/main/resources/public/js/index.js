@@ -60,25 +60,36 @@ function handleLoggedUser() {
 
 function setFilterCategoryChecked(param1) {
 
-    $('input:checkbox.'+param1).each(function(){
-        $(this).prop('checked',true);
+    $('input:checkbox.' + param1).each(function () {
+        $(this).prop('checked', true);
     });
 }
 
 function setFilterCategoryUnchecked(param1) {
-    $('input:checkbox.'+param1).each(function(){
-        $(this).prop('checked',false);
+    $('input:checkbox.' + param1).each(function () {
+        $(this).prop('checked', false);
     });
 }
 
+function setAmount(id) {
+    var num = parseInt($("#amount-count" + id).val());
+    $.ajax({
+        method: 'POST',
+        url: '/set-amount',
+        data: {'id': id, 'num': num},
+        success: function () {
+            $("#cart-count").text(parseInt($("#cart-count").html()) - 1);
+        }
+    });
+}
 
 
 function filter(categoryid) {
     hideFilter();
     $.post("/getCategoryListSize", function (data) {
-        for (i = 1; i < data+1; i++) {
+        for (i = 1; i < data + 1; i++) {
             if (i != categoryid) {
-                $("#category"+i).hide();
+                $("#category" + i).hide();
             }
         }
     });
@@ -86,7 +97,7 @@ function filter(categoryid) {
 
 function hideFilter() {
     var elem = document.getElementById('filterList');
-    elem.style.visibility= 'hidden';
+    elem.style.visibility = 'hidden';
 }
 
 function addToCart(id) {
@@ -121,26 +132,26 @@ function deleteFromCart(id) {
 }
 
 function plusAmount(id) {
-    $("#amount-count"+id).val(parseInt($("#amount-count"+id).val()) + 1);
+    $("#amount-count" + id).val(parseInt($("#amount-count" + id).val()) + 1);
     addToCart(id);
     setTotalPrice();
 }
 
 function minusAmount(id) {
-    $("#amount-count"+id).val(parseInt($("#amount-count"+id).val()) - 1);
-    if (parseInt($("#amount-count"+id).val()) <= 0) {
+    $("#amount-count" + id).val(parseInt($("#amount-count" + id).val()) - 1);
+    if (parseInt($("#amount-count" + id).val()) <= 0) {
         deleteItem(id);
     }
     removeFromCart(id);
     setTotalPrice();
 }
 
-function setShoppingCartCount(){
+function setShoppingCartCount() {
     $.ajax({
         method: 'POST',
         url: '/get-shoppingcart-size',
-        success:function (number) {
-             $("#cart-count").text(number);
+        success: function (number) {
+            $("#cart-count").text(number);
         }
     })
 }
