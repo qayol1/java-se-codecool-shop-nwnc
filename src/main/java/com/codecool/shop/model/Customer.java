@@ -20,6 +20,8 @@ public class Customer {
     private ArrayList<CreditCard> creditCards;
     private ArrayList<PayPal> payPals;
 
+
+
     public Customer(String firstName, String lastName, String email, String phoneNumber, Address billingAddress,
                     Address shippingAddress){
 
@@ -42,6 +44,17 @@ public class Customer {
         this.billingAddress = null;
         this.shippingAddress = null;
         this.shoppingCart=cart;
+    }
+
+    git@Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
     }
 
     public void setShoppingCart(ShoppingCart shoppingCart) {
