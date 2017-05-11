@@ -102,7 +102,7 @@
                     <div class="container">
                         <div class="col-sm-5">
 
-                            <form class="form-horizontal" method="post" action="/checkout">
+                            <form class="form-horizontal" name="customerInput" method="post" action="/checkout" onsubmit="return validateForm()">
                                 <div class="row">
                                     <h4>Personal information</h4>
                                     <div class="form-group">

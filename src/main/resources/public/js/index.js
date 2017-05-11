@@ -165,3 +165,10 @@ function setTotalPrice () {
     $('#total-price-price').text(total + ' USD');
 }
 
+function validateForm() {
+    var x = document.forms["customerInput"]["first_name"].value;
+    if (x == "kk") {
+        alert("Name must be KK");
+        return false;
+    }
+}
