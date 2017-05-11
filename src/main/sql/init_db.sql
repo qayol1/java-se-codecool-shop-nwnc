@@ -15,6 +15,7 @@ CREATE TABLE productCategory
   description TEXT
 );
 
+
 CREATE TABLE product
 (
   id SERIAL PRIMARY KEY,
@@ -25,5 +26,8 @@ CREATE TABLE product
   productCategory INTEGER REFERENCES productCategory(id),
   supplier INTEGER REFERENCES supplier(id)
 );
+
+
+
 
 

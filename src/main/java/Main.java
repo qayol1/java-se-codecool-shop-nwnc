@@ -3,11 +3,13 @@ import static spark.debug.DebugScreen.enableDebugScreen;
 import com.codecool.shop.controller.CustomerController;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.login.LoginHandler;
+import com.codecool.shop.util.DbConnect;
 import com.codecool.shop.util.ExampleData;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
+import sun.rmi.runtime.Log;
 
 import java.util.HashMap;
 
@@ -15,11 +17,12 @@ import java.util.HashMap;
 public class Main {
 
     public static void main(String[] args) {
-
+        String CONNECTIONCONFIGFILE="src/main/resources/connection/properties/connectionProperties.txt";
         // default server settings
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
         staticFileLocation("/public");
         port(8888);
+        DbConnect db=new DbConnect(CONNECTIONCONFIGFILE);
 
         // populate some data for the memory storage
         ExampleData.populateData();

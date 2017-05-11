@@ -26,9 +26,10 @@ public class ExampleData {
         }
     }
 
-    private static void fillDatabase(DbConnect dbConnect) {
+  private static void fillDatabase(DbConnect dbConnect) {
         try {
             PreparedStatement stmt = dbConnect.getConnection().prepareStatement(
+
                     ("CREATE TABLE supplier\n" +
                             "(\n" +
                             "  id SERIAL PRIMARY KEY ,\n" +
@@ -60,6 +61,7 @@ public class ExampleData {
         }
 
         fillDatabaseWithExampleData();
+
     }
 
     private static void fillDatabaseWithExampleData() {
@@ -120,6 +122,7 @@ public class ExampleData {
         productDataStore.add(new Product("Asus ZenPad 8", 149, "USD", "The design of ASUS ZenPad 8.0 carries modern influences and a simple, clean look that gives it an universal and stylish appeal.", productCategoryDataStore.find(1), supplierDataStore.find(6)));
         productDataStore.add(new Product("Asus ZenBook UX530UX", 749, "USD", "Asus - ZenBook Flip UX360CA 2-in-1 13.3\" Touch-Screen Laptop - Intel Core m3 - 8GB Memory - 512GB Solid State Drive - Mineral gray", productCategoryDataStore.find(2), supplierDataStore.find(6)));
         productDataStore.add(new Product("Asus Dual GeForce GTX 580", 1499, "USD", "The MARS II is the first dual GeForce GTX 580 card, and is part of ASUS Republic of Gamers (ROG) brand of premium products targeting the gamer-overclocker market. ", productCategoryDataStore.find(3), supplierDataStore.find(6)));
+
     }
 }
 

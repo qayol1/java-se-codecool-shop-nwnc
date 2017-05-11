@@ -25,8 +25,8 @@ public class ShoppingCartDaoMem implements ShoppingCartDao {
     }
 
     @Override
-    public void add(ShoppingCart cart){
-        DATA.add(cart);
+    public int addNewCartToDb(){
+        return 1;
     }
 
     @Override

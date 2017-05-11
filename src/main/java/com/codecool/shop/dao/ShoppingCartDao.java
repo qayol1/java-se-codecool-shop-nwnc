@@ -14,7 +14,7 @@ import java.util.List;
 public interface ShoppingCartDao {
 
     ShoppingCart find(int id);
-    void add(ShoppingCart cart);
     void remove(int id);
+    int addNewCartToDb();
     List<ShoppingCart> getAll();
 }

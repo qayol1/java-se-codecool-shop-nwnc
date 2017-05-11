@@ -5,6 +5,7 @@ import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.Supplier;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,6 +14,13 @@ import static org.junit.jupiter.api.Assertions.*;
  * Created by peter on 2017.05.09..
  */
 class SupplierDaoMemTest {
+
+    @BeforeEach
+    public void clearDataStore() {
+        SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        supplierDataStore.empty();
+    }
+
     @AfterEach
     public void clearExampleData() {
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
@@ -22,7 +30,7 @@ class SupplierDaoMemTest {
     }
 
     @Test
-    public void testSameCategoryNameCannotAdd() {
+    public void testSameSupplierNameCannotAdd() {
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
         Supplier amazon1 = new Supplier("Amazon", "Digital content and services");
         supplierDataStore.add(amazon1);
@@ -33,7 +41,7 @@ class SupplierDaoMemTest {
     }
 
     @Test
-    public void testIsProductCategoryDaoMemIsSingletone () {
+    public void testIsSupplierDaoMemIsSingletone () {
         SupplierDao supplierDataStore1 = SupplierDaoMem.getInstance();
         SupplierDao supplierDataStore2 = SupplierDaoMem.getInstance();
         assertEquals(supplierDataStore1.hashCode(),supplierDataStore2.hashCode());
@@ -47,8 +55,8 @@ class SupplierDaoMemTest {
 
     @Test
     public void testFindByIfIdZero() {
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-        assertEquals(null,productCategoryDataStore.find(0));
+        SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        assertEquals(null,supplierDataStore.find(0));
     }
 
     @Test
@@ -69,7 +77,7 @@ class SupplierDaoMemTest {
     }
 
     @Test
-    public void testGetAllProductCategory() {
+    public void testGetAllSupplier() {
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
         supplierDataStore.add(amazon);

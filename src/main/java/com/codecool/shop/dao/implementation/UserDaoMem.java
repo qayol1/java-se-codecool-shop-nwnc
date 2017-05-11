@@ -35,14 +35,14 @@ public class UserDaoMem implements UserDao {
         return DATA.stream().filter(t -> t.getUsername().equals(username)).findFirst().orElse(null);
     }
 
-    @Override
+    /*@Override
     public User find(int id) {
         return DATA.stream().filter(t -> t.getId()==id).findFirst().orElse(null);
     }
-
+*/
     @Override
     public void remove(int id) {
-        DATA.remove(find(id));
+        //DATA.remove(find(id));
     }
 
     @Override

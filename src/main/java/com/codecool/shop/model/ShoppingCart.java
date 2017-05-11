@@ -8,10 +8,16 @@ public class ShoppingCart {
     HashMap<Product, Integer> Products;
     private static int currentid = 1;
 
+
     public ShoppingCart() {
         this.id = currentid;
         currentid++;
         Products = new HashMap<>();
+    }
+
+    public ShoppingCart(int id,HashMap<Product, Integer> products) {
+        this.id = id;
+        this.Products = products;
     }
 
     public int getId() {

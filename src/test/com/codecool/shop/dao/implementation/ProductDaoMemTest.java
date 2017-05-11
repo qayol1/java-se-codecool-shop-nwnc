@@ -22,6 +22,9 @@ class ProductDaoMemTest {
         SupplierDao supplierDao = SupplierDaoMem.getInstance();
         ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer.");
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
+        productCategoryDao.empty();
+        supplierDao.empty();
+        productDao.empty();
         productCategoryDao.add(tablet);
         supplierDao.add(amazon);
         productDao.add(new Product("Amazon Fire", 49.9f, "USD", "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", tablet, amazon));

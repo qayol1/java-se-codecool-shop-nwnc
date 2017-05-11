@@ -50,6 +50,12 @@ public class SupplierDaoMem implements SupplierDao {
     }
 
     @Override
+    public boolean empty() {
+        DATA.clear();
+        return true;
+    }
+
+    @Override
     public List<Supplier> getAll() {
         return DATA;
     }

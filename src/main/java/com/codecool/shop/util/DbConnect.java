@@ -16,12 +16,13 @@ public class DbConnect {
     //filename = "src/main/resources/connection/properties/connectionPropertiesForTest.txt" for the testing db
 
 
-    private String databaseName;
-    private String url;
-    private String DATABASE;
-    private String DB_USER;
-    private String DB_PASSWORD;
-    private String fileName;
+    private static String databaseName;
+    private static String url;
+    private static String DATABASE;
+    private static String DB_USER;
+    private static String DB_PASSWORD;
+    private static String fileName;
+
 
     public DbConnect(String fileName) {
         this.fileName = fileName;
@@ -29,7 +30,7 @@ public class DbConnect {
         DATABASE = "jdbc:postgresql://"+url+"/"+databaseName;
     }
 
-    private String readProperties () {
+    private static String readProperties () {
         try {
             Scanner s = new Scanner(new File(fileName));
             while (s.hasNext()) {
@@ -53,7 +54,7 @@ public class DbConnect {
         return null;
     }
 
-    public Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         readProperties();
         return DriverManager.getConnection(
                 DATABASE,
@@ -61,12 +62,5 @@ public class DbConnect {
                 DB_PASSWORD);
     }
 
-    public void connect() {
-        Connection connection = null;
-        try {
-            connection = getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }
+

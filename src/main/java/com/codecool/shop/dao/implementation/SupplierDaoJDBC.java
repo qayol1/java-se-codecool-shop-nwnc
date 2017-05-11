@@ -14,9 +14,11 @@ import java.util.List;
 public class SupplierDaoJDBC implements SupplierDao {
     private static SupplierDaoJDBC instance = null;
 
-    private DbConnect dbConnect = new DbConnect("src/main/resources/connection/properties/connectionProperties.txt");
+    private DbConnect dbConnect;
+    private static String defaultFilepath = "src/main/resources/connection/properties/connectionProperties.txt";
 
     private SupplierDaoJDBC() {
+        dbConnect = new DbConnect(defaultFilepath);
     }
 
     public static SupplierDaoJDBC getInstance() {
@@ -26,21 +28,27 @@ public class SupplierDaoJDBC implements SupplierDao {
         return instance;
     }
 
+    protected void setDbConnectForTest(String testFilePath) {
+        dbConnect = new DbConnect(testFilePath);
+    }
+
     @Override
     public void add(Supplier supplier) {
-        try {
-            PreparedStatement stmt;
-            stmt = dbConnect.getConnection().prepareStatement(
-                    ("INSERT INTO supplier (name, description) VALUES (?, ?)"));
-            stmt.setString(1, supplier.getName());
-            stmt.setString(2, supplier.getDescription());
-            stmt.executeUpdate();
-            ResultSet resultSet = stmt.getGeneratedKeys();
-            while (resultSet.next()) {
-                supplier.setId(resultSet.getInt(1));
+        if (getIdByName(supplier.getName()) == 0) {
+            try {
+                PreparedStatement stmt;
+                stmt = dbConnect.getConnection().prepareStatement(
+                        ("INSERT INTO supplier (name, description) VALUES (?, ?)"));
+                stmt.setString(1, supplier.getName());
+                stmt.setString(2, supplier.getDescription());
+                stmt.executeUpdate();
+                ResultSet resultSet = stmt.getGeneratedKeys();
+                while (resultSet.next()) {
+                    supplier.setId(resultSet.getInt(1));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        }catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
@@ -70,15 +78,24 @@ public class SupplierDaoJDBC implements SupplierDao {
 
     @Override
     public boolean remove(int id) {
+        Supplier supplier = find(id);
+        if (supplier==null) {
+            return false;
+        }
         String query = "DELETE FROM supplier WHERE id=" + id + ";";
         try (Connection connection = dbConnect.getConnection();
              Statement statement = connection.createStatement();
-        ) {             statement.executeQuery(query) ; }
+        ) {             statement.executeUpdate(query) ; }
         catch (SQLException e) {
             e.printStackTrace();
         }
         return true;
 
+    }
+
+    @Override
+    public boolean empty() {
+        return false;
     }
 
     @Override
@@ -105,6 +122,24 @@ public class SupplierDaoJDBC implements SupplierDao {
             }
             return supplierList;
 
+    }
+
+    public int getIdByName(String name) {
+        int result = 0;
+        String query = "SELECT * FROM supplier WHERE name=?;";
+        Connection connection = null;
+        try {
+            connection = dbConnect.getConnection();
+            PreparedStatement pstmt = connection.prepareStatement( query );
+            pstmt.setString( 1, name);
+            ResultSet resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                result = Integer.parseInt((resultSet.getString("id")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
 
