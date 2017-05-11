@@ -50,11 +50,11 @@
                         <p></p>
                         <div th:each="filterCategory:${filter.getFilterCategories()}">
 
-                            <div th:class="${filterCategory.getClassName()}" th:text="${filterCategory.getValue()}"> </div>
+                            <div class="category" th:text="${filterCategory.getValue()}"></div>
                             <div th:each="filterElement:${filterCategory.getElements()}">
                                 <span th:switch="${filterElement.isChecked()}">
-                                    <div th:case="true"><input type="checkbox" th:class="${filterCategory.getClassName()}" checked="" th:name="${filterCategory.getClassName()}" th:value="${filterElement.getName()}" th:text="${filterElement.getName()}"/></div>
-                                    <div th:case="false"><input type="checkbox" th:class="${filterCategory.getClassName()}" th:name="${filterCategory.getClassName()}" th:value="${filterElement.getName()}" th:text="${filterElement.getName()}"/></div>
+                                    <div th:case="true"><input type="checkbox" th:class="${filterCategory.getClassName()}" checked="" th:name="${filterCategory.getClassName()}" th:value="${filterElement.getName()}" th:id="${filterElement.getName()}" /><label th:for="${filterElement.getName()}" th:text="${filterElement.getName()}"></label></div>
+                                    <div th:case="false"><input type="checkbox" th:class="${filterCategory.getClassName()}" th:name="${filterCategory.getClassName()}" th:value="${filterElement.getName()}" th:id="${filterElement.getName()}"/><label th:for="${filterElement.getName()}" th:text="${filterElement.getName()}"></label></div>
                                 </span>
                             </div>
                             <span class="btn-group btn-group-xs">
@@ -73,7 +73,6 @@
     <!-- Navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
         <div>
-
             <div>
                 <span class="btn filtermenu" id="menu-toggle">&#9776; Menu</span>
                  <span class="loginPart">
