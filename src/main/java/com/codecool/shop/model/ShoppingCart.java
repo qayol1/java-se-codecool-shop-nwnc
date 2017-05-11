@@ -61,6 +61,9 @@ public class ShoppingCart {
 
     public int getAllProducts() {
         int count = 0;
+        if (this.Products==null) {
+            return count;
+        }
         for (Product prod : this.Products.keySet()) {
             count += this.Products.get(prod);
         }

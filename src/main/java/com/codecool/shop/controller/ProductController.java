@@ -39,6 +39,7 @@ public class ProductController {
         if (isUserLoggedIn(req)) {
 
                 ShoppingCart cart=currentUser(req).getCostumer().getShoppingCart();
+                System.out.println(cart.getId());
 
                 if (req.queryString() != null && req.queryString().length()!=0) {
 
@@ -64,7 +65,6 @@ public class ProductController {
 
         } else
             {
-
 
                 if (req.queryString() != null && req.queryString().length()!=0){
 
@@ -96,24 +96,23 @@ public class ProductController {
 
 
     public static Route addToCart = (Request req, Response res) -> {
+        ProductDao productDataStore = ProductDaoJDBC.getInstance();
 
         if (isUserLoggedIn(req)){
-            System.out.println("itt vagy");
+
+
             int id = Integer.parseInt(req.queryParams("id"));
-            System.out.println(id);
             ShoppingCartDao shoppingCartDao=ShoppingCartDaoJDBC.getInstance();
-            ProductDao productDataStore = ProductDaoJDBC.getInstance();
+
             ShoppingCart cart=currentUser(req).getCostumer().getShoppingCart();
             Product prod= productDataStore.find(id);
-            System.out.println(prod);
-            System.out.println(cart.getId());
+
             shoppingCartDao.addNewCartElement(cart,prod);
             return true;
 
 
         } else {
             int id = Integer.parseInt(req.queryParams("id"));
-            ProductDao productDataStore = ProductDaoJDBC.getInstance();
             ShoppingCart cart = req.session().attribute("cart");
             cart.add(productDataStore.find(id));
             req.session().attribute("cart", cart);
@@ -147,14 +146,29 @@ public class ProductController {
 
 
     public static Route renderCart = (Request req, Response res) -> {
+
+
         ProductDao productDataStore = ProductDaoJDBC.getInstance();
-        ShoppingCartDao shoppingCartDataStore = ShoppingCartDaoMem.getInstance();
-        ShoppingCart cart = getSessionShoppingCart(req);
         Map params = new HashMap<>();
+
+        if (isUserLoggedIn(req)){
+            ShoppingCart cart=currentUser(req).getCostumer().getShoppingCart();
+            for (Product prod:cart.getAll().keySet()){
+                System.out.println(prod.getName());
+            }
+            params.put("products", productDataStore.getAll());
+            params.put("shoppingcart", cart);
+         return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/shoppingcart"));
+
+        }
+
+        ShoppingCart cart = getSessionShoppingCart(req);
         params.put("products", productDataStore.getAll());
         params.put("shoppingcart", cart);
         return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/shoppingcart"));
-    };
+
+
+        };
 
 
 
@@ -219,6 +233,9 @@ public class ProductController {
     }
 
     public static Route shoppingCartSize = (Request req,Response res) -> {
+        if (isUserLoggedIn(req)){
+            return currentUser(req).getCostumer().getShoppingCart().getAllProducts();
+        }
         return getSessionShoppingCart(req).getAllProducts();
     };
 

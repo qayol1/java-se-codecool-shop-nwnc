@@ -28,13 +28,31 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
     }
 
     @Override
-    public void addNewCartElement(ShoppingCart cart,Product product){
-        try (
-                PreparedStatement stmt = DbConnect.getConnection().prepareStatement(
-                    ("INSERT INTO shoppingcarelements" +
-                            "(shoppingcartid," +
-                            "productid," +
-                            "productcount"+") VALUES (?, ?, ?)"),Statement.RETURN_GENERATED_KEYS);
+    public void addNewCartElement(ShoppingCart cart, Product product) {
+
+        if (isElementInCart(cart, product)) {
+
+            try (
+                    PreparedStatement stmt = DbConnect.getConnection().prepareStatement(
+                            ("UPDATE shoppingcarelements SET productcount = ? WHERE (shoppingcartid = ?) AND (productid = ?)"))
+            ) {
+
+                int count = getCartElementCount(cart, product);
+                stmt.setInt(1, count+1);
+                stmt.setInt(2, cart.getId());
+                stmt.setInt(3, product.getId());
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.getStackTrace();
+            }
+
+        } else {
+            try (
+                    PreparedStatement stmt = DbConnect.getConnection().prepareStatement(
+                            ("INSERT INTO shoppingcarelements" +
+                                    "(shoppingcartid," +
+                                    "productid," +
+                                    "productcount" + ") VALUES (?, ?, ?)"), Statement.RETURN_GENERATED_KEYS);
             ) {
 
                 stmt.setInt(1, cart.getId());
@@ -42,22 +60,67 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
                 stmt.setInt(3, 1);
                 System.out.println("lefut");
                 stmt.executeUpdate();
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 e.getStackTrace();
+            }
         }
-
     }
 
     @Override
-    public int addNewCartToDb(){
+    public int getCartElementCount(ShoppingCart cart, Product product) {
+        String query = "SELECT * FROM shoppingcarelements WHERE (shoppingcartid ='" + cart.getId() + "') AND (productid ='" + product.getId() + "');";
 
-           try (
-            Connection connection = DbConnect.getConnection();
-            PreparedStatement stmt = connection.prepareStatement("INSERT INTO shoppingcarts DEFAULT VALUES;",Statement.RETURN_GENERATED_KEYS);
+        try (Connection connection = DbConnect.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query);
 
-           ) {
+        ) {
+
+            while (resultSet.next()) {
+                return resultSet.getInt("productcount");
+            }
+
+            return 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+
+    @Override
+    public boolean isElementInCart(ShoppingCart cart, Product product) {
+        String query = "SELECT * FROM shoppingcarelements WHERE (shoppingcartid ='" + cart.getId() + "') AND (productid ='" + product.getId() + "');";
+
+        try (Connection connection = DbConnect.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query);
+
+        ) {
+
+            while (resultSet.next()) {
+                return true;
+            }
+
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    @Override
+    public int addNewCartToDb() {
+
+        try (
+                Connection connection = DbConnect.getConnection();
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO shoppingcarts DEFAULT VALUES;", Statement.RETURN_GENERATED_KEYS);
+
+        ) {
             stmt.executeUpdate();
-            ResultSet rs= stmt.getGeneratedKeys();
+            ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {
                 return rs.getInt(1);
             }
@@ -69,31 +132,27 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
     }
 
 
-
-
-
-
     @Override
     public ShoppingCart find(int id) {
-       String query = "SELECT * FROM shoppingcarelements WHERE shoppingcartid ='" + id + "';";
+        String query = "SELECT * FROM shoppingcarelements WHERE shoppingcartid ='" + id + "';";
 
         try (Connection connection = DbConnect.getConnection();
-             Statement statement =connection.createStatement();
+             Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query);
 
-        ){
-             ProductDao productDataStore=ProductDaoJDBC.getInstance();
-             HashMap<Product,Integer> cartelements=new HashMap<>();
+        ) {
+            ProductDao productDataStore = ProductDaoJDBC.getInstance();
+            HashMap<Product, Integer> cartelements = new HashMap<>();
 
             while (resultSet.next()) {
-                    cartelements.put(productDataStore.find(resultSet.getInt("productid")),resultSet.getInt("productcount"));
+                cartelements.put(productDataStore.find(resultSet.getInt("productid")), resultSet.getInt("productcount"));
             }
 
-            if (cartelements.size()==0){
-                return null;
+            if (cartelements.size() == 0) {
+                return new ShoppingCart(id, null);
             }
 
-            return new ShoppingCart(id,cartelements);
+            return new ShoppingCart(id, cartelements);
         } catch (SQLException e) {
             e.printStackTrace();
         }
