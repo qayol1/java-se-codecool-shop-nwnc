@@ -1,6 +1,8 @@
 package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.SupplierDao;
+import com.codecool.shop.dao.SupplierDao;
+import com.codecool.shop.model.Supplier;
 import com.codecool.shop.util.DbConnect;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +18,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class SupplierDaoJDBCTest {
 
-    private DbConnect dbConnect = new DbConnect("src/main/resources/connection/properties/connectionPropertiesForTest.txt");
+    private static String filepath = "src/main/resources/connection/properties/connectionPropertiesForTest.txt";
+    private DbConnect dbConnect = new DbConnect(filepath);
+
 
     @BeforeEach
     void setUp() {
@@ -32,29 +36,55 @@ class SupplierDaoJDBCTest {
 
     @Test
     public void testIsProductCategoryDaoMemIsSingletone () {
+        SupplierDao supplierDataStore2 = SupplierDaoJDBC.getInstance(filepath);
         SupplierDao supplierDataStore1 = SupplierDaoJDBC.getInstance();
-        SupplierDao supplierDataStore2 = SupplierDaoJDBC.getInstance();
         assertEquals(supplierDataStore1.hashCode(),supplierDataStore2.hashCode());
     }
 
+
     @Test
-    void getInstance() {
+    public void testFindByIdIfNonExistingId() {
+        SupplierDao supplierDataStore = SupplierDaoJDBC.getInstance(filepath);
+        assertEquals(null,supplierDataStore.find(-4));
     }
 
     @Test
-    void add() {
+    public void testFindByIfIdZero() {
+        SupplierDao supplierDataStore = SupplierDaoJDBC.getInstance(filepath);
+        assertEquals(null,supplierDataStore.find(0));
     }
 
     @Test
-    void find() {
+    public void testRemoveById() {
+        SupplierDaoJDBC supplierDataStore = SupplierDaoJDBC.getInstance(filepath);
+        Supplier amazon = new Supplier("Amazon", "Digital content and services");
+        supplierDataStore.add(amazon);
+        supplierDataStore.getIdByName(amazon.getName());
+        int id = supplierDataStore.getIdByName(amazon.getName());
+        assertEquals(true,supplierDataStore.remove(id));
     }
 
     @Test
-    void remove() {
+    public void testRemoveByNonExistingId() {
+        SupplierDao supplierDataStore = SupplierDaoJDBC.getInstance(filepath);
+        assertEquals(true,supplierDataStore.remove(2));
     }
 
     @Test
-    void getAll() {
+    public void testGetAllSupplier() {
+        SupplierDao supplierDataStore = SupplierDaoJDBC.getInstance(filepath);
+        Supplier amazon = new Supplier("Amazon", "Digital content and services");
+        supplierDataStore.add(amazon);
+        Supplier lenovo = new Supplier("Lenovo", "Computers");
+        supplierDataStore.add(lenovo);
+        Supplier samsung = new Supplier("Samsung", "High-tech electronics manufacturing and digital media.");
+        supplierDataStore.add(samsung);
+        Supplier gigabyte = new Supplier("Gigabyte", "International manufacturer and distributor of computer hardware products.");
+        supplierDataStore.add(gigabyte);
+        Supplier msi = new Supplier("MSI", "International manufacturer and distributor of computer hardware products.");
+        supplierDataStore.add(msi);
+        Supplier asus = new Supplier("Asus", "International manufacturer and distributor of computer hardware products.");
+        supplierDataStore.add(asus);
+        assertEquals(6,supplierDataStore.getAll().size());
     }
-
 }

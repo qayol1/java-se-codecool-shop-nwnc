@@ -22,7 +22,7 @@ class SupplierDaoMemTest {
     }
 
     @Test
-    public void testSameCategoryNameCannotAdd() {
+    public void testSameSupplierNameCannotAdd() {
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
         Supplier amazon1 = new Supplier("Amazon", "Digital content and services");
         supplierDataStore.add(amazon1);
@@ -33,7 +33,7 @@ class SupplierDaoMemTest {
     }
 
     @Test
-    public void testIsProductCategoryDaoMemIsSingletone () {
+    public void testIsSupplierDaoMemIsSingletone () {
         SupplierDao supplierDataStore1 = SupplierDaoMem.getInstance();
         SupplierDao supplierDataStore2 = SupplierDaoMem.getInstance();
         assertEquals(supplierDataStore1.hashCode(),supplierDataStore2.hashCode());
@@ -47,8 +47,8 @@ class SupplierDaoMemTest {
 
     @Test
     public void testFindByIfIdZero() {
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-        assertEquals(null,productCategoryDataStore.find(0));
+        SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        assertEquals(null,supplierDataStore.find(0));
     }
 
     @Test
@@ -69,7 +69,7 @@ class SupplierDaoMemTest {
     }
 
     @Test
-    public void testGetAllProductCategory() {
+    public void testGetAllSupplier() {
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
         supplierDataStore.add(amazon);

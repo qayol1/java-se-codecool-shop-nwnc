@@ -15,14 +15,19 @@ public class SupplierDaoJDBC implements SupplierDao {
     private static SupplierDaoJDBC instance = null;
 
     private DbConnect dbConnect;
+    private static String defaultFilepath = "src/main/resources/connection/properties/connectionProperties.txt";
 
-    private SupplierDaoJDBC() {
-        DbConnect dbConnect = new DbConnect("")
+    private SupplierDaoJDBC(String filepath) {
+        dbConnect = new DbConnect(filepath);
     }
 
     public static SupplierDaoJDBC getInstance() {
+        return getInstance(defaultFilepath);
+    }
+
+    public static SupplierDaoJDBC getInstance(String filepath) {
         if (instance == null) {
-            instance = new SupplierDaoJDBC();
+            instance = new SupplierDaoJDBC(filepath);
         }
         return instance;
     }
@@ -74,7 +79,7 @@ public class SupplierDaoJDBC implements SupplierDao {
         String query = "DELETE FROM supplier WHERE id=" + id + ";";
         try (Connection connection = dbConnect.getConnection();
              Statement statement = connection.createStatement();
-        ) {             statement.executeQuery(query) ; }
+        ) {             statement.executeUpdate(query) ; }
         catch (SQLException e) {
             e.printStackTrace();
         }
@@ -106,6 +111,24 @@ public class SupplierDaoJDBC implements SupplierDao {
             }
             return supplierList;
 
+    }
+
+    public int getIdByName(String name) {
+        int result = 0;
+        String query = "SELECT * FROM supplier WHERE name=?;";
+        Connection connection = null;
+        try {
+            connection = dbConnect.getConnection();
+            PreparedStatement pstmt = connection.prepareStatement( query );
+            pstmt.setString( 1, name);
+            ResultSet resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                result = Integer.parseInt((resultSet.getString("id")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
 
