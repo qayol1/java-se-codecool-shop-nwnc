@@ -29,6 +29,7 @@ public class LoginHandler {
             response.redirect("/index");
             return null;
         }
+
         if (user.isAdmin()) {
             response.redirect("/admin");
             return null;
