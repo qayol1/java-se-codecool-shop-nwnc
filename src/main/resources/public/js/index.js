@@ -6,6 +6,7 @@ $( document ).ready(function() {
     setShoppingCartCount();
 
     $('#cart-items').fadeIn("slow");
+    $(".thumbnail").fadeIn("slow");
 
 
     $('#checkb').change(function(){
@@ -30,15 +31,17 @@ $( document ).ready(function() {
         }
 
     });
+
+
     $("#shoppingchartbutton").click(function (e) {
         hideFilter();
     });
 
     handleLoggedUser();
 
-
-
-
+    // $(".thumbnail").each(function(index) {
+    //     $(this).fadeIn(300);
+    // });
 
 });
 
