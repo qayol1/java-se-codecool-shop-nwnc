@@ -32,6 +32,13 @@ $( document ).ready(function() {
 
     });
 
+    if($(".logout").length) {
+        console.log("van");
+        $(".loginPart").removeAttr("data-toggle")
+    } else {
+        $(".loginPart").attr("data-toggle", "modal")
+    }
+
 
     $("#shoppingchartbutton").click(function (e) {
         hideFilter();
@@ -52,9 +59,10 @@ function handleLoggedUser() {
         success: function (data) {
             if (data!="nulluser") {
                 $(".loginPart").empty();
-                $(".loginPart").append("<div><a class='buttonLikeHref' href='/logout'>LogOut</a></div>");
+                $(".loginPart").append("<a href='/logout'><span class='btn filtermenu loginPart logout' >LogOut</span></a>");
                 $(".registerPart").empty();
-                $(".registerPart").append("<div>"+data+"</div>")
+                $(".registerPart").append("<div>"+data+"</div>");
+                $(".loginPart").removeAttr("data-toggle")
             }
         }
     });
