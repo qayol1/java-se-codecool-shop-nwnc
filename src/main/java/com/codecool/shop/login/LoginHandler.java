@@ -1,8 +1,5 @@
 package com.codecool.shop.login;
-
-
 import static com.codecool.shop.model.CurrentUser.*;
-
 import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.dao.implementation.database.ShoppingCartDaoJDBC;
 import com.codecool.shop.model.ShoppingCart;
@@ -13,7 +10,6 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
-
 import java.util.HashMap;
 import java.util.Map;
 

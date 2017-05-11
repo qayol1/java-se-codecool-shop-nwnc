@@ -1,8 +1,10 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.CustomerDao;
+import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.dao.UserDao;
 import com.codecool.shop.dao.implementation.database.CustomerDaoJDBC;
+import com.codecool.shop.dao.implementation.database.ShoppingCartDaoJDBC;
 import com.codecool.shop.dao.implementation.database.UserDaoJDBC;
 import com.codecool.shop.dao.implementation.memory.CustomerDaoMem;
 import com.codecool.shop.model.Address;
@@ -81,6 +83,13 @@ public class CustomerController {
 
     public static Route registerUser = (Request req, Response res) -> {
         registerCustomer(req);
+
+        ShoppingCartDao shoppingCartDao= ShoppingCartDaoJDBC.getInstance();
+        User user=currentUser(req);
+        ShoppingCart sessionSC=RequestUtil.getSessionShoppingCart(req);
+        ShoppingCart cartDatabase=user.getCostumer().getShoppingCart();
+        shoppingCartDao.mergeCarts(sessionSC,cartDatabase);
+        RequestUtil.setSessionShoppingcart(req,new ShoppingCart());
         res.redirect("/index");
         return null;
     };
