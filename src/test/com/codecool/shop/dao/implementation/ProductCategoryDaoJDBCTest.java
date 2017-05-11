@@ -29,13 +29,9 @@ class ProductCategoryDaoJDBCTest {
 
     }
 
-    @AfterEach
-    void tearDown() {
-
-    }
 
     @Test
-    public void testIsProductCategoryDaoMemIsSingletone () {
+    public void testIsProductCategoryDaoMemIsSingletone() {
         ProductCategoryDao productCategoryDataStore1 = ProductCategoryDaoJDBC.getInstance();
         ProductCategoryDao productCategoryDataStore2 = ProductCategoryDaoJDBC.getInstance();
         assertEquals(productCategoryDataStore1.hashCode(), productCategoryDataStore2.hashCode());
@@ -48,7 +44,7 @@ class ProductCategoryDaoJDBCTest {
         ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer.");
         productCategoryDataStore.add(tablet);
         productCategoryDataStore.remove(1);
-        assertEquals(null,productCategoryDataStore.find(1));
+        assertEquals(null, productCategoryDataStore.find(1));
     }
 
     @Test
@@ -73,5 +69,9 @@ class ProductCategoryDaoJDBCTest {
         assertEquals(3, productCategoryDataStore.getAll().size());
     }
 
-
+    @Test
+    public void testClearDataStorage() {
+        ProductCategoryDaoJDBC productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
+        assertFalse(productCategoryDataStore.empty());
+    }
 }

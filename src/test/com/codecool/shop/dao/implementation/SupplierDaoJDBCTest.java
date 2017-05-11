@@ -112,4 +112,10 @@ class SupplierDaoJDBCTest {
         int size = supplierDataStore.getAll().size();
         assertEquals(1, size);
     }
+
+    @Test
+    public void testClearDataStorage() {
+        SupplierDaoJDBC supplierDataStore = SupplierDaoJDBC.getInstance();
+        assertFalse(supplierDataStore.empty());
+    }
 }
