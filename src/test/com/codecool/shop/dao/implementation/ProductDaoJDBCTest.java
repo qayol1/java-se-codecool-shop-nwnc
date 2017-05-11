@@ -5,6 +5,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -15,14 +16,17 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class ProductDaoJDBCTest {
 
-    private DbConnect dbConnect = new DbConnect("src/main/resources/connection/properties/connectionPropertiesForTest.txt");
+    private String filePath = "src/main/resources/connection/properties/connectionPropertiesForTest.txt";
+    private DbConnect dbConnect = new DbConnect(filePath);
+
 
     @BeforeEach
     void setUp() {
         String query = "TRUNCATE TABLE productcategory, supplier, product";
         try {
-            Statement statement =dbConnect.getConnection().createStatement();
-            statement.executeQuery(query);
+            Connection connection = dbConnect.getConnection();
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }

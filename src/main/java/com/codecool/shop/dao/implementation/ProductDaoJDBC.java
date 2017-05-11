@@ -18,14 +18,20 @@ import java.util.List;
 public class ProductDaoJDBC implements ProductDao {
     private static ProductDaoJDBC instance = null;
 
-    private DbConnect dbConnect = new DbConnect("src/main/resources/connection/properties/connectionProperties.txt");
+    private DbConnect dbConnect;
+    private static String defaultFilepath = "src/main/resources/connection/properties/connectionProperties.txt";
 
-    private ProductDaoJDBC() {
+    private ProductDaoJDBC(String filepath) {
+        dbConnect = new DbConnect(filepath);
     }
 
     public static ProductDaoJDBC getInstance() {
+        return getInstance(defaultFilepath);
+    }
+
+    public static ProductDaoJDBC getInstance(String filepath) {
         if (instance == null) {
-            instance = new ProductDaoJDBC();
+            instance = new ProductDaoJDBC(filepath);
         }
         return instance;
     }
