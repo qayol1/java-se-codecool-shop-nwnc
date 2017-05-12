@@ -25,7 +25,7 @@
             crossorigin="anonymous"></script>
 
     <link rel="stylesheet" type="text/css" href="/css/custom.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
     <script src="/js/events.js"></script>
     <script src="/js/index.js"></script>
 </head>
@@ -57,8 +57,10 @@
                   <span class="glyphicon glyphicon-minus"></span>
               </button>
           </span>
-                        <input th:id="'amount-count'+${item.id}" type="text" name="quant[1]" class="counter form-control input-number"
-                               th:value="${shoppingcart.getAll().get(item)}" value="1" min="1" max="10" th:onchange="'setAmount(\''+${item.id}+'\');'"/>
+                        <input th:id="'amount-count'+${item.id}" type="text" name="quant[1]"
+                               class="counter form-control input-number"
+                               th:value="${shoppingcart.getAll().get(item)}" value="1" min="1" max="10"
+                               th:onchange="'setAmount(\''+${item.id}+'\');'"/>
                         <span class="input-group-btn">
               <button id="minus" type="button" class="btn btn-default btn-number btn-md"
                       th:onclick="'plusAmount(\''+${item.id}+'\');'">
@@ -76,7 +78,9 @@
             </tr>
         </div>
         <tr>
-            <td id="total-price"><strong>Total price: </strong><strong id="total-price-price" th:text="${shoppingcart.getTotalPrice()}+' USD'"></strong></td>
+            <td id="total-price"><strong>Total price: </strong><strong id="total-price-price"
+                                                                       th:text="${shoppingcart.getTotalPrice()}+' USD'"></strong>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -104,14 +108,17 @@
                     <div class="container">
                         <div class="col-sm-5">
 
-                            <form class="form-horizontal" name="customerInput" method="post" action="/checkout" onsubmit="return validateForm()">
+                            <form class="form-horizontal" name="customerInput" method="post" action="/checkout"
+                                  onsubmit="return validateForm()">
                                 <div class="row">
                                     <h4>Personal information</h4>
                                     <div class="form-group">
-                                        <input required="true" type="text" placeholder="First Name" class="form-control" name="first_name"/>
+                                        <input required="true" type="text" placeholder="First Name" class="form-control"
+                                               name="first_name"/>
                                     </div>
                                     <div class="form-group">
-                                        <input required="true" type="text" placeholder="Last Name" class="form-control" name="last_name"/>
+                                        <input required="true" type="text" placeholder="Last Name" class="form-control"
+                                               name="last_name"/>
                                     </div>
                                     <div class="form-group">
                                         <input required="true" type="email" placeholder="Email (example@gmail.com)"
@@ -142,8 +149,9 @@
                                                name="billingZipcode"/>
                                     </div>
                                     <div class="form-group col-md-5">
-                                        <span class="input container-right"><input type="checkbox" id="checkb" name="checkb" value="check"
-                                                                                       aria-label="..."></input></span>
+                                        <span class="input container-right"><input type="checkbox" id="checkb"
+                                                                                   name="checkb" value="check"
+                                                                                   aria-label="..."></input></span>
                                         <h5>Billing and shipping address same</h5>
                                     </div>
 
@@ -151,21 +159,24 @@
                                 <div class="row shipping" id="shipping">
                                     <h4>Shipping address</h4>
                                     <div class="form-group">
-                                        <input required="true" type="text" placeholder="Country" class="form-control sh1"
-                                               name="shippingCountry"/>
+                                        <input required="true" type="text" placeholder="Country"
+                                               class="form-control sh1"
+                                               value="" name="shippingCountry"/>
                                     </div>
                                     <div class="form-group">
-                                        <input required="true" type="text" placeholder="Address" class="form-control sh1"
-                                               name="shippingAddress"/>
+                                        <input required="true" type="text" placeholder="Address"
+                                               class="form-control sh1"
+                                               value="" name="shippingAddress"/>
                                     </div>
 
-                                    <div class="form-group col-md-5" style="float: left;">
+                                    <div class="form-group col-md-5">
                                         <input required="true" type="text" placeholder="City" class="form-control sh1"
-                                               name="shippingCity"/>
+                                               value="" name="shippingCity"/>
                                     </div>
-                                    <div class="form-group col-md-5" style="float: right;">
-                                        <input required="true" type="text" placeholder="Zip-code" class="form-control sh1"
-                                               name="shippingZipcode"/>
+                                    <div class="form-group col-md-5">
+                                        <input required="true" type="text" placeholder="Zip-code"
+                                               class="form-control sh1"
+                                               value="" name="shippingZipcode"/>
                                     </div>
 
                                 </div>
@@ -173,7 +184,8 @@
 
                             </form>
                             <form id="login">
-                                <input id="loginId" class="btn btn-defaul btn-sm" type="submit" value="Login if you can"/>
+                                <input id="loginId" class="btn btn-defaul btn-sm" type="submit"
+                                       value="Login if you can"/>
                             </form>
                         </div>
                     </div>

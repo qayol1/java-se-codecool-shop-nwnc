@@ -32,7 +32,7 @@ $(document).ready(function () {
 
     });
 
-    if($(".logout").length) {
+    if ($(".logout").length) {
         console.log("van");
         $(".loginPart").removeAttr("data-toggle")
     } else {
@@ -54,11 +54,11 @@ function handleLoggedUser() {
         method: 'POST',
         url: '/isuserlogged',
         success: function (data) {
-            if (data!="nulluser") {
+            if (data != "nulluser") {
                 $(".loginPart").empty();
                 $(".loginPart").append("<a href='/logout'><span class='btn filtermenu loginPart logout' >LogOut</span></a>");
                 $(".registerPart").empty();
-                $(".registerPart").append("<div>"+data+"</div>");
+                $(".registerPart").append("<div>" + data + "</div>");
                 $(".loginPart").removeAttr("data-toggle")
             }
         }
@@ -203,7 +203,7 @@ function validateForm() {
     var numbers = /^[0-9]+$/;
     var number_and_letter = /^[A-Za-z0-9]+$/;
     var email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    var phone_regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+    var phone_regex = /^[\+]?[0-9]+$/;
 
     if (!fisrt_name.match(letters)) {
         alert("Invalid First Name");
@@ -213,28 +213,44 @@ function validateForm() {
         alert("Invalid Last Name");
         return false;
     }
-    if (!billingCountry.match(letters)) {
-        alert("Invalid Country name");
+    if (!email.match(email_regex)) {
+        alert("Invalid Email.");
         return false;
     }
-    if (!billingCity.match(letters)) {
-        alert("Invalid City name");
+    if (!phone.match(phone_regex)) {
+        alert("Invalid phone number.");
+        return false;
+    }
+    if (!billingCountry.match(letters)) {
+        alert("Invalid billing Country name");
         return false;
     }
     if (!billingAddress.match(number_and_letter)) {
-        alert("Invalid Address");
+        alert("Invalid billing Address");
+        return false;
+    }
+    if (!billingCity.match(letters)) {
+        alert("Invalid billing City name");
         return false;
     }
     if (!billingZipcode.match(number_and_letter)) {
-        alert("Invalid Zipcode");
+        alert("Invalid billing Zipcode");
         return false;
     }
-    if(!email.match(email_regex)) {
-        alert("Invalid email.");
+    if (!shippingCountry.match(letters) && shippingCountry !== "") {
+        alert("Invalid shipping Country");
         return false;
     }
-    if(!phone.match(phone_regex)) {
-        alert("Invalid phone number.");
+    if (!shippingAddress.match(number_and_letter) && shippingAddress !== "") {
+        alert("Invalid shipping Address");
+        return false;
+    }
+    if (!shippingCity.match(letters) && shippingCity !== "") {
+        alert("Invalid shipping City");
+        return false;
+    }
+    if (!shippingZipcode.match(number_and_letter) && shippingZipcode !== "") {
+        alert("Invalid shippping Zipcode");
         return false;
     }
 }
