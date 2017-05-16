@@ -5,6 +5,8 @@ import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.database.*;
 import com.codecool.shop.dao.implementation.memory.UserDaoMem;
 import com.codecool.shop.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
@@ -13,7 +15,10 @@ import java.sql.SQLException;
 
 public class ExampleData {
 
+    private static final Logger logger = LoggerFactory.getLogger(ExampleData.class);
+
     public static void populateData() {
+        logger.info("Started to fill database with example data.");
         DatabaseMetaData dbm = null;
         try {
             dbm = DbConnect.getConnection().getMetaData();
@@ -22,6 +27,7 @@ public class ExampleData {
                 fillDatabase();
             }
         } catch (SQLException e) {
+            logger.warn("SQL error when try to connect to db to fill with example data.{}",e);
             e.printStackTrace();
         }
     }
@@ -60,6 +66,7 @@ public class ExampleData {
                             ");"));
             stmt.execute();
         } catch (SQLException e) {
+            logger.warn("SQL error when try to create tables to fill with example data.{}",e);
             e.printStackTrace();
         }
 
@@ -67,11 +74,16 @@ public class ExampleData {
     }
 
         private static void fillDatabaseWithExampleData() {
+            logger.info("Filling db with example suppliers.");
             //createExampleUsers();
             fillDbWithSuppliers();
+            logger.info("Filling db with example product categories.");
             fillDbWithProductCategory();
+            logger.info("Filling db with example products.");
             fillDbWithProducts();
+            logger.info("Filling db with example users.");
             fillDbWithUsers();
+            logger.info("Filling db with example data finished.");
         }
 
         private static void createExampleUsers() {

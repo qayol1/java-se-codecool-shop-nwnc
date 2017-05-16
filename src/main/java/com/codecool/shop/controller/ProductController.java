@@ -13,6 +13,8 @@ import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.ShoppingCart;
 import com.codecool.shop.model.Supplier;
 import com.codecool.shop.util.ProductFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Request;
 
 import static com.codecool.shop.model.CurrentUser.*;
@@ -28,7 +30,10 @@ import java.util.*;
 
 public class ProductController {
 
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
+
     public static Route renderAllProducts = (Request req, Response res) -> {
+        logger.info("Started render all products method.");
         ProductDao productDataStore = ProductDaoJDBC.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
         ProductFilter filter = new ProductFilter();
@@ -52,6 +57,7 @@ public class ProductController {
             params.put("category", productCategoryList);
             params.put("filter", filter);
 
+            logger.info("Exit from render all products method.");
             return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
         }
 
@@ -60,6 +66,7 @@ public class ProductController {
         params.put("products", productDataStore.getAll());
         params.put("filter", filter);
 
+        logger.info("Exit from render all products method.");
         return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
     };
 

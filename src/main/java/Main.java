@@ -18,6 +18,7 @@ public class Main {
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
         staticFileLocation("/public");
         port(8888);
+        //System.setProperty("spark.spark.executor.extraJavaOptions", "-Dlog4j.configuration=file:/apps/spark-1.2.0/conf/log4j.properties");
         DbConnect db=new DbConnect(CONNECTIONCONFIGFILE);
 
         // populate some data for the memory storage

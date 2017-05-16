@@ -1,5 +1,8 @@
 package com.codecool.shop.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
@@ -11,6 +14,8 @@ import java.util.Scanner;
  * Created by peter on 2017.05.08..
  */
 public class DbConnect {
+
+    private static final Logger logger = LoggerFactory.getLogger(DbConnect.class);
 
     //filename = "src/main/resources/connection/properties/connectionProperties.txt" for the real db
     //filename = "src/main/resources/connection/properties/connectionPropertiesForTest.txt" for the testing db
@@ -49,6 +54,7 @@ public class DbConnect {
                 }
             }
         } catch (FileNotFoundException e) {
+            logger.error("Config file was not found to configure the database. {}",e);
             e.printStackTrace();
         }
         return null;
