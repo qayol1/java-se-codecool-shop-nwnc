@@ -5,16 +5,12 @@ import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.login.LoginHandler;
 import com.codecool.shop.util.DbConnect;
 import com.codecool.shop.util.ExampleData;
-import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
-import spark.template.thymeleaf.ThymeleafTemplateEngine;
-import sun.rmi.runtime.Log;
-
-import java.util.HashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class Main {
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
         String CONNECTIONCONFIGFILE="src/main/resources/connection/properties/connectionProperties.txt";
@@ -26,6 +22,7 @@ public class Main {
 
         // populate some data for the memory storage
         ExampleData.populateData();
+        logger.info("NWNC shop started!");
 
         get("/", ProductController.renderAllProducts);
         get("/index", ProductController.renderAllProducts);
