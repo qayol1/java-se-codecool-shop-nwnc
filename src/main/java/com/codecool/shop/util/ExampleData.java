@@ -13,10 +13,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+/**
+ * Fill connected database with example data
+ */
 public class ExampleData {
 
     private static final Logger logger = LoggerFactory.getLogger(ExampleData.class);
 
+    /**
+     * Populate database with example data if database is empty.
+     */
     public static void populateData() {
         logger.info("Started to fill database with example data.");
         DatabaseMetaData dbm = null;
@@ -31,10 +38,6 @@ public class ExampleData {
             e.printStackTrace();
         }
     }
-
-
-
-
 
     private static void fillDatabase() {
         try {

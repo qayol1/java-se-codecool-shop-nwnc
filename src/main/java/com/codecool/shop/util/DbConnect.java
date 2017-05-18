@@ -60,6 +60,9 @@ public class DbConnect {
         return null;
     }
 
+    /**
+     * Establis conection with postgres database
+     */
     public static Connection getConnection() throws SQLException {
         readProperties();
         return DriverManager.getConnection(

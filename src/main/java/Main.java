@@ -8,11 +8,17 @@ import com.codecool.shop.util.ExampleData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Webshop project with Spark and Thymeleaf.
+ */
+
 
 public class Main {
+
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
+
         String CONNECTIONCONFIGFILE="src/main/resources/connection/properties/connectionProperties.txt";
         // default server settings
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
